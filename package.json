@@ -1,5 +1,5 @@
 {
-  "name": "reveal.js",
+  "name": "curso bd2",
   "version": "3.6.0",
   "description": "The HTML Presentation Framework",
   "homepage": "http://revealjs.com",
@@ -11,9 +11,9 @@
     "build": "grunt"
   },
   "author": {
-    "name": "Hakim El Hattab",
-    "email": "hakim.elhattab@gmail.com",
-    "web": "http://hakim.se"
+    "name": "Enrique Molinari",
+    "email": "enrique.molinari@gmail.com",
+    "web": "http://copypasteisforword.com"
   },
   "repository": {
     "type": "git",

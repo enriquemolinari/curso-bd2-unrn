@@ -31,23 +31,23 @@
       window.diagram.addItem('nombre', 'categoria', treeData),
       window.diagram.addItem('unConcursoA', 'concursos[]', treeData),
       window.diagram.addItem('unConcursoB', 'concursos[]', treeData),
-      window.diagram.addItem('unConcursoC', 'concursos[]', treeData),
+      window.diagram.addItem('unConcurso ... n', 'concursos[]', treeData),
 
       window.diagram.addItem('inscriptosA[]', 'unConcursoA', treeData),
 
       window.diagram.addItem('unaPersonaA', 'inscriptosA[]', treeData),
       window.diagram.addItem('unaPersonaB', 'inscriptosA[]', treeData),
-      window.diagram.addItem('unaPersonaC', 'inscriptosA[]', treeData),
+      window.diagram.addItem('unaPersona ... C', 'inscriptosA[]', treeData),
 
       window.diagram.addItem('inscriptosB[]', 'unConcursoB', treeData),
       window.diagram.addItem('unaPersonaD', 'inscriptosB[]', treeData),
       window.diagram.addItem('unaPersonaE', 'inscriptosB[]', treeData),
-      window.diagram.addItem('unaPersonaF', 'inscriptosB[]', treeData),
+      window.diagram.addItem('unaPersona ... F', 'inscriptosB[]', treeData),
 
-      window.diagram.addItem('inscriptosC[]', 'unConcursoC', treeData),
-      window.diagram.addItem('unaPersonaG', 'inscriptosC[]', treeData),
-      window.diagram.addItem('unaPersonaH', 'inscriptosC[]', treeData),
-      window.diagram.addItem('unaPersonaI', 'inscriptosC[]', treeData),
+      window.diagram.addItem('inscriptos...n[]', 'unConcurso ... n', treeData),
+      window.diagram.addItem('unaPersonaG', 'inscriptos...n[]', treeData),
+      window.diagram.addItem('unaPersonaH', 'inscriptos...n[]', treeData),
+      window.diagram.addItem('unaPersona ... I', 'inscriptos...n[]', treeData),
   ];
 
     var _inverse_transitions = [
@@ -57,23 +57,24 @@
       window.diagram.removeItem('nombre', treeData),
       window.diagram.removeItem('unConcursoA', treeData),
       window.diagram.removeItem('unConcursoB', treeData),
-      window.diagram.removeItem('unConcursoC', treeData),
+      window.diagram.removeItem('unConcurso..n', treeData),
 
       window.diagram.removeItem('inscriptosA[]', treeData),
 
       window.diagram.removeItem('unaPersonaA', treeData),
       window.diagram.removeItem('unaPersonaB', treeData),
-      window.diagram.removeItem('unaPersonaC', treeData),
+      window.diagram.removeItem('unaPersona ... C', treeData),
 
       window.diagram.removeItem('inscriptosB[]', treeData),
       window.diagram.removeItem('unaPersonaD', treeData),
       window.diagram.removeItem('unaPersonaE', treeData),
-      window.diagram.removeItem('unaPersonaF', treeData),
+      window.diagram.removeItem('unaPersona ... F', treeData),
 
-      window.diagram.removeItem('inscriptosC[]', treeData),
+      window.diagram.removeItem('inscriptos...n[]', treeData),
       window.diagram.removeItem('unaPersonaG', treeData),
-      window.diagram.removeItem('unaPersonaH', treeData),
-      window.diagram.removeItem('unaPersonaI', treeData),    ];
+      window.diagram.removeItem('unaPersonaI', treeData),
+      window.diagram.removeItem('unaPersonaH ... ', treeData),
+   ];
 
     // start the tree
     window.diagram.register('basic', function() {
