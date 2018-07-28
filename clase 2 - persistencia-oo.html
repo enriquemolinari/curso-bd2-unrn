@@ -1,0 +1,222 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Clase 2 - Persistencia Orientada a Objetos</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/agate.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+		<style>
+				section.pantallacompleta {
+							 width: 100%;
+							 height: 100%;
+					 }
+			 </style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h2>Persistencia Orientada a Objetos</h2>
+					<h4>Conceptos Fundamentales</h4>
+				</section>
+				<section>
+					<h3>JDBC</h3>
+					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">publc class Concurso {
+	private String id;
+	private String nombre;
+	...
+}
+public void ejecutarInsert(Concurso concurso) {
+  try (Connection conn = obtenerConexionBD();
+    PreparedStatement statement = conn
+      .prepareStatement("insert into
+                              concurso(id, nombre) values ('ID1', ?)");) {
+    statement.setString(1, concurso.nombre());
+    statement.executeUpdate();
+  } catch (SQLException ex) {
+    throw new RuntimeException(ex);
+  }
+}</code></pre>
+					<aside class="notes">De esta forma vemos los objetos como estructura de datos, obteniendo su estado interno via getters para generar sentencias SQL.
+						Uno tiende a poner lógica de negocios en los métodos DAO de esta forma y no debería ser así.
+					</aside>
+				</section>
+				<section>
+					<h3>Persistencia Orientada a Objetos</h3>
+					<p>¿No hay una forma mejor?</p>
+					<blockquote class="fragment"><u>Transparencia</u>: El desarrollador tendría que preocuparse lo menos posible por la persistencia para centrarse en el modelo de objetos. Tenemos que trabajar con los objetos en memoria pensando que la persistencia se maneja "mágicamente".</blockquote>
+				</section>
+				<section>
+					<h3>Persistencia Orientada a Objetos</h3>
+					<p>¿Hay magia?</p>
+					<h4 class="fragment"><strong>Persistencia por Alcance</strong></h4>
+					<ul>
+						<li class="fragment">Objeto al cual se puede llegar a partir de un objeto ya persistente, debe ser necesariamente persistente.</li>
+						<li class="fragment">Esto nos regala una forma elegante de diseñar, ya que para persistir un objeto solo tenemos que vincularlo a otro ya persistente.</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Persistencia Orientada a Objetos</h3>
+					<h4>Persistencia por Alcance</h4>
+					<p>A ver la magia...</p>
+					<pre class="fragment"><code class="java" code-trim data-noescape contenteditable style="font-size:18px">public class Universidad {
+  private Set&lt;Concurso> cs = new HashSet&lt;>();
+  public void nuevoConcurso(Concurso c) {
+    cs.add(c);
+  }
+  ...
+}
+<span class="fragment">public void nuevoConcurso(String nombreConcurso) {</span>
+<span class="fragment">  Concurso c = new Concurso(nombreConcurso);</span>
+<span class="fragment">  Universidad unrn = //contexto.recuperar(...) unrn de la base de datos</span>
+<span class="fragment">  unrn.nuevoConcurso(c);</span>
+<span class="fragment">}</span></code></pre>
+					<aside class="notes">Notar que hacer la instancia de Concurso c persistente es totalmente transparente. No es tan transparente el traer de la BD a unrn.<aside>
+				</section>
+				<section data-background="imgs/shock-face-o.gif">
+				</section>
+				<section data-transition="slide" data-background="#b5533c" data-background-transition="zoom">
+					<h3>Persistencia Orientada a Objetos</h3>
+					<h4>¿Qué más tenemos que saber?</h4>
+					<p class="fragment"><i>Ciclo de Vida de los Objetos Persistentes</i></p>
+				</section>
+				<section>
+					<h3>Ciclo de Vida de los Objetos Persistentes</h3>
+					<p class="fragment">¿Cual es el ciclo de vida de los Objetos? (olvidemos la persistencia por un ratito)</p>
+					<p class="fragment"><strong>new</strong>: Se crea la instancia y se aloja en memoria</p>
+					<p class="fragment"><strong>delete</strong>: El Garbage Colector se encarga</p>
+					<blockquote class="fragment">Al incorporar persistencia se agregan nuevos estados.</blockquote>
+				</section>
+				<section>
+					<h3>Persistencia Orientada a Objetos</h3>
+					<p>Ciclo de Vida de los Objetos Persistentes</p>
+					<img src="imgs/entity-states.png" class="plain">
+				</section>
+				<section>
+					<h3>Persistencia Orientada a Objetos</h3>
+					<p>¿Quién lleva registro en memoria del estado de los objetos persistentes?</p>
+					<h4 class="fragment"><strong>Contexto de Persistencia</strong></h4>
+					<ul>
+						<li class="fragment">Maneja y monitorea en memoria todas las instancias de las clases persistentes.</li>
+						<li class="fragment">Reconoce cuando una instancia fue modificada para persistirla.</li>
+						<li class="fragment">Básicamente... es quien se encarga de la magia!</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Persistencia Orientada a Objetos</h3>
+					<p>Veamos un ejemplo en JPA (Java Persistent API)</p>
+					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">public void nuevoConcurso(String nombreConcurso) {
+ <span class="fragment" data-fragment-index="1">EntityManager <span class="fragment highlight-blue" data-fragment-index="6">manager</span> = EntityManagerFactory.createEntityManager();</span>
+ <span class="fragment"  data-fragment-index="2">Concurso concurso = new Concurso(nombreConcurso);</span>
+ <span class="fragment" data-fragment-index="3">Universidad unrn = <span class="fragment highlight-blue" data-fragment-index="6">manager</span>.find(idUnrn);</span>
+ <span class="fragment" data-fragment-index="4">unrn.nuevoConcurso(concurso);</span>
+ <span class="fragment" data-fragment-index="5"><span class="fragment highlight-blue" data-fragment-index="6">manager</span>.close();</span><span class="fragment" data-fragment-index="7"> //Aca se persiste lo modificado...</span>
+}</code></pre>
+				<p class="fragment">¿Cuál es el estado de <i>unrn</i> y <i>concurso</i>?</p>
+				<p class="fragment">¿Queda <i>unrn</i> en estado <u>detached</u>?</p>
+				</section>
+				<section data-transition="slide" data-background="#b5533c" data-background-transition="zoom">
+					<h3>Persistencia Orientada a Objetos</h3>
+					<h4>¿Y qué más tenemos que saber?</h4>
+					<p class="fragment"><i>Cascade</i> & <i>Lazy</i> vs <i>Early</i></p>
+				</section>
+				<section>
+					<h3>Persistencia Orientada a Objetos</h3>
+					<p>Cascade</p>
+					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">public void nuevoProducto() {
+ <span>EntityManager manager = EntityManagerFactory.createEntityManager();</span>
+ <span class="fragment"  data-fragment-index="2">Categoria elec = new Categoria("electrodoméstico");</span>
+ <span class="fragment"  data-fragment-index="2">Producto tv = new Producto("TV", elec);</span>
+ <span class="fragment" data-fragment-index="3"><span class="fragment strike" data-fragment-index="6">manager.persist(elec);</span></span>
+ <span class="fragment" data-fragment-index="4">manager.persist(tv);</span>
+ <span>manager.close();</span>
+}</code></pre>
+				<p class="fragment" data-fragment-index="5">¿Podría solamente persistir el producto?</p>
+				<p class="fragment">Debería configurar los colaboradores de <i>Producto</i> como <i>cascade</i> = true</p>
+				</section>
+				<section>
+    			 <h2>Early vs Lazy</h2>
+					 <p>Supongamos el siguiente modelo:</p>
+					 <pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">public class Universidad {
+ private Set&lt;Concurso> concursos = new HashSet&lt;Concurso>();
+ private Categoria categoria;
+ private String domicilio;
+ public void nuevoConcurso(Concurso c) {
+  cs.add(c);
+ }
+ ...
+}
+public class Concurso {
+ private List&lt;Personas> inscriptos = new ArrayList&lt;>();
+ ...
+ ...
+}</pre></code>
+				</section>
+				<section>
+    			 <h2>Early vs Lazy</h2>
+					 <p>Si traemos <i>unrn</i> así:</p>
+					 <pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">...
+EntityManager manager = EntityManagerFactory.createEntityManager();
+Universidad unrn = manager.find(idUnrn);
+manager.close();
+...</pre></code>
+					<p class="fragment">¿Qué trae a memoria junto con <i>unrn</i>? ¿Todo el grafo de objetos?</p>
+				</section>
+				<section data-background-size="40%" data-background-image="imgs/modelo.jpg" class="fig-container pantallacompleta"
+					data-fig-id="fig-collision-detection"
+					data-file="_diagram_earlygraph.html">
+					<h2>Early vs Lazy</h2>
+				</section>
+				<section>
+					<h2>Early vs Lazy</h2>
+					<p class="fragment"><u>Por colaborador</u> se configura si deseo <i>early</i> o <i>lazy</i></p>
+					<p class="fragment"><u>En general</u> las colecciones son <i>lazy</i> y los colaboradores simples son <i>early</i>.</p>
+					<p class="fragment">En lugar del objeto real, trae una instancia de un <u>Proxy</u>, el cual sabe como recuperar el objeto real.</p>
+				</section>
+				<section class="fig-container pantallacompleta"
+					data-fig-id="fig-collision-detection"
+					data-file="_diagram_lazygraph.html">
+					<h2>Early vs Lazy (config default)</h2>
+				</section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+				dependencies: [
+					//{ src: 'https://d3js.org/d3.v3.min.js' },
+					{ src: 'js/d3.v3.min.js'},
+					{ src: 'node_modules/reveal.js-d3js/d3js.js' },
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>

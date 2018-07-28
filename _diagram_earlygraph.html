@@ -1,0 +1,83 @@
+
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+  <style>
+
+    body {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+  <link rel="stylesheet" href="plugin/reveal.js-diagram/revealjs-diagram.css">
+</head>
+<body>
+  <script src="js/d3.v3.min.js"></script>
+  <script src="js/jquery-3.2.1.min.js"></script>
+  <script src="plugin/reveal.js-diagram/revealjs-diagram.js"></script>
+  <script>
+
+    var treeData = {
+      name: 'unrn',
+      x0: window.diagram.height / 2,
+      y0: 0,
+      children: []
+    };
+
+    var _transitions = [
+      window.diagram.addItem('domicilio', 'unrn', treeData),
+      window.diagram.addItem('categoria', 'unrn', treeData),
+      window.diagram.addItem('concursos[]', 'unrn', treeData),
+      window.diagram.addItem('nombre', 'categoria', treeData),
+      window.diagram.addItem('unConcursoA', 'concursos[]', treeData),
+      window.diagram.addItem('unConcursoB', 'concursos[]', treeData),
+      window.diagram.addItem('unConcursoC', 'concursos[]', treeData),
+
+      window.diagram.addItem('inscriptosA[]', 'unConcursoA', treeData),
+
+      window.diagram.addItem('unaPersonaA', 'inscriptosA[]', treeData),
+      window.diagram.addItem('unaPersonaB', 'inscriptosA[]', treeData),
+      window.diagram.addItem('unaPersonaC', 'inscriptosA[]', treeData),
+
+      window.diagram.addItem('inscriptosB[]', 'unConcursoB', treeData),
+      window.diagram.addItem('unaPersonaD', 'inscriptosB[]', treeData),
+      window.diagram.addItem('unaPersonaE', 'inscriptosB[]', treeData),
+      window.diagram.addItem('unaPersonaF', 'inscriptosB[]', treeData),
+
+      window.diagram.addItem('inscriptosC[]', 'unConcursoC', treeData),
+      window.diagram.addItem('unaPersonaG', 'inscriptosC[]', treeData),
+      window.diagram.addItem('unaPersonaH', 'inscriptosC[]', treeData),
+      window.diagram.addItem('unaPersonaI', 'inscriptosC[]', treeData),
+  ];
+
+    var _inverse_transitions = [
+      window.diagram.removeItem('domicilio',treeData),
+      window.diagram.removeItem('categoria', treeData),
+      window.diagram.removeItem('concursos[]', treeData),
+      window.diagram.removeItem('nombre', treeData),
+      window.diagram.removeItem('unConcursoA', treeData),
+      window.diagram.removeItem('unConcursoB', treeData),
+      window.diagram.removeItem('unConcursoC', treeData),
+
+      window.diagram.removeItem('inscriptosA[]', treeData),
+
+      window.diagram.removeItem('unaPersonaA', treeData),
+      window.diagram.removeItem('unaPersonaB', treeData),
+      window.diagram.removeItem('unaPersonaC', treeData),
+
+      window.diagram.removeItem('inscriptosB[]', treeData),
+      window.diagram.removeItem('unaPersonaD', treeData),
+      window.diagram.removeItem('unaPersonaE', treeData),
+      window.diagram.removeItem('unaPersonaF', treeData),
+
+      window.diagram.removeItem('inscriptosC[]', treeData),
+      window.diagram.removeItem('unaPersonaG', treeData),
+      window.diagram.removeItem('unaPersonaH', treeData),
+      window.diagram.removeItem('unaPersonaI', treeData),    ];
+
+    // start the tree
+    window.diagram.register('basic', function() {
+      window.diagram.init(treeData);
+    });
+  </script>
+</body>
