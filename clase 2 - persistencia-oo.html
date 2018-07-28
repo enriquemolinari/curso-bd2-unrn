@@ -12,6 +12,8 @@
 		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="lib/css/agate.css">
 
+		<link rel="stylesheet" href="css/font-4.5.0-awesome.min.css">
+
 		<!-- Printing and PDF exports -->
 		<script>
 			var link = document.createElement( 'link' );
@@ -43,8 +45,7 @@
 }
 public void ejecutarInsert(Concurso concurso) {
   try (Connection conn = obtenerConexionBD();
-    PreparedStatement statement = conn
-      .prepareStatement("insert into
+    PreparedStatement statement = conn.prepareStatement("insert into
                               concurso(id, nombre) values ('ID1', ?)");) {
     statement.setString(1, concurso.nombre());
     statement.executeUpdate();
@@ -146,13 +147,13 @@ public void ejecutarInsert(Concurso concurso) {
  <span class="fragment" data-fragment-index="4">manager.persist(tv);</span>
  <span>manager.close();</span>
 }</code></pre>
-				<p class="fragment" data-fragment-index="5">¿Podría solamente persistir el producto?</p>
-				<p class="fragment">Debería configurar los colaboradores de <i>Producto</i> como <i>cascade</i> = true</p>
+				<p class="fragment" data-fragment-index="5">¿Podría solamente persistir el producto y que se persista su categoria mágicamente?</p>
+				<p class="fragment">Sí. Debería configurar los colaboradores de <i>Producto</i> como <i>cascade</i> = true</p>
 				</section>
 				<section>
     			 <h2>Early vs Lazy</h2>
-					 <p>Supongamos el siguiente modelo:</p>
-					 <pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">public class Universidad {
+					 <p class="fragment">Supongamos el siguiente modelo:</p>
+					 <pre class="fragment"><code class="java" code-trim data-noescape contenteditable style="font-size:18px">public class Universidad {
  private Set&lt;Concurso> concursos = new HashSet&lt;Concurso>();
  private Categoria categoria;
  private String domicilio;
@@ -169,13 +170,13 @@ public class Concurso {
 				</section>
 				<section>
     			 <h2>Early vs Lazy</h2>
-					 <p>Si traemos <i>unrn</i> así:</p>
-					 <pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">...
+					 <p class="fragment">Segun el modelo anterior, si traemos de la BD la instancia <i>unrn</i>:</p>
+					 <pre class="fragment"><code class="java" code-trim data-noescape contenteditable style="font-size:18px">...
 EntityManager manager = EntityManagerFactory.createEntityManager();
 Universidad unrn = manager.find(idUnrn);
 manager.close();
 ...</pre></code>
-					<p class="fragment">¿Qué trae a memoria junto con <i>unrn</i>? ¿Todo el grafo de objetos?</p>
+					<p class="fragment">¿Qué trae a memoria junto con <i>unrn</i>? ¿su instancia de categoria? ¿sus concursos?</p>
 				</section>
 				<section data-background-size="40%" data-background-image="imgs/modelo.jpg" class="fig-container pantallacompleta"
 					data-fig-id="fig-collision-detection"
@@ -188,9 +189,30 @@ manager.close();
 				<section>
 					<h2>Early vs Lazy</h2>
 					<p class="fragment"><u>Por colaborador</u> se configura si deseo <i>early</i> o <i>lazy</i></p>
-					<p class="fragment"><u>En general</u> las colecciones son <i>lazy</i> y los colaboradores simples son <i>early</i>.</p>
-					<p class="fragment"><strong>Lazy</strong>: En lugar del objeto real, trae una instancia de un <u>Proxy</u>, el cual sabe como recuperar el objeto real cuando se requiera.</p>
+					<p class="fragment"><b>Early</b> (temprano): Al recuperar una instancia, recupero su colaborador también.</p>
+					<p class="fragment"><b>Lazy</b> (tardío): Al recuperar una instancia, inyecta en su colaborador un <u>Proxy</u>, quién sabe recuperar el <u>colaborador real</u> solo cuando sea necesario.</p>
+					<blockquote class="fragment">¿Cuando se vuelve necesario?</blockquote>
 				</section>
+				<section>
+					<h2>Lazy</h2>
+					<p>¿Cuándo se dispara la recuperación de la BD del colaborador?</p>
+					<pre>
+						<code class="java" code-trim data-noescape contenteditable style="font-size:18px">public class Universidad {
+  private Set&lt;Concurso> concursos = new HashSet&lt;Concurso>();
+  private Categoria categoria;
+  private String domicilio;
+  public void nuevoConcurso(Concurso c) {
+   cs.add(c);
+  }
+  /*...Demostrar cuando se dispara...*/
+ }
+public class Concurso {
+  private List&lt;Personas> inscriptos = new ArrayList&lt;>();
+  ...
+  ...
+}</code></pre>
+				</section>
+
 			</div>
 		</div>
 
@@ -205,15 +227,26 @@ manager.close();
 				center: true,
 				transition: 'slide', // none/fade/slide/convex/concave/zoom
 				dependencies: [
-					//{ src: 'https://d3js.org/d3.v3.min.js' },
 					{ src: 'js/d3.v3.min.js'},
+					{ src: 'plugin/chalkboard/chalkboard.js' },
 					{ src: 'node_modules/reveal.js-d3js/d3js.js' },
 					{ src: 'plugin/markdown/marked.js' },
 					{ src: 'plugin/markdown/markdown.js' },
 					{ src: 'plugin/notes/notes.js', async: true },
 					{ src: 'plugin/zoom-js/zoom.js', async: true },
 					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
-				]
+				],
+				chalkboard: {
+					toggleChalkboardButton: { left: "80px" },
+					toggleNotesButton: { left: "130px" },
+				},
+				keyboard: {
+			    67: function() { RevealChalkboard.toggleNotesCanvas() },	// toggle notes canvas when 'c' is pressed
+			    66: function() { RevealChalkboard.toggleChalkboard() },	// toggle chalkboard when 'b' is pressed
+			    46: function() { RevealChalkboard.clear() },	// clear chalkboard when 'DEL' is pressed
+			     8: function() { RevealChalkboard.reset() },	// reset chalkboard data on current slide when 'BACKSPACE' is pressed
+			    68: function() { RevealChalkboard.download() },	// downlad recorded chalkboard drawing when 'd' is pressed
+				},
 			});
 		</script>
 	</body>
