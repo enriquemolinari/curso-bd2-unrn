@@ -1,0 +1,134 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Clase 1 - Introducción a Base de Datos 2</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/agate.css">
+
+		<link rel="stylesheet" href="css/font-4.5.0-awesome.min.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+		<style>
+				section.pantallacompleta {
+							 width: 100%;
+							 height: 100%;
+					 }
+			 </style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h2>Base de Datos 2</h2>
+					<h4>Alternativas a la Persistencia Relacional</h4>
+				</section>
+				<section>
+					<h3>Uds ya Vieron...</h3>
+					<ul>
+						<li>El Modelo Relacional</li>
+						<li>Diagramas E/R</li>
+						<li>Normalización</li>
+						<li>SQL: DML y DDL</li>
+						<li>Transacciones y propiedades ACID</li>
+						<li>Niveles de Aislamiento / Concurrencia</li>
+						<li>Conceptos de Data Warehouse y Data Mining</li>
+					</ul>
+				</section>
+				<section>
+					<h3>¿Qué vemos en BD2?</h3>
+					<ol>
+						<li class="fragment">Persistencia Orientada a Objetos</li>
+						<ul class="fragment"><li>En BDs Orientadas a Objetos</li><li>En BDs relacionales (ORMs)</li></ul>
+						<li class="fragment">NoSQL</li>
+						<ul>
+							<li class="fragment">Conceptos, ¿Qué generó su aparición?</li>
+							<li class="fragment">Escalamiento en BDs Relacionales y NoSQL</li>
+							<li class="fragment">Disponibilidad y Consistencia</li>
+              <li class="fragment">Familia de BDs NoSQL (Key-Value, Document, Column, Graph)</li>
+              <li class="fragment">Implementaciones: MongoDB y Neo4j/Gremlin</li>
+						</ul>
+            <li class="fragment">Arquitectura de Aplicaciones</li>
+					</ol>
+				</section>
+        <section>
+					<h3>Hay que programar !</h3>
+					<ul>
+						<li class="fragment">TP1: Modelar en Objetos + Testing Automatizado</li>
+						<li class="fragment">TP2: Persistiendo Objetos en OODBMS</li>
+						<li class="fragment">TP3: Persistiendo Objetos en RDBMS (ORM)</li>
+            <li class="fragment">TP4: Concurrencia</li>
+            <li class="fragment">TP5: OOQL Object Oriented Query Language</li>
+            <li class="fragment">TP6: Implementando un Blog con MongoDB</li>
+            <li class="fragment">TP7: Neo4j / Gremlin</li>
+					</ul>
+				</section>
+        <section>
+					<h3>Cursada y Final</h3>
+					<ul>
+						<li>Los TPs son <u>individuales</u></li>
+						<li>La Cursada se aprueba, aprobando los parciales y los TPs</li>
+						<li>Los TPs los aprueba el profesor revisandolos en clases con cada alumno</li>
+            <li>TP Final para aprobar la materia</li>
+					</ul>
+				</section>
+        <section>
+					<h3>Bibliografía</h3>
+					<ul>
+						<li>Persistencia Orientada a Objetos (Javer Bazzocco)</li>
+						<li>Java Persistence with Hibernate (Second Edition. Gaving King)</li>
+						<li>Next Generation Databases: NoSQL, NewSQL, and Big  Data (Guy Harrison)</li>
+            <li>NoSQL Distilled (Martin Fowler)</li>
+					</ul>
+				</section>
+				</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+				dependencies: [
+					{ src: 'js/d3.v3.min.js'},
+					{ src: 'plugin/chalkboard/chalkboard.js' },
+					{ src: 'node_modules/reveal.js-d3js/d3js.js' },
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				],
+				chalkboard: {
+					toggleChalkboardButton: { left: "80px" },
+					toggleNotesButton: { left: "130px" },
+				},
+				keyboard: {
+			    67: function() { RevealChalkboard.toggleNotesCanvas() },	// toggle notes canvas when 'c' is pressed
+			    66: function() { RevealChalkboard.toggleChalkboard() },	// toggle chalkboard when 'b' is pressed
+			    46: function() { RevealChalkboard.clear() },	// clear chalkboard when 'DEL' is pressed
+			     8: function() { RevealChalkboard.reset() },	// reset chalkboard data on current slide when 'BACKSPACE' is pressed
+			    68: function() { RevealChalkboard.download() },	// downlad recorded chalkboard drawing when 'd' is pressed
+				},
+			});
+		</script>
+	</body>
+</html>
