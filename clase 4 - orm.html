@@ -1,0 +1,260 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Clase 4 - ORM</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/agate.css">
+
+		<link rel="stylesheet" href="css/font-4.5.0-awesome.min.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h2>Object Relational Mapping (ORM)</h2>
+					<p>
+						Persistencia Orientada a Objetos en BDs Relacionales
+					</p>
+				</section>
+				<section>
+					<h3>Hasta hace un ratito eran felices</h3>
+					<p class="fragment">
+						Era todo muy simple y transparente! <strong class="fragment">¿Por qué?</strong>
+					</p>
+					<blockquote class="fragment">
+						Porque persistíamos en una estructura física idéntica a la estructura que manejamos en memoria.
+					</blockquote>
+					<p class="fragment">
+						Si utilizamos una BD relacional la estructura física cambia y tenemos que trabajar un poco más.
+					</p>
+				</section>
+				<section>
+					<h3>Diferencia de Impedancia</h3>
+					<p class="fragment">
+						Se da cuando desarrollamos en un modelo (ej: objetos) y persistimos en otro modelo (ej: tablas/relaciones).
+					</p>
+					<ul>
+						<li class="fragment">En Objetos navegamos a través de colaboradores vs los joins en relacional.</li>
+						<li class="fragment">En Objetos tenemos colecciones con su semántica (ej: Set), en relacional las relaciones y las restricciones.</li>
+						<li class="fragment">En Objetos tenemos Herencia y polimorfismo, en el relacional relaciones.</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Diferencia de Impedancia</h3>
+					<blockquote>
+						En base a estas diferencias, el <u>ORM</u> nos ayuda <u>mapeando</u> el mundo de objetos al relacional, de modo de poder <u>disfrutar</u> de la <u>persistencia transparente</u>.
+					</blockquote>
+				</section>
+				<section>
+					<h3>¿Qué Mapeamos?</h3>
+					<img src="imgs/mapeo.png" alt="mapeo" style="background:none; border:none; box-shadow:none;"/><br/>
+					<ul>
+						<li class="fragment">Clase con Tabla</li>
+						<li class="fragment">Instancia con Tupla</li>
+						<li class="fragment">Atributo con Columna</li>
+					</ul>
+				</section>
+				<section>
+					<h3>¿Por qué vamos a usar una BDOO en esta Materia?</h3>
+						<ul>
+							<li class="fragment">Es un curso de alternativas a la persistencia relacional... :)</li>
+							<li class="fragment">Son seriamente utilizadas en la <a href="https://www.service-architecture.com/articles/object-oriented-databases/odbms_faq.html">industria y la ciencia</a></li>
+							<li class="fragment">Programamos en Objetos</li>
+							<li class="fragment">Necesitamos entender y practicar sober persistencia por alcance</li>
+						</ul>
+					<aside class="notes">Podremos lograr la persistencia por alcance persistiendo en una BD Relacional utilizando un ORM</aside>
+				</section>
+				<section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
+					<img src="imgs/zoodb-logo.png" alt="zoodb logo" style="background:none; border:none; box-shadow:none;"/>
+					<h3>BD Orientada a Objetos</h3>
+					<h4>Veamos su API basada en JDO</h4>
+				</section>
+				<section>
+					<h3>¿Qué es JDO?</h3>
+					<ul>
+						<li class="fragment">JDO = Java Data Objects. Una <u>API estandar</u> para acceder datos persistentes. Ver <a href="https://db.apache.org/jdo/index.html">Apache JDO.</a> </li>
+						<li class="fragment">Las interfaces más importantes de la API son:
+							<ul>
+								<li class="fragment"><i>PersistentManager</i>: Es el contexto de persistencia, que ya vimos de que se trata</li>
+								<li class="fragment"><i>Query</i>: El componente encargado de construir consultas y obtener resultados. (&#128532; Ojo, no todo implementado)</li>
+								<li class="fragment"><i>Transaction</i>: El componente encargado de iniciar y completar transacciones</li>
+						</ul>
+						</li>
+					</ul>
+				</section>
+				<section>
+					<h3>¿Qué requiero para utilizar ZooDB?</h3>
+					<ul>
+						<li class="fragment">Eclipse + Java 8</li>
+						<li class="fragment">Última versión de <a href="https://mvnrepository.com/artifact/org.zoodb/zoodb">ZooDB</a></li>
+						<li class="fragment">Y sus depedencias: jta, jdo-api y slf4j-api</li>
+					</ul>
+				</section>
+				<section>
+					<h3>¿Cómo uso ZooDB?</h3>
+					<h4>Estructura de una Transacción</h4>
+					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">  ZooHelper.createDb("dbfile.zoodb");
+  PersistenceManager pm = ZooJdoHelper.openDB(dbName);
+  pm.currentTransaction().begin();
+  try {
+    //Usar pm aca...
+    pm.currentTransaction().commit();
+  } catch (Exception e) {
+    pm.currentTransaction().rollback();
+    throw e;
+  } finally {
+    pm.close();
+    pm.getPersistenceManagerFactory().close();
+  }</code></pre>
+					<aside class="notes">pm es el Contexto de Persistencia del que hablamos antes</aside>
+				</section>
+				<section>
+					<h3>¿Cómo uso ZooDB?</h3>
+					<h4>Objetos Persistentes</h4>
+					<p>Los objetos persistentes deben extender de <i>org.zoodb.api.impl.ZooPC</i></p>
+					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">public class Categoria extends ZooPC {
+  private Long id;
+  private String nombre;
+  //no-arg constructor requerido por JDO
+  private Categoria() {
+
+  }
+  ...
+}
+</code></pre>
+				</section>
+				<section>
+					<h3>¿Cómo uso ZooDB?</h3>
+					<h4>Persistir un Objeto Transient</h4>
+					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">...
+try {
+  <span class="fragment">Categoria c = new Categoria(1L, "nombre categoria");</span>
+  <span class="fragment">pm.makePersistent(c);</span>
+}
+...</code></pre>
+				</section>
+				<section>
+					<h3>¿Cómo uso ZooDB?</h3>
+					<h4>Traer una Instancia por Id</h4>
+					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">...
+try {
+  <span class="fragment">Query query = pm.newQuery(Categoria.class, "id == 1");</span>
+  <span class="fragment">Collection&lt;Categoria> cat = (Collection&lt;Categoria>) query.execute();</span>
+  <span class="fragment">Categoria c = cat.stream().findFirst().get();</span>
+}
+...</code></pre>
+				</section>
+				<section>
+					<h3>¿Cómo uso ZooDB?</h3>
+					<h4>Traer todas las instancias de una clase</h4>
+					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">...
+try {
+  <span class="fragment">Extent<Categoria> ext = pm.getExtent(Categoria.class);</span>
+  <span class="fragment">for (Categoria p : ext) {
+      System.out.println("Categoria encontrada: " + p.nombre());
+  }</span>
+}
+...</code></pre>
+				</section>
+				<section>
+					<h3>¿Cómo uso ZooDB?</h3>
+					<h4>Modificar una Instancia</h4>
+					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">...
+try {
+  <span class="fragment">Query query = pm.newQuery(Categoria.class, "id == 1");</span>
+  <span class="fragment">Collection&lt;Categoria> cat = (Collection&lt;Categoria>) query.execute();</span>
+  <span class="fragment">Categoria c = cat.stream().findFirst().get();</span>
+  <span class="fragment">c.nombre("otro nombre...");</span>
+}
+...</code></pre>
+<span class="fragment">Y el <i>persistent context</i> se encarga de persistirlo en forma transparente &#128512;</span>
+				</section>
+				<section>
+					<h3>¿Cómo uso ZooDB?</h3>
+					<h4>Queries</h4>
+					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">...
+try {
+  <span class="fragment">Query query = pm.newQuery(Producto.class, "precio <= 3000");</span>
+  <span class="fragment">Collection<Producto> productos = (Collection<Producto>) query.execute();</span>
+  <span class="fragment">for (Producto producto : productos) {
+    System.out.println(producto);
+  }</span>
+}
+...</code></pre>
+<span class="fragment">Comparadores: !=, ==, <, >, <=, >=, &&, ||. Solo Strings y Números (ya que no todo JDO esta implementado en ZooDB). </span>
+				</section>
+				<section>
+					<h3>¿Cómo uso ZooDB?</h3>
+					<p><i>zooActivateRead</i>() y <i>zooActivateWrite</i>()</p>
+					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">public class Producto extends ZooPC {
+  private Long id;
+  private String nombre;
+  private Categoria categoria;
+  public void categoria(Categoria categoria) {
+    zooActivateWrite();
+    this.categoria = categoria;
+  }
+  public Categoria categoria() {
+    zooActivateRead();
+    return categoria;
+  }
+  ...
+}
+</code></pre>
+<aside class="notes"><p>De modo de poder obtener los beneficios del Cascade y los Proxies, los objetos persistentes en sus métodos de lectura y escritura deben utilizar <i>zooActivateRead</i>() y <i>zooActivateWrite</i>()</p>
+</aside>
+				</section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+				dependencies: [
+					{ src: 'js/d3.v3.min.js'},
+					{ src: 'plugin/chalkboard/chalkboard.js' },
+					{ src: 'node_modules/reveal.js-d3js/d3js.js' },
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				],
+				chalkboard: {
+					toggleChalkboardButton: { left: "80px" },
+					toggleNotesButton: { left: "130px" },
+				},
+				keyboard: {
+			    67: function() { RevealChalkboard.toggleNotesCanvas() },	// toggle notes canvas when 'c' is pressed
+			    66: function() { RevealChalkboard.toggleChalkboard() },	// toggle chalkboard when 'b' is pressed
+			    46: function() { RevealChalkboard.clear() },	// clear chalkboard when 'DEL' is pressed
+			     8: function() { RevealChalkboard.reset() },	// reset chalkboard data on current slide when 'BACKSPACE' is pressed
+			    68: function() { RevealChalkboard.download() },	// downlad recorded chalkboard drawing when 'd' is pressed
+				},
+			});
+		</script>
+	</body>
+</html>
