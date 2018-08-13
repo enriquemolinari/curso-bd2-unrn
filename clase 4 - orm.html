@@ -22,6 +22,68 @@
 			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
 			document.getElementsByTagName( 'head' )[0].appendChild( link );
 		</script>
+		<style>
+  .reveal .fullscreen {
+    width: 1000px;
+    height: 600px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    max-height: none;
+    margin-top: -20px;
+  }
+  .reveal .plus, .reveal .minus {
+    color: #d3d3d3;
+    z-index: 200;
+    font-size: 32px;
+    position: absolute;
+    top: 0px;
+  }
+  .reveal .plus {
+    left: 880px;
+  }
+  .reveal .minus {
+    left: 990px;
+    display: none;
+  }
+  .reveal .plus:hover, .reveal .minus:hover {
+    cursor: pointer;
+    color: #000;
+  }
+  @media print {
+    .reveal .minus, .reveal .plus {
+      display: none;
+    }
+  }
+</style>
+<script>
+  // Add maximize/minimize "buttons" to parents of hljs divs
+  var removeClass = function(classList, className) {
+    return classList.split(' ').filter(function(c){ return c !== className}).join(' ');
+  }
+  hs=[].slice.call(document.getElementsByClassName('hljs'))
+  hs.forEach(function(el){
+    var plus = document.createElement('span'), minus = document.createElement('span');
+    plus.appendChild(document.createTextNode('+'));
+    el.parentElement.appendChild(plus);
+    plus.addEventListener('click', function(){
+      // undo vertical centering on current slide:
+      [].slice.call(document.getElementsByClassName('present')).forEach(function(p){p.style.top = 0});
+      el.className = el.className + ' fullscreen';
+      minus.style.display = 'block';
+      this.style.display = 'none';});
+    plus.className = 'plus';
+
+    minus.appendChild(document.createTextNode('-'));
+    el.parentElement.appendChild(minus);
+    minus.addEventListener('click', function(){
+      el.className = removeClass(el.className, 'fullscreen');
+      plus.style.display = 'block';
+      this.style.display = 'none'; });
+    minus.className = 'minus';
+    });
+</script>
 	</head>
 	<body>
 		<div class="reveal">
@@ -70,155 +132,133 @@
 						<li class="fragment">Atributo con Columna</li>
 					</ul>
 				</section>
-				<section>
-					<h3>¿Por qué vamos a usar una BDOO en esta Materia?</h3>
-						<ul>
-							<li class="fragment">Es un curso de alternativas a la persistencia relacional... :)</li>
-							<li class="fragment">Son seriamente utilizadas en la <a href="https://www.service-architecture.com/articles/object-oriented-databases/odbms_faq.html">industria y la ciencia</a></li>
-							<li class="fragment">Programamos en Objetos</li>
-							<li class="fragment">Necesitamos entender y practicar sober persistencia por alcance</li>
-						</ul>
-					<aside class="notes">Podremos lograr la persistencia por alcance persistiendo en una BD Relacional utilizando un ORM</aside>
-				</section>
 				<section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
-					<img src="imgs/zoodb-logo.png" alt="zoodb logo" style="background:none; border:none; box-shadow:none;"/>
-					<h3>BD Orientada a Objetos</h3>
-					<h4>Veamos su API basada en JDO</h4>
+					<h3>Java Persistence API</h3>
+					<p class="fragment">Estándar creado en 2006 por la Java Community Process (JCP)</p>
+					<p class="fragment">¿JDO y JPA?</p>
+					<p class="fragment">Veamos su API, o sea las interfaces y clases ubicadas en: <i>javax.persistence</i></p>
 				</section>
 				<section>
-					<h3>¿Qué es JDO?</h3>
-					<ul>
-						<li class="fragment">JDO = Java Data Objects. Una <u>API estandar</u> para acceder datos persistentes. Ver <a href="https://db.apache.org/jdo/index.html">Apache JDO.</a> </li>
-						<li class="fragment">Las interfaces más importantes de la API son:
-							<ul>
-								<li class="fragment"><i>PersistentManager</i>: Es el contexto de persistencia, que ya vimos de que se trata</li>
-								<li class="fragment"><i>Query</i>: El componente encargado de construir consultas y obtener resultados. (&#128532; Ojo, no todo implementado)</li>
-								<li class="fragment"><i>Transaction</i>: El componente encargado de iniciar y completar transacciones</li>
-						</ul>
-						</li>
-					</ul>
-				</section>
-				<section>
-					<h3>¿Qué requiero para utilizar ZooDB?</h3>
-					<ul>
-						<li class="fragment">Eclipse + Java 8</li>
-						<li class="fragment">Última versión de <a href="https://mvnrepository.com/artifact/org.zoodb/zoodb">ZooDB</a></li>
-						<li class="fragment">Y sus depedencias: jta, jdo-api y slf4j-api</li>
-					</ul>
-				</section>
-				<section>
-					<h3>¿Cómo uso ZooDB?</h3>
+					<h3>Java Persistence API (JPA)</h3>
 					<h4>Estructura de una Transacción</h4>
-					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">  ZooHelper.createDb("dbfile.zoodb");
-  PersistenceManager pm = ZooJdoHelper.openDB(dbName);
-  pm.currentTransaction().begin();
-  try {
-    //Usar pm aca...
-    pm.currentTransaction().commit();
-  } catch (Exception e) {
-    pm.currentTransaction().rollback();
-    throw e;
-  } finally {
-    pm.close();
-    pm.getPersistenceManagerFactory().close();
-  }</code></pre>
-					<aside class="notes">pm es el Contexto de Persistencia del que hablamos antes</aside>
+					<pre class="fragment"><code class="java" code-trim data-noescape contenteditable style="font-size:18px">EntityManagerFactory emf =
+          Persistence.createEntityManagerFactory("jpa-derby");
+EntityManager em = emf.createEntityManager();
+EntityTransaction tx = em.getTransaction();
+try {
+ tx.begin();
+ //hacer algo con em
+ tx.commit();
+} catch (Exception e) {
+ tx.rollback();
+ throw new RuntimeException(e);
+} finally {
+ if (em != null && em.isOpen())
+  em.close();
+ if (emf != null)
+  emf.close();
+}</code></pre>
+					<p class="fragment">¿Cuál es el Contexto de Persistencia?</p>
 				</section>
 				<section>
-					<h3>¿Cómo uso ZooDB?</h3>
-					<h4>Objetos Persistentes</h4>
-					<p>Los objetos persistentes deben extender de <i>org.zoodb.api.impl.ZooPC</i></p>
-					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">public class Categoria extends ZooPC {
-  private Long id;
-  private String nombre;
-  //no-arg constructor requerido por JDO
-  private Categoria() {
+					<h3>Java Persistence API (JPA)</h3>
+					<h4>etc/META-INF/persistence.xml</h4>
+					<pre class="fragment"><code class="java" code-trim contenteditable style="font-size:12px"><?xml version="1.0"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+version="2.0">
+ <persistence-unit name="jpa-derby">
+  <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+   <properties>
+    <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/>
+    <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/bd-name"/>
+    <property name="javax.persistence.jdbc.user" value="user"/>
+    <property name="javax.persistence.jdbc.password" value="pass"/>
+    <property name="hibernate.dialect" value="org.hibernate.dialect.DerbyDialect"/>
+    <property name="hibernate.hbm2ddl.auto" value="create"/>
+    <property name="hibernate.show_sql" value="true"/>
+   </properties>
+ </persistence-unit>
+</persistence></code></pre>
+				</section>
+				<section>
+					<h3>Java Persistence API (JPA)</h3>
+					<h4>Objetos Persistentes: <u>Entidades</u></h4>
+					<span>Los objetos persistentes deben <b>anotarse</b> con <i>javax.persistence.Entity</i></span>
+					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">@Entity
+public class Persona {
+ <span class="fragment">@Id
+ @GeneratedValue(strategy = GenerationType.AUTO)
+ private Long id;</span>
+ private String nombre;
+ ...
+ <span class="fragment">//no-arg constructor requerido
+ protected Persona() { }</span>
+ ...
+ <span class="fragment">//get-set privados</span>
+}
+</code></pre>
+				</section>
+				<section>
+					<h3>Java Persistence API (JPA)</h3>
+					<h4>Objetos Persistentes: <u>Mapeos</u></h4>
+					<span>Muchos a Uno (Una <i>Persona</i> una <i>Direccion</i>)</span>
+					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">@Entity
+public class Persona {
+ @Id
+ @GeneratedValue(strategy = GenerationType.AUTO)
+ private Long id;</span>
+ @ManyToOne
+ private Address direccion;
+ ...
+}
+</code></pre>
+				</section>
+				<section>
+					<h3>Java Persistence API (JPA)</h3>
+					<h4>Objetos Persistentes: <u>Mapeos</u></h4>
+					<span>Muchos a Uno (Una <i>Persona</i> una <i>Direccion</i>)</span>
+					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">@Entity
+public class Address {
+ @Id
+ @GeneratedValue(strategy = GenerationType.AUTO)
+ private Long id;</span>
+ private String direccion;
+ ...
+}
+</code></pre>
+				</section>
+				<section>
+					<h3>Java Persistence API (JPA)</h3>
+					<h4>Objetos Persistentes: <u>Mapeos</u></h4>
+					<span>Uno a Muchos (Una <i>Persona</i> muchos <i>Telefono</i>s)</span>
+					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">@Entity
+public class Persona {
+ @Id
+ @GeneratedValue(strategy = GenerationType.AUTO)
+ private Long id;
 
-  }
-  ...
+ @OneToMany
+ @JoinColumn(name = "id_persona")
+ private Collection<Telefono> telefonos = new ArrayList<>();
+ ...
 }
 </code></pre>
 				</section>
 				<section>
-					<h3>¿Cómo uso ZooDB?</h3>
-					<h4>Persistir un Objeto Transient</h4>
-					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">...
-try {
-  <span class="fragment">Categoria c = new Categoria(1L, "nombre categoria");</span>
-  <span class="fragment">pm.makePersistent(c);</span>
-}
-...</code></pre>
-				</section>
-				<section>
-					<h3>¿Cómo uso ZooDB?</h3>
-					<h4>Traer una Instancia por Id</h4>
-					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">...
-try {
-  <span class="fragment">Query query = pm.newQuery(Categoria.class, "id == 1");</span>
-  <span class="fragment">Collection&lt;Categoria> cat = (Collection&lt;Categoria>) query.execute();</span>
-  <span class="fragment">Categoria c = cat.stream().findFirst().get();</span>
-}
-...</code></pre>
-				</section>
-				<section>
-					<h3>¿Cómo uso ZooDB?</h3>
-					<h4>Traer todas las instancias de una clase</h4>
-					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">...
-try {
-  <span class="fragment">Extent<Categoria> ext = pm.getExtent(Categoria.class);</span>
-  <span class="fragment">for (Categoria p : ext) {
-      System.out.println("Categoria encontrada: " + p.nombre());
-  }</span>
-}
-...</code></pre>
-				</section>
-				<section>
-					<h3>¿Cómo uso ZooDB?</h3>
-					<h4>Modificar una Instancia</h4>
-					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">...
-try {
-  <span class="fragment">Query query = pm.newQuery(Categoria.class, "id == 1");</span>
-  <span class="fragment">Collection&lt;Categoria> cat = (Collection&lt;Categoria>) query.execute();</span>
-  <span class="fragment">Categoria c = cat.stream().findFirst().get();</span>
-  <span class="fragment">c.nombre("otro nombre...");</span>
-}
-...</code></pre>
-<span class="fragment">Y el <i>persistent context</i> se encarga de persistirlo en forma transparente &#128512;</span>
-				</section>
-				<section>
-					<h3>¿Cómo uso ZooDB?</h3>
-					<h4>Queries</h4>
-					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">...
-try {
-  <span class="fragment">Query query = pm.newQuery(Producto.class, "precio <= 3000");</span>
-  <span class="fragment">Collection<Producto> productos = (Collection<Producto>) query.execute();</span>
-  <span class="fragment">for (Producto producto : productos) {
-    System.out.println(producto);
-  }</span>
-}
-...</code></pre>
-<span class="fragment">Comparadores: !=, ==, <, >, <=, >=, &&, ||. Solo Strings y Números (ya que no todo JDO esta implementado en ZooDB). </span>
-				</section>
-				<section>
-					<h3>¿Cómo uso ZooDB?</h3>
-					<p><i>zooActivateRead</i>() y <i>zooActivateWrite</i>()</p>
-					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">public class Producto extends ZooPC {
-  private Long id;
-  private String nombre;
-  private Categoria categoria;
-  public void categoria(Categoria categoria) {
-    zooActivateWrite();
-    this.categoria = categoria;
-  }
-  public Categoria categoria() {
-    zooActivateRead();
-    return categoria;
-  }
-  ...
+					<h3>Java Persistence API (JPA)</h3>
+					<h4>Objetos Persistentes: <u>Mapeos</u></h4>
+					<span>Uno a Muchos (Una <i>Persona</i> muchos <i>Telefono</i>s)</span>
+					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">@Entity
+public class Telefono {
+ @Id
+ @GeneratedValue(strategy = GenerationType.AUTO)
+ private Long id;
+ private String numero;
+ ...
 }
 </code></pre>
-<aside class="notes"><p>De modo de poder obtener los beneficios del Cascade y los Proxies, los objetos persistentes en sus métodos de lectura y escritura deben utilizar <i>zooActivateRead</i>() y <i>zooActivateWrite</i>()</p>
-</aside>
 				</section>
 			</div>
 		</div>
