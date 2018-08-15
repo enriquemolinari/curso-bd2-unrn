@@ -203,14 +203,14 @@ public class Persona {
 				<section>
 					<h3>Java Persistence API (JPA)</h3>
 					<h4>Objetos Persistentes: <u>Mapeos</u></h4>
-					<span>Muchos a Uno (Una <i>Persona</i> una <i>Direccion</i>)</span>
+					<span><u>Muchos a Uno</u> (Una <i>Persona</i> una <i>Direccion</i>)</span>
 					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">@Entity
 public class Persona {
  @Id
  @GeneratedValue(strategy = GenerationType.AUTO)
- private Long id;</span>
- @ManyToOne
- private Address direccion;
+ private Long id;
+ <span class="fragment">@ManyToOne
+ private Address direccion;</span>
  ...
 }
 </code></pre>
@@ -218,12 +218,12 @@ public class Persona {
 				<section>
 					<h3>Java Persistence API (JPA)</h3>
 					<h4>Objetos Persistentes: <u>Mapeos</u></h4>
-					<span>Muchos a Uno (Una <i>Persona</i> una <i>Direccion</i>)</span>
+					<span><u>Muchos a Uno</u> (Una <i>Persona</i> una <i>Direccion</i>)</span>
 					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">@Entity
 public class Address {
  @Id
  @GeneratedValue(strategy = GenerationType.AUTO)
- private Long id;</span>
+ private Long id;
  private String direccion;
  ...
 }
@@ -232,16 +232,16 @@ public class Address {
 				<section>
 					<h3>Java Persistence API (JPA)</h3>
 					<h4>Objetos Persistentes: <u>Mapeos</u></h4>
-					<span>Uno a Muchos (Una <i>Persona</i> muchos <i>Telefono</i>s)</span>
+					<span><u>Uno a Muchos</u> (Una <i>Persona</i> muchos <i>Telefono</i>s)</span>
 					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">@Entity
 public class Persona {
  @Id
  @GeneratedValue(strategy = GenerationType.AUTO)
  private Long id;
 
- @OneToMany
+ <span class="fragment">@OneToMany
  @JoinColumn(name = "id_persona")
- private Collection<Telefono> telefonos = new ArrayList<>();
+ private Collection<Telefono> telefonos = new ArrayList<>();</span>
  ...
 }
 </code></pre>
@@ -249,7 +249,7 @@ public class Persona {
 				<section>
 					<h3>Java Persistence API (JPA)</h3>
 					<h4>Objetos Persistentes: <u>Mapeos</u></h4>
-					<span>Uno a Muchos (Una <i>Persona</i> muchos <i>Telefono</i>s)</span>
+					<span><u>Uno a Muchos</u> (Una <i>Persona</i> muchos <i>Telefono</i>s)</span>
 					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">@Entity
 public class Telefono {
  @Id
@@ -259,6 +259,74 @@ public class Telefono {
  ...
 }
 </code></pre>
+				</section>
+				<section>
+					<h3>Java Persistence API (JPA)</h3>
+					<h4>Objetos Persistentes: <u>Mapeos</u></h4>
+					<span><u>Componentes</u> (Una <i>Persona</i> una <i>Direccion</i>)</span>
+					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">@Entity
+public class Person {
+ @Id
+ @GeneratedValue(strategy = GenerationType.AUTO)
+ private Long id;
+ private String nombre;
+ <span class="fragment">@Embedded
+ private Address address;</span>
+
+</code></pre>
+				</section>
+				<section>
+					<h3>Java Persistence API (JPA)</h3>
+					<h4>Objetos Persistentes: <u>Mapeos</u></h4>
+					<span><u>Componentes</u> (Una <i>Persona</i> una <i>Direccion</i>)</span>
+					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px"><span class="fragment">@Embeddable</span>
+public class Address {
+ private String address;
+ ...
+}</code></pre>
+					<span class="fragment">Note que <u>no es una Entidad</u>... y por lo tanto <u>no requiere ID</u></span>
+				</section>
+				<section>
+					<h3>Java Persistence API (JPA)</h3>
+					<h4>Objetos Persistentes: <u>Mapeos</u></h4>
+					<span><u>Bidireccional</u> (Una <i>Persona</i> varios <i>Telefono</i>s, un <i>Telefono</i> una <i>Persona</i>)</span>
+					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">@Entity
+public class Telefono {
+ @Id
+ @GeneratedValue(strategy = GenerationType.AUTO)
+ private Long id;
+
+ <span class="fragment">@ManyToOne
+ @JoinColumn(name = "id_persona")
+ private Persona persona;</span>
+ ...
+}</code></pre>
+				</section>
+				<section>
+					<h3>Java Persistence API (JPA)</h3>
+					<h4>Objetos Persistentes: <u>Mapeos</u></h4>
+					<span><u>Bidireccional</u> (Una <i>Persona</i> varios <i>Telefono</i>s, un <i>Telefono</i> una <i>Persona</i>)</span>
+					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">@Entity
+public class Persona {
+@Id
+@GeneratedValue(strategy = GenerationType.AUTO)
+private Long id;
+
+<span class="fragment">@OneToMany(mappedBy = "persona")
+private Collection<Telefono> telefonos = new ArrayList<>();</span>
+...
+}
+					</code></pre>
+					<aside class="notes">By specifying the @JoinColumn on both models you don't have a two way relationship. You have two one way relationships, and a very confusing mapping of it at that. You're telling both models that they "own" the IDAIRLINE column. Really only one of them actually should! The 'normal' thing is to take the @JoinColumn off of the @OneToMany side entirely, and instead add mappedBy to the @OneToMany</aside>
+				</section>
+				<section>
+					<h3>Java Persistence API (JPA)</h3>
+					<h4>Objetos Persistentes: <u>Mapeos</u></h4>
+					<p><u>Bidireccional</u> (Una <i>Persona</i> varios <i>Telefono</i>s, un <i>Telefono</i> una <i>Persona</i>)</p>
+					<p class="fragment">El <i>mappedBy</i> define que la navegabilidad será utilizando la columna definida en <i>Telefono.persona</i></p>
+					<p class="fragment">Le dice al ORM: No generes otra columna... usa la que se mapeó en <i>Telefono.persona</i></p>
+					<p class="fragment">Si no me creen... prueben Ustedes que sucede si no ponen <i>mappedBy</i></p>
+					<aside class="notes">By specifying the @JoinColumn on both models you don't have a two way relationship. You have two one way relationships, and a very confusing mapping of it at that. You're telling both models that they "own" the IDAIRLINE column. Really only one of them actually should! The 'normal' thing is to take the @JoinColumn off of the @OneToMany side entirely, and instead add mappedBy to the @OneToMany</aside>
 				</section>
 			</div>
 		</div>
