@@ -22,68 +22,6 @@
 			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
 			document.getElementsByTagName( 'head' )[0].appendChild( link );
 		</script>
-		<style>
-  .reveal .fullscreen {
-    width: 1000px;
-    height: 600px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 100;
-    max-height: none;
-    margin-top: -20px;
-  }
-  .reveal .plus, .reveal .minus {
-    color: #d3d3d3;
-    z-index: 200;
-    font-size: 32px;
-    position: absolute;
-    top: 0px;
-  }
-  .reveal .plus {
-    left: 880px;
-  }
-  .reveal .minus {
-    left: 990px;
-    display: none;
-  }
-  .reveal .plus:hover, .reveal .minus:hover {
-    cursor: pointer;
-    color: #000;
-  }
-  @media print {
-    .reveal .minus, .reveal .plus {
-      display: none;
-    }
-  }
-</style>
-<script>
-  // Add maximize/minimize "buttons" to parents of hljs divs
-  var removeClass = function(classList, className) {
-    return classList.split(' ').filter(function(c){ return c !== className}).join(' ');
-  }
-  hs=[].slice.call(document.getElementsByClassName('hljs'))
-  hs.forEach(function(el){
-    var plus = document.createElement('span'), minus = document.createElement('span');
-    plus.appendChild(document.createTextNode('+'));
-    el.parentElement.appendChild(plus);
-    plus.addEventListener('click', function(){
-      // undo vertical centering on current slide:
-      [].slice.call(document.getElementsByClassName('present')).forEach(function(p){p.style.top = 0});
-      el.className = el.className + ' fullscreen';
-      minus.style.display = 'block';
-      this.style.display = 'none';});
-    plus.className = 'plus';
-
-    minus.appendChild(document.createTextNode('-'));
-    el.parentElement.appendChild(minus);
-    minus.addEventListener('click', function(){
-      el.className = removeClass(el.className, 'fullscreen');
-      plus.style.display = 'block';
-      this.style.display = 'none'; });
-    minus.className = 'minus';
-    });
-</script>
 	</head>
 	<body>
 		<div class="reveal">
@@ -181,6 +119,7 @@ version="2.0">
    </properties>
  </persistence-unit>
 </persistence></code></pre>
+					<span class="fragment">¿hibernate.hbm2ddl.auto = create?</span>
 				</section>
 				<section>
 					<h3>Java Persistence API (JPA)</h3>
@@ -327,6 +266,126 @@ private Collection<Telefono> telefonos = new ArrayList<>();</span>
 					<p class="fragment">Le dice al ORM: No generes otra columna... usa la que se mapeó en <i>Telefono.persona</i></p>
 					<p class="fragment">Si no me creen... prueben Ustedes que sucede si no ponen <i>mappedBy</i></p>
 					<aside class="notes">By specifying the @JoinColumn on both models you don't have a two way relationship. You have two one way relationships, and a very confusing mapping of it at that. You're telling both models that they "own" the IDAIRLINE column. Really only one of them actually should! The 'normal' thing is to take the @JoinColumn off of the @OneToMany side entirely, and instead add mappedBy to the @OneToMany</aside>
+				</section>
+				<section>
+					<h3>Java Persistence API (JPA)</h3>
+					<h4>Objetos Persistentes: <u>Guardar</u></h4>
+					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">EntityManager em = emf.createEntityManager();
+EntityTransaction tx = em.getTransaction();
+try {
+ tx.begin();
+ <span class="fragment">Persona p = new Persona("Ignacio");</span>
+ <span class="fragment">em.persist(p);</span>
+ tx.commit();
+} catch (Exception e) {
+ tx.rollback();
+ throw new RuntimeException(e);
+} finally {
+ if (em != null && em.isOpen())
+  em.close();
+}</code></pre>
+					<aside class="notes">By specifying the @JoinColumn on both models you don't have a two way relationship. You have two one way relationships, and a very confusing mapping of it at that. You're telling both models that they "own" the IDAIRLINE column. Really only one of them actually should! The 'normal' thing is to take the @JoinColumn off of the @OneToMany side entirely, and instead add mappedBy to the @OneToMany</aside>
+				</section>
+				<section>
+					<h3>Java Persistence API (JPA)</h3>
+					<h4>Objetos Persistentes: <u>Guardar</u></h4>
+					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">EntityManager em = emf.createEntityManager();
+EntityTransaction tx = em.getTransaction();
+try {
+ tx.begin();
+ <span class="fragment">Persona p = new Persona("Ignacio", new Address("San Martin 346"));</span>
+ <span class="fragment">em.persist(p);</span>
+ tx.commit();
+} catch (Exception e) {
+ tx.rollback();
+ throw new RuntimeException(e);
+} finally {
+ if (em != null && em.isOpen())
+  em.close();
+}</code></pre>
+					<span class="fragment">¿Persiste la instancia de <i>Address</i> también?</span>
+					<span class="fragment"><u>Solo si la mapeo con cascade</u>.</span>
+				</section>
+				<section>
+					<h3>Java Persistence API (JPA)</h3>
+					<h4>Objetos Persistentes: <u>Cascade</u></h4>
+					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">@Entity
+public class Persona {
+ @Id
+ @GeneratedValue(strategy = GenerationType.AUTO)
+ private Long id;
+ <span class="fragment" data-fragment-index="1">@ManyToOne</span><span class="fragment" data-fragment-index="2">(cascade = CascadeType.PERSIST)</span>
+ <span class="fragment" data-fragment-index="1">private Address direccion;</span>
+ ...
+}
+</code></pre>
+					<span class="fragment">De esta forma, cuando persisto una <i>persona</i>, persiste su <i>direccion</i> también</span>
+				</section>
+				<section>
+					<h3>Java Persistence API (JPA)</h3>
+					<h4>Objetos Persistentes: <u>Recuperar</u></h4>
+					<span><i>find</i>() vs <i>getReference</i>()</span>
+					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">...
+try {
+ tx.begin();
+ <span class="fragment">Persona p = em.getReference(Persona.class, 1L);</span>
+ <span class="fragment">Persona p = em.find(Persona.class, 1L);</span>
+ <span class="fragment">System.out.println(p.nombre());</span>
+ tx.commit();
+...
+}</code></pre>
+					<span class="fragment">La diferencia esta en cuándo se ejecuta la query para traer la <i>persona</i> <b>1L</b> de la BD a memoria.</span>
+				</section>
+				<section>
+					<h3>Java Persistence API (JPA)</h3>
+					<h4>Objetos Persistentes: <u>Recuperar</u> / <u>Guardar</u></h4>
+					<span class="fragment"><i>getReference</i>(): </span><span class="fragment">¿Para que se usa?</span>
+					<pre class="fragment"><code class="java" code-trim data-noescape contenteditable style="font-size:18px">...
+try {
+ tx.begin();
+ <span class="fragment">Persona p = em.getReference(Persona.class, 2L);</span>
+ <span class="fragment">p.direccion(new Address("San Martin 356"))</span>
+ tx.commit();
+...
+}</code></pre>
+					<span class="fragment">Si lo hiciera con <i>find</i>(), además del <i>insert</i> de <i>address</i> y el <i>update</i> en <i>persona</i>, se haría un <i>select</i>.</span>
+				</section>
+				<!-- early vs lazy -->
+				<section>
+					<h3>Java Persistence API (JPA)</h3>
+					<h4>Objetos Persistentes: <u>Early</u> vs <u>Lazy</u></h4>
+					<p class="fragment">Las relaciones <u>ManyToOne</u> son <u>Early</u> por defecto</p>
+					<pre class="fragment"><code class="java" code-trim data-noescape contenteditable style="font-size:18px">...
+try {
+ tx.begin();
+ <span class="fragment">Persona p = em.find(Persona.class, 2L);</span>
+ ...
+ tx.commit();
+...
+}</code></pre>
+					<p class="fragment">Entonces, ¿si traigo la <i>persona</i> <b>2L</b>, trae su <i>dirección</i>? Sabiendo que estan mapeados con ManyToOne.</p>
+				</section>
+				<section>
+					<h3>Java Persistence API (JPA)</h3>
+					<h4>Objetos Persistentes: <u>Early</u> vs <u>Lazy</u></h4>
+					<span class="fragment">Si quiero hacer <b>Lazy</b> una relación ManyToOne, debo especificarlo:</span>
+					<pre class="fragment"><code class="java" code-trim data-noescape contenteditable style="font-size:18px">@Entity
+public class Persona {
+ @Id
+ @GeneratedValue(strategy = GenerationType.AUTO)
+ private Long id;
+ @ManyToOne<span class="fragment">(fetch = FetchType.LAZY)</span>
+ private Address direccion;
+ ...
+}
+</code></pre>
+				</section>
+				<section>
+					<h3>Java Persistence API (JPA)</h3>
+					<h4>Objetos Persistentes: <u>Early</u> vs <u>Lazy</u></h4>
+					<p class="fragment">Las relaciones <u>OneToMany</u> son <u>Lazy</u> por defecto</p>
+					<p class="fragment">O sea que si traigo una <i>persona</i>, <u>no</u> traigo sus <i>telefonos</i> a menos que los pida.</p>
+					<p class="fragment">Existe además <b>extra-lazy</b>, ¿qué es?</p>
 				</section>
 			</div>
 		</div>
