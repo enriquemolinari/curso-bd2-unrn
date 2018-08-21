@@ -311,6 +311,96 @@ telefono(<u>id</u>, numero, <u class="dotted">id_persona</u>);</code></pre>
 				</section>
 				<section>
 					<h3>Java Persistence API (JPA)</h3>
+					<h4>Herencia</h4>
+					<p class="fragment">Supongamos que queremos persistir la siguiente jerarquía de herencia:</p>
+					<pre class="fragment"><code class="java" code-trim data-noescape contenteditable style="font-size:18px">public abstract class CuentaBancaria {
+ protected float monto;
+ public abstract float extraer(float monto);
+ public void depositar(float anAmount) {
+	 this.monto += anAmount;
+ }
+}</code></pre>
+				</section>
+				<section>
+					<h3>Java Persistence API (JPA)</h3>
+					<h4>Herencia</h4>
+					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">public class CajaDeAhorro extends CuentaBancaria {
+ ...
+ public float extraer(float monto) {
+  @Override
+  public float extraer(float unMonto) {
+   if (this.monto >= unMonto) {
+    this.monto -= unMonto;
+    return this.monto;
+   }
+   throw new RuntimeException("No hay suficiente dinero para... ");
+  }
+ }
+ ...
+}</code></pre>
+				</section>
+				<section>
+					<h3>Java Persistence API (JPA)</h3>
+					<h4>Herencia</h4>
+					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">public class CuentaCorriente extends CuentaBancaria {
+ private float descubierto;
+ ...
+ @Override
+ public float extraer(float unMonto) {
+  if (unMonto <= (this.monto + descubierto)) {
+   this.monto -= unMonto;
+   return this.monto;
+  }
+  throw new RuntimeException("No hay suficiente dinero para... ");
+ }
+ ...
+}</code></pre>
+				</section>
+				<section>
+					<h3>Java Persistence API (JPA)</h3>
+					<h4>Herencia: Tres Formas de Mapearla</h4>
+					<ul>
+						<li>Single Table (default)</li>
+						<li>Joined</li>
+						<li>Table per Concrete Class</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Java Persistence API (JPA)</h3>
+					<h4>Single Table</h4>
+					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px"><span class="fragment" data-fragment-index="2">@Entity
+@Inheritance
+@DiscriminatorColumn(name = "tipo_cuenta")</span>
+<span class="fragment" data-fragment-index="1">public abstract class CuentaBancaria {
+ @Id
+ @GeneratedValue(strategy = GenerationType.AUTO)
+ private Long id;
+ ...
+}</span>
+<span class="fragment" data-fragment-index="3">@Entity
+@DiscriminatorValue("CC")
+public class CuentaCorriente extends CuentaBancaria { ... }</span>
+<span class="fragment" data-fragment-index="4">@Entity
+@DiscriminatorValue("CA")
+public class CajaDeAhorro extends CuentaBancaria { ... }</span></code></pre>
+				</section>
+				<section>
+					<h3>Java Persistence API (JPA)</h3>
+					<h4>Single Table</h4>
+						<p>Genera una <u>única tabla</u> con una columna que indica de que <u>clase es la instancia persistida</u>:</p>
+						<pre class="fragment"><code code-trim data-noescape>cuentabancaria(tipo_cuenta, <u>id</u>, monto, descubierto);</code></pre>
+						<p class="fragment">Si persistimos estas instancias: </p>
+						<pre class="fragment"><code code-trim data-noescape>new CajaDeAhorro(10.000);new CuentaCorriente(5000, 600);</code></pre>
+						<p class="fragment">Nos quedan las tuplas: </p>
+						<pre class="fragment"><code code-trim data-noescape>cuentabancaria("CA", 1L, 10.000, null);
+cuentabancaria("CC", 2L, 5000, 600);</code></pre>
+				</section>
+				<section data-transition="slide" data-background="#b5533c" data-background-transition="zoom">
+					<h3>Java Persistence API</h3>
+					<p>y... ¿cómo persistimos y recuperamos objetos de la BD?</p>
+				</section>
+				<section>
+					<h3>Java Persistence API (JPA)</h3>
 					<h4>Objetos Persistentes: <u>Guardar</u></h4>
 					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">EntityManager em = emf.createEntityManager();
 EntityTransaction tx = em.getTransaction();
