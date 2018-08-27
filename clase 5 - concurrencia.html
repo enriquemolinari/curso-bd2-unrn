@@ -219,7 +219,7 @@
 					<p class="fragment">Ejemplo: Crear un expediente que debe generarse con un número único que se resetea cada nuevo año.</p>
 					<pre class="fragment"><code class="java" code-trim data-noescape contenteditable style="font-size:18px">Tx begin
  lockear
- n = leer numero actual
+ n = leer numero actual para año en curso
  n = n + 1;
  update n;
 Tx commit</code></pre>

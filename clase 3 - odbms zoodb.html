@@ -183,7 +183,7 @@ try {
 					<h4>Traer todas las instancias de una clase</h4>
 					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">...
 try {
-  <span class="fragment">Extent<Categoria> ext = pm.getExtent(Categoria.class);</span>
+  <span class="fragment">Extent&lt;Categoria> ext = pm.getExtent(Categoria.class);</span>
   <span class="fragment">for (Categoria p : ext) {
       System.out.println("Categoria encontrada: " + p.nombre());
   }</span>
