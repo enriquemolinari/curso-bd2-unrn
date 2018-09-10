@@ -1,0 +1,132 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Clase Z - Gremlin Graph DB</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/agate.css">
+
+		<link rel="stylesheet" href="css/font-4.5.0-awesome.min.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+		<style>
+			.column-container{
+				display: flex;
+			}
+			.col{
+				flex: 1;
+			}
+			u.dotted {
+				border-bottom: 1px dashed #999;
+				text-decoration: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h1>Graph databases</h1>
+					<p style="font-size:64px">Apache TinkerPop</p>
+					<p>
+						<small>Introducción a ThinkerPop y al lenguaje Gremlin</small>
+					</p>
+				</section>
+				<section>
+					<h3>¿Qué es Apache TinkerPop?</h3>
+					<p class="fragment">
+						Una suit de productos para trabajar con Bases de Datos de Grafos.
+					</p>
+				</section>
+				<section>
+					<h3>Apache TinkerPop</h3>
+					<p>¿Que productos contiene?</p>
+					<table>
+						<tbody>
+							<tr>
+								<td><a href="http://tinkerpop.apache.org/docs/current/reference/#gremlin-console">Gremlin Console</a></td>
+							</tr>
+							<tr>
+								<td><a href="http://tinkerpop.apache.org/docs/current/reference/#gremlin-server">Gremlin Server</a></td>
+							</tr>
+							<tr>
+								<td><a href="http://tinkerpop.apache.org/docs/current/reference/#tinkergraph-gremlin">Tinker Graph</a></td>
+							</tr>
+							<tr>
+								<td><a href="http://tinkerpop.apache.org/javadocs/current/full/">Java API</a></td>
+							</tr>
+						</tbody>
+					</table>
+					<p class="fragment">
+						Vamos a aprender el lenguaje de consulta de BDs de grafos llamado <b>Gremlin</b>. Y para eso vamos a utilizar la <b>Gremlin Console</b>.
+					</p>
+				</section>
+				<section>
+					<h3>Apache TinkerPop</h3>
+					<h4>Gremlin Console</h4>
+					<span class="fragment"><img src="imgs/gremlin-console.png" alt="gremlin console" style="background:none; border:none; box-shadow:none;"/></span>
+					<span class="fragment">REPL (Read-Eval-Print-Loop) Shell</span>
+				</section>
+				<section>
+					<h3>Apache TinkerPop</h3>
+					<h4>Gremlin Console: Instalación y Ejecución</h4>
+					<p class="fragment">Descargar de: <a href="http://tinkerpop.apache.org/">http://tinkerpop.apache.org/</a></p>
+					<p class="fragment">Ejecutar desde una consola:</p>
+					<p class="fragment">
+						<pre class="fragment">                      > cd gremlin-console
+                      > bin/gremlin.sh</pre>
+					</p>
+					<span class="fragment"><img src="imgs/gremlin-console-running.png" alt="gremlin console" style="background:none; border:none; box-shadow:none;"/></span>
+				</section>
+
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+				dependencies: [
+					{ src: 'js/d3.v3.min.js'},
+					{ src: 'plugin/chalkboard/chalkboard.js' },
+					{ src: 'node_modules/reveal.js-d3js/d3js.js' },
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				],
+				chalkboard: {
+					toggleChalkboardButton: { left: "80px" },
+					toggleNotesButton: { left: "130px" },
+				},
+				keyboard: {
+			    67: function() { RevealChalkboard.toggleNotesCanvas() },	// toggle notes canvas when 'c' is pressed
+			    66: function() { RevealChalkboard.toggleChalkboard() },	// toggle chalkboard when 'b' is pressed
+			    46: function() { RevealChalkboard.clear() },	// clear chalkboard when 'DEL' is pressed
+			     8: function() { RevealChalkboard.reset() },	// reset chalkboard data on current slide when 'BACKSPACE' is pressed
+			    68: function() { RevealChalkboard.download() },	// downlad recorded chalkboard drawing when 'd' is pressed
+				},
+			});
+		</script>
+	</body>
+</html>
