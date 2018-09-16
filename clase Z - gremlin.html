@@ -33,6 +33,9 @@
 				border-bottom: 1px dashed #999;
 				text-decoration: none;
 			}
+			.reveal pre code {
+				max-height: 1000px;
+			}
 		</style>
 	</head>
 	<body>
@@ -76,6 +79,15 @@
 				</section>
 				<section>
 					<h3>Apache TinkerPop</h3>
+					<h4>BD Grafos: Conceptos</h4>
+					<span class="fragment"><img src="imgs/grafo-conceptos.png" alt="conceptos" style="background:none; border:none; box-shadow:none;"/></span>
+					<ul>
+						<li class="fragment">Los vértices y las relaciones tienen un ID (único) y un Label (propiedades reservadas). Ambos, además, pueden tener sus propias propiedades definidas por el usuario.</li>
+						<li class="fragment">Las relaciones tienen dirección, con lo cual el vértice "1" es de salida y el vértice "2" de entrada.</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Apache TinkerPop</h3>
 					<h4>Gremlin Console</h4>
 					<span class="fragment"><img src="imgs/gremlin-console.png" alt="gremlin console" style="background:none; border:none; box-shadow:none;"/></span>
 					<span class="fragment">REPL (Read-Eval-Print-Loop) Shell</span>
@@ -93,7 +105,7 @@
 				</section>
 				<section>
 					<h3>Lenguaje Gremlin</h3>
-					<p>Supongamos que tenemos el siguiente grafo (<u>pelis</u>):</p>
+					<p style="font-size: 32px">Supongamos que tenemos el siguiente grafo (<u>pelis</u>), con vértices "persona" y "película" y la propiedad "nombre".</p>
 					<span class="fragment"><img src="imgs/grafo-pelis.png" alt="grafo de pelis" style="background:none; border:none; box-shadow:none;"/></span>
 				</section>
 				<section>
@@ -105,14 +117,81 @@
 				</section>
 				<section>
 					<h3>Lenguaje Gremlin</h3>
-					<p>Creemos del Grafo Pelis</p>
-					<pre><code code-trim data-noescape class="Java" style="font-size:18px"><span>gremlin> g = pelis.traversal()</span>
-<span class="fragment">gremlin> keanu = g.addV("persona").property(T.id, 1).property("nombre", "Keanu").next()</span>
-<span class="fragment">gremlin> keanu = g.addV("persona").property(T.id, 1).property("nombre", "Keanu").next()</span>
-<span class="fragment">gremlin> keanu = g.addV("persona").property(T.id, 1).property("nombre", "Keanu").next()</span>
-<span class="fragment">gremlin> keanu = g.addV("persona").property(T.id, 1).property("nombre", "Keanu").next()</span>
-<span class="fragment">gremlin> keanu = g.addV("persona").property(T.id, 1).property("nombre", "Keanu").next()</span>
-<span class="fragment">gremlin> keanu = g.addV("persona").property(T.id, 1).property("nombre", "Keanu").next()</span>
+					<p>Creamos el Grafo "Pelis"</p>
+					<pre><code code-trim data-noescape class="Java" style="font-size:16px"><span>pelis = TinkerGraph.open()</span>
+<span>g = pelis.traversal()</span>
+<span class="fragment">keanu = g.addV("persona").property(T.id, 1).property("nombre", "Keanu").next()</span>
+<span class="fragment">andy = g.addV("persona").property(T.id, 2).property("nombre", "A. Wach...").next()</span>
+<span class="fragment">jack = g.addV("persona").property(T.id, 3).property("nombre", "Jack Black").next()</span>
+<span class="fragment">lau = g.addV("persona").property(T.id, 9).property("nombre", "L. Fishburn").next()</span>
+<span class="fragment">ben = g.addV("persona").property(T.id, 12).property("nombre", "Ben Affleck").next()</span>
+<span class="fragment">matrix = g.addV("pelicula").property(T.id, 4).property("nombre", "The Matrix").next()</span>
+<span class="fragment">batvsSup = g.addV("pelicula").property(T.id, 11).property("nombre", "Batman vs Superman").next()</span>
+<span class="fragment">school = g.addV("pelicula").property(T.id, 5).property("nombre", "School Of Rock").next()</span>
+<span class="fragment">g.addE("actuo").from(lau).to(batvsSup).property(T.id, 13).property("role", "periodista")</span>
+<span class="fragment">g.addE("actuo").from(ben).to(batvsSup).property(T.id, 14).property("role", "batman")</span>
+<span class="fragment">g.addE("actuo").from(keanu).to(matrix).property(T.id, 6).property("role", "neo")</span>
+<span class="fragment">g.addE("actuo").from(lau).to(matrix).property(T.id, 10).property("role", "morpheous")</span>
+<span class="fragment">g.addE("dirigio").from(andy).to(matrix).property(T.id, 7)</span>
+<span class="fragment">g.addE("actuo").from(jack).to(school).property(T.id, 8).property("role", "Dewey")</span>
+					</code></pre>
+				</section>
+				<section>
+					<h3>Lenguaje Gremlin</h3>
+					<p>Creamos el Grafo "Pelis"</p>
+					<p class="fragment">Guardemos el script anterior como "pelis.grm", y luego desde la consola gremlin:</p>
+					<pre class="fragment"><code code-trim data-noescape class="Java" style="font-size:16px"><span>gremlin>:load pelis.grm</span></code></pre>
+					<p class="fragment">Nos quedará el grafo cargado en memoria listo para usar.</p>
+				</section>
+				<section>
+					<h3>Lenguaje Gremlin</h3>
+					<p>Graph Traversal</p>
+					<p class="fragment">Una query/consulta sobre una base de datos de grafos generalmente se denomina "traversal" (recorrer), dado que de hecho es lo que hacemos.</p>
+					<pre class="fragment"><code code-trim data-noescape class="Java"><span>gremlin>pelis = TinkerGraph.open()
+gremlin>g = pelis.traversal()
+</span></code></pre>
+					<p class="fragment">Esto nos deja la variable "g" lista para empezar a recorrer el grafo.</p>
+				</section>
+				<section>
+					<h3>Lenguaje Gremlin</h3>
+					<p>Queries sobre Vértices: Algunos Ejemplos</p>
+						<pre class="fragment"><code code-trim data-noescape class="Java" style="font-size:18px"><span class="fragment">//recupero todos los vértices
+gremlin>g.V()</span>
+<span class="fragment">//recupero el vértice con ID 1
+gremlin>g.V(1)</span>
+<span class="fragment">//recupero los vértices con label "persona"
+gremlin>g.V().hasLabel('persona')</span>
+<span class="fragment">//recupero los vértices con propiedad nombre = "Keanu"
+gremlin>g.V().has('nombre','Keanu')</span>
+<span class="fragment">//recupero los vértices "persona" con propiedad nombre = "Keanu"
+gremlin>g.V().hasLabel('persona').has('nombre','Keanu')</span>
+<span class="fragment">//recupero todos los valores de las propiedades de los vértices 'película'
+gremlin>g.V().hasLabel('pelicula').values()</span>
+<span class="fragment">//recupero los vértices que no tienen la propiedad "nombre"
+gremlin>g.V().hasNot('nombre')</span>
+<span class="fragment">//cantidad de vértices
+gremlin>g.V().count()</span>
+<span class="fragment">//cantidad de películas
+gremlin>g.V().hasLabel('pelicula').count()</span>
+</code></pre>
+				</section>
+				<section>
+					<h3>Lenguaje Gremlin</h3>
+					<p>Queries sobre Relaciones: Algunos Ejemplos</p>
+						<pre class="fragment"><code code-trim data-noescape class="Java" style="font-size:18px"><span class="fragment">//recupero todas las relaciones
+gremlin>g.E()</span>
+<span class="fragment">//recupero la relación con ID 5
+gremlin>g.E(5)</span>
+</code></pre>
+				</section>
+				<section>
+					<h3>Lenguaje Gremlin</h3>
+					<p>Recorriendo el grafo: Algunos Ejemplos</p>
+						<pre class="fragment"><code code-trim data-noescape class="Java" style="font-size:18px"><span class="fragment">//recupero todas las relaciones
+gremlin>g.V().outE()...</span>
+<span class="fragment">//recupero la relación con ID 5
+gremlin>g.E(5)</span>
+</code></pre>
 				</section>
 
 			</div>
