@@ -105,21 +105,21 @@
 				</section>
 				<section>
 					<h3>Lenguaje Gremlin</h3>
-					<p style="font-size: 32px">Supongamos que tenemos el siguiente grafo (<u>pelis</u>), con vértices "persona" y "película" y la propiedad "nombre".</p>
+					<p style="font-size: 32px">Supongamos que tenemos el siguiente grafo (<u>películas</u>), con vértices "persona" y "película" y la propiedad "nombre".</p>
 					<span class="fragment"><img src="imgs/grafo-pelis.png" alt="grafo de pelis" style="background:none; border:none; box-shadow:none;"/></span>
 				</section>
 				<section>
 					<h3>Lenguaje Gremlin</h3>
 					<p>Inicialización</p>
-					<pre><code code-trim data-noescape class="Java"><span>gremlin> pelis = TinkerGraph.open()</span>
-<span class="fragment">gremlin> pelis.toString()</span>
+					<pre><code code-trim data-noescape class="Java"><span>gremlin> peliculas = TinkerGraph.open()</span>
+<span class="fragment">gremlin> peliculas.toString()</span>
 <span class="fragment">==>tinkergraph[vertices:0 edges:0]</span></code></pre>
 				</section>
 				<section>
 					<h3>Lenguaje Gremlin</h3>
-					<p>Creamos el Grafo "Pelis"</p>
-					<pre><code code-trim data-noescape class="Java" style="font-size:16px"><span>pelis = TinkerGraph.open()</span>
-<span>g = pelis.traversal()</span>
+					<p>Creamos el Grafo "Películas"</p>
+					<pre><code code-trim data-noescape class="Java" style="font-size:16px"><span>peliculas = TinkerGraph.open()</span>
+<span>g = peliculas.traversal()</span>
 <span class="fragment">keanu = g.addV("persona").property(T.id, 1).property("nombre", "Keanu").next()</span>
 <span class="fragment">andy = g.addV("persona").property(T.id, 2).property("nombre", "A. Wach...").next()</span>
 <span class="fragment">jack = g.addV("persona").property(T.id, 3).property("nombre", "Jack Black").next()</span>
@@ -138,7 +138,7 @@
 				</section>
 				<section>
 					<h3>Lenguaje Gremlin</h3>
-					<p>Creamos el Grafo "Pelis"</p>
+					<p>Creamos el Grafo "Películas"</p>
 					<p class="fragment">Guardemos el script anterior como "pelis.grm", y luego desde la consola gremlin:</p>
 					<pre class="fragment"><code code-trim data-noescape class="Java" style="font-size:16px"><span>gremlin>:load pelis.grm</span></code></pre>
 					<p class="fragment">Nos quedará el grafo cargado en memoria listo para usar.</p>
@@ -177,20 +177,63 @@ gremlin>g.V().hasLabel('pelicula').count()</span>
 				</section>
 				<section>
 					<h3>Lenguaje Gremlin</h3>
-					<p>Queries sobre Relaciones: Algunos Ejemplos</p>
+					<p>Queries sobre Relaciones. Muy similar que sobre los vértices</p>
 						<pre class="fragment"><code code-trim data-noescape class="Java" style="font-size:18px"><span class="fragment">//recupero todas las relaciones
 gremlin>g.E()</span>
 <span class="fragment">//recupero la relación con ID 5
 gremlin>g.E(5)</span>
+<span class="fragment">//todas las relaciones con label "actuo"
+g.E().hasLabel("actuo")</span>
+<span class="fragment">//todas las relaciones con la propiedad role = "batman"
+g.E().has("role","batman")</span>
 </code></pre>
 				</section>
 				<section>
 					<h3>Lenguaje Gremlin</h3>
-					<p>Recorriendo el grafo: Algunos Ejemplos</p>
-						<pre class="fragment"><code code-trim data-noescape class="Java" style="font-size:18px"><span class="fragment">//recupero todas las relaciones
-gremlin>g.V().outE()...</span>
-<span class="fragment">//recupero la relación con ID 5
-gremlin>g.E(5)</span>
+					<p>Traversal: Recorriendo el grafo</p>
+						<pre class="fragment"><code code-trim data-noescape class="Java" style="font-size:18px"><span class="fragment">//Parto de una o varias relaciones
+gremlin>g.E().has("role","batman")</span>
+<span class="fragment">==>e[14][12-actuo->11]</span>
+<span class="fragment">//Quiero las propiedades del nodo del cual parte la relación</span>
+<span class="fragment">gremlin>g.E().has("role","batman").outV().values()</span>
+<span class="fragment">==>Ben Affleck</span>
+<span class="fragment">//Quiero las propiedades del nodo al cual llega la relación</span>
+<span class="fragment">gremlin>g.E().has("role","batman").inV().values()</span>
+<span class="fragment">==>Batman vs Superman</span>
+</code></pre>
+				</section>
+				<section>
+					<h3>Lenguaje Gremlin</h3>
+					<p>Traversal: Recorriendo el grafo</p>
+						<pre class="fragment"><code code-trim data-noescape class="Java" style="font-size:18px"><span class="fragment">//Parto de uno o varios vértices
+gremlin>g.V().has('nombre', eq('Keanu'))</span>
+<span class="fragment">==>v[1]</span>
+<span class="fragment">//Quiero las propiedades de las relaciones que salen del nodo</span>
+<span class="fragment">gremlin>g.V().has('nombre', eq('Keanu')).outE().values()</span>
+<span class="fragment">==>neo</span>
+<span class="fragment">//Quiero las propiedades de las relaciones que entran al nodo</span>
+<span class="fragment">gremlin>g.V().has('nombre', eq('Keanu')).inE().values()</span>
+<span class="fragment">==>(empty)</span>
+<span class="fragment">//Quiero las propiedades de los nodos a los que llego desde este nodo</span>
+<span class="fragment">gremlin>g.V().has('nombre', eq('Keanu')).out().values()</span>
+<span class="fragment">==>The Matrix</span>
+<span class="fragment">//Todas las pelis donde actuó Keanu?</span>
+<span class="fragment">gremlin>g.V().has('nombre', eq('Keanu')).out('actuo').values()</span>
+<span class="fragment">==>The Matrix</span>
+</code></pre>
+				</section>
+				<section>
+					<h3>Lenguaje Gremlin</h3>
+					<p>Traversal: Recorriendo el grafo</p>
+						<pre class="fragment"><code code-trim data-noescape class="Java" style="font-size:18px"><span class="fragment">//Quienes dirigieron las películas donde actuó Keanu?</span>
+<span class="fragment">gremlin>g.V().has('nombre', eq('Keanu')).out('actuo').</span><span class="fragment">in('dirigio').values()</span>
+<span class="fragment">==>Andy Wachowisky</span>
+<span class="fragment">//Quienes actuaron en las películas donde actuó con Keanu?</span>
+<span class="fragment">gremlin>g.V().has('nombre', eq('Keanu')).out('actuo').</span><span class="fragment">in('actuo').values()</span>
+<span class="fragment">==>Laurence Fishburn</span>
+<span class="fragment">//Quienes actuaron en las películas donde actuaron los que actuaron con Keanu?</span>
+<span class="fragment">gremlin>g.V().has('nombre', eq('Keanu')).repeat(out('actuo').in('actuo')).times(2).values()
+<span class="fragment">==>Ben Affleck</span>
 </code></pre>
 				</section>
 
