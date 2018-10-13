@@ -1,0 +1,207 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Clase X - Introducción a NoSQL</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/agate.css">
+
+		<link rel="stylesheet" href="css/font-4.5.0-awesome.min.css">
+		<link rel="stylesheet" href="css/ballon.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+		<style>
+			.column-container{
+				display: flex;
+			}
+			.col{
+				flex: 1;
+			}
+			u.dotted {
+				border-bottom: 1px dashed #999;
+				text-decoration: none;
+			}
+			.reveal pre code {
+				max-height: 1000px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<p style="font-size:130px"><strong>NoSQL</strong></p>
+					<p style="font-size:64px">Introducción</p>
+				</section>
+				<section>
+					<h3>Algo de Historia primero ...</h3>
+					<p class="fragment">
+						¿Cómo llegamos hasta NoSQL?
+					</p>
+					<blockquote class="fragment">
+						Tres Revoluciones de las Bases de Datos
+					</blockquote>
+				</section>
+				<section>
+					<h3>Tres Revoluciones</h3>
+					<div class="column-container">
+						<div class="col">
+							<b class="fragment">Primera Revolución</b>
+							<small class="fragment">1951: Magnetic Tape</small>
+							<small class="fragment">1955: Magnetic Disk</small>
+							<small class="fragment">1965: ISAM</small>
+							<small class="fragment">1965: Modelo Jerárquico (IBM IMS)</small>
+							<small class="fragment">1969: Modelo de Red (IDMS Mainframes)</small>
+						</div>
+						<div class="col">
+							<b class="fragment">Segunda Revolución</b>
+							<small class="fragment">1970: Codd's Paper</small>
+							<small class="fragment">1974: System R</small>
+							<small class="fragment">1978: Oracle</small>
+							<small class="fragment">1981: Informix</small>
+							<small class="fragment">1984: DB2</small>
+							<small class="fragment">1987: Sysbase</small>
+							<small class="fragment">1989: SQL Server</small>
+							<small class="fragment">1990: OODBMS (Non Relational)</small>
+							<small class="fragment">1995: MySQL</small>
+							<small class="fragment">1995: PostgreSQL</small>
+						</div>
+						<div class="col">
+							<b class="fragment">Tercera Revolución</b>
+							<small class="fragment">2005: Hadoop / <u>Google</u> Big Table</small>
+							<small class="fragment">2007: Dynamo (<u>Amazon</u>)</small>
+							<small class="fragment">2008: Cassandra</small>
+							<small class="fragment">2009: MongoDB</small>
+							<small class="fragment">2010: VoltDB</small>
+							<small class="fragment">... muchas mas en <a href="http://nosql.org">nosql.org</a></small>
+						</div>
+					</div>
+					<aside class="notes">
+							- Magnetic Tape y Magnetic Disk: Acceso secuencial para ambos, cambia el soporte. El disco es mas rápido.
+							-	ISAM: Index Sequencial Access Method. Agregan índices para el acceso directo.<br>
+							- Modelo Jerárquico (Hierarchical Model): La infomación es almacenada en una estructura de árbol, vía punteros. Ej: una compañía como raíz, con sus departamentos como hijos, y los empleados como hijos de cada departamento. Para obtener todos los empleados, hay que recorrer el árbol completo.<br>
+							- Modelo de Red (Network Model): Surge para mejorar las ineficiencias del modelo jerárquico. Un modelo flexible para representar objetos y sus relaciones.<br>
+								Tecnologías que dominaron los mercados en la época de los Mainframes</aside>
+				</section>
+				<section>
+					<h3>Segunda Revolución</h3>
+					<p class="fragment">
+						¿Qué generó su aparición?
+					</p>
+				</section>
+				<section>
+					<h3>Edgard Cood</h3>
+					<div class="column-container">
+						<div class="col">
+								<img class="fragment" src="imgs/cood-relational-model.png" alt="Cood">
+						</div>
+						<div class="col">
+							<ul>
+								<li class="fragment"><a href="#" data-tooltip="Future users of large data banks must be protected from having to know how the data is organized in the machine (the internal representation)."><small>Paper Fundacional: A Relational Model for Large Shared Data Banks</small></a></li>
+								<li class="fragment"><small>Trabajaba en IBM cuando escribió y publico su trabajo sobre el modelo relacional. ¿Saben que BD tiene IBM en el mercado?</small></li>
+								<li class="fragment"><small>IBM no quizo implementar el modelo de Cood.</small></li>
+								<li class="fragment"><small>¿Saben cual es la BD con más éxito en el mercado?</small></li>
+								<li class="fragment"><small>Larry Ellison diseño e implementó su Base de Datos basándose en las ideas de Codd. ¿Cual es la empresa de Larry?</small></li>
+							</ul>
+						</div>
+					</div>
+				</section>
+				<section>
+					<h3>El Modelo Relacional</h3>
+					<ul>
+						<li class="fragment">El Modelo Relacional describe como los datos deben ser presentados a los usuarios, en lugar de como deben ser persistidos.</li>
+						<li class="fragment">Tuplas, Relaciones (Tablas), Restricciones, un lenguaje de consulta SQL.</li>
+						<li class="fragment">Las formas normales definen el buen diseño.</li>
+						<li class="fragment">Jim Gray (IBM) agrega al trabajo de Cood las transacciones ACID.</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Tercera Revolución</h3>
+					<p class="fragment">
+						<b style="font-size:48px">NoSQL</b>
+					</p>
+					<p class="fragment">
+						¿Qué generó su aparición?
+					</p>
+				</section>
+				<section>
+					<h3>NoSQL</h3>
+					<p>¿Qué generó su aparición?</p>
+					<blockquote class="fragment">
+						Entre 1995 y 2005 Internet fue transformándose... partiendo desde conexiones dial-up, utilizadas mas que nada por “curiosos” hacia el sistema de comunicación mas importante de nuestra civilización.
+					</blockquote>
+				</section>
+				<section>
+					<h3>NoSQL</h3>
+					<p>¿Qué generó su aparición?</p>
+					<ul>
+						<li class="fragment">Hoy Google procesa <b>40.000 búsquedas por segundo</b> en promedio, que se traduce en 3.5 billones por día.</li>
+						<li class="fragment">En 1999 le llevó un mes a Google obtener (crawl) e indexar 50 millones de páginas web.</li>
+						<li class="fragment">En 2012 le llevo menos de 1 minuto la misma tarea.</li>
+					</ul>
+				</section>
+				<section>
+					<h3>NoSQL</h3>
+					<p>¿Qué generó su aparición?</p>
+					<ul>
+						<li class="fragment"><b>Amazon</b> necesitaba procesar 35 ordenes de compra por segundo.</li>
+						<li class="fragment"><b>Facebook</b>, <b>Twitter</b> y otras redes sociales tuvieron que lidear también con un número <b>altísimo</b> de demanda.</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Aplicaciones "Planet Size"</h3>
+					<ul>
+						<li class="fragment"><b>Google</b>, <b>Amazon</b>, <b>Facebook</b>, <b>Twitter</b>, y otras son denominadas como aplicaciones Planet Size</li>
+					</ul>
+				</section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+				dependencies: [
+					{ src: 'js/d3.v3.min.js'},
+					{ src: 'plugin/chalkboard/chalkboard.js' },
+					{ src: 'node_modules/reveal.js-d3js/d3js.js' },
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				],
+				chalkboard: {
+					toggleChalkboardButton: { left: "80px" },
+					toggleNotesButton: { left: "130px" },
+				},
+				keyboard: {
+			    67: function() { RevealChalkboard.toggleNotesCanvas() },	// toggle notes canvas when 'c' is pressed
+			    66: function() { RevealChalkboard.toggleChalkboard() },	// toggle chalkboard when 'b' is pressed
+			    46: function() { RevealChalkboard.clear() },	// clear chalkboard when 'DEL' is pressed
+			     8: function() { RevealChalkboard.reset() },	// reset chalkboard data on current slide when 'BACKSPACE' is pressed
+			    68: function() { RevealChalkboard.download() },	// downlad recorded chalkboard drawing when 'd' is pressed
+				},
+			});
+		</script>
+	</body>
+</html>
