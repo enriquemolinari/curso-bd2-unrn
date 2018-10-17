@@ -83,7 +83,7 @@
 							<b class="fragment">Tercera Revolución</b>
 							<small class="fragment">2005: Hadoop / <u>Google</u> Big Table</small>
 							<small class="fragment">2007: Dynamo (<u>Amazon</u>)</small>
-							<small class="fragment">2008: Cassandra</small>
+							<small class="fragment">2008: Cassandra (<u>Facebook</u>)</small>
 							<small class="fragment">2009: MongoDB</small>
 							<small class="fragment">2010: VoltDB</small>
 							<small class="fragment">... muchas mas en <a href="http://nosql.org">nosql.org</a></small>
@@ -138,14 +138,14 @@
 					</p>
 				</section>
 				<section>
-					<h3>NoSQL</h3>
+					<b style="font-size:48px">NoSQL</b>
 					<p>¿Qué generó su aparición?</p>
 					<blockquote class="fragment">
 						Entre 1995 y 2005 Internet fue transformándose... partiendo desde conexiones dial-up, utilizadas mas que nada por “curiosos” hacia el sistema de comunicación mas importante de nuestra civilización.
 					</blockquote>
 				</section>
 				<section>
-					<h3>NoSQL</h3>
+					<b style="font-size:48px">NoSQL</b>
 					<p>¿Qué generó su aparición?</p>
 					<ul>
 						<li class="fragment">Hoy Google procesa <b>40.000 búsquedas por segundo</b> en promedio, que se traduce en 3.5 billones por día.</li>
@@ -154,7 +154,7 @@
 					</ul>
 				</section>
 				<section>
-					<h3>NoSQL</h3>
+					<b style="font-size:48px">NoSQL</b>
 					<p>¿Qué generó su aparición?</p>
 					<ul>
 						<li class="fragment"><b>Amazon</b> necesitaba procesar 35 ordenes de compra por segundo.</li>
@@ -164,9 +164,90 @@
 				<section>
 					<h3>Aplicaciones "Planet Size"</h3>
 					<ul>
-						<li class="fragment"><b>Google</b>, <b>Amazon</b>, <b>Facebook</b>, <b>Twitter</b>, y otras son denominadas como aplicaciones Planet Size</li>
+						<li class="fragment"><b>Google</b>, <b>Amazon</b>, <b>Facebook</b>, <b>Twitter</b>, y otras son denominadas aplicaciones "Planet Size".</li>
+						<li class="fragment">También se las denomina "Web Scale".</li>
+						<li class="fragment">Son aplicaciones de escala mundial, con <u>altísima demanda</u>.</li>
+					</ul>
+					<blockquote class="fragment">Su demanda es Tan alta... pero <b>TAN ALTA</b>... que <u>no es posible</u> hostear su base de datos en un <u>único servidor</u>, por mas grande que éste fuera.</li>
+				</section>
+				<section>
+					<h3>Aplicaciones "Planet Size"</h3>
+					<p>¿entonces? Un único server no caminaba... ¿que hicieron?</p>
+					<ul>
+						<li class="fragment">Distribuyeron la carga en varios servers (segun la demanda cerca de 100).</li>
+						<li class="fragment"><b>Cluster</b>: Varias máquinas conectadas entre sí que funcionan como si fueran <u>solo una</u>.</li>
+						<li class="fragment">¿Y esto lo podían hacer con una BD relacional?</li>
 					</ul>
 				</section>
+				<section>
+					<h3>Distribuir una BD Relacional</h3>
+					<p class="fragment">Las BDs relacionales NO fueron diseñadas para escalar al nivel requerido por las aplicaciones "Planet Size".</p>
+					<p class="fragment"><u>Todas</u> sus características fuertes van en contra de distribuir los datos en más de un único server.</p>
+					<p class="fragment">Veamos algunos ejemplos.</p>
+				</section>
+				<section>
+					<h3>Distribuir una BD Relacional</h3>
+					<p class="fragment">Pensemos que estamos en un cluster con <i>n</i> número de máquinas.</p>
+					<ul>
+						<li class="fragment"><u>Consistencia</u>: Todos los servers deben estar idénticos, si escribo en uno debo replicarlo en el otro y no puedo devolver el control al cliente hasta que todos los servers en el cluster esten iguales.</li>
+						<li class="fragment"><u>Transacciones</u>: imagínense arrancando una transacción y teniendo que bloquear tablas que estan en otro server.</li>
+						<li class="fragment">La red del cluster y su latencia hace que esto sea impracticable. Muy lento sería.</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Distribuir una BD Relacional</h3>
+					<p class="fragment">Todas estas cuestiones hacen que las BDs relacionales solo puedan hostearse en un único server.</p>
+					<p class="fragment">¿Queremos soportar aplicaciones Planet Size?<blockquote class="fragment">Entonces no tenemos opción, tenemos que relajar estas cuestiones (sobre todo la consistencia) para poder distribuír.</blockquote></p>
+				</section>
+				<section>
+					<b style="font-size:48px">NoSQL: Arquitectura Típica</b>
+					<div class="column-container">
+						<div class="col">
+								<img style="background:none; border:none; box-shadow:none;" class="fragment" src="imgs/nosql-arch.png" alt="nosql-arch">
+						</div>
+						<div class="col">
+							<ul>
+								<br/>
+								<li class="fragment">Relajaron la consistencia, para poder distribuir y tener <b>Disponibilidad</b>!</li>
+								<li class="fragment">La consistencia en NoSQL es <b>Eventual</b>: Eventual Consistency</li>
+							</ul>
+						</div>
+					</div>
+				</section>
+				<section>
+					<h3>Teorema de CAP</h3>
+					<span class="fragment">CAP = Consistency, Availability, Partition Tolerance</span>
+					<blockquote class="fragment">No puedo ser las tres a la vez. Solo puedo ser CP o AP.</blockquote>
+							<ul>
+								<li class="fragment" style="font-size:26px">Supongamos dos nodos conetados vía red...</li>
+								<li class="fragment" style="font-size:26px">Si quiero ser consistente, al modificar un dato en un nodo, se debe bloquear ese dato en todos los nodos hasta tanto todos tenga en el mismo valor.</li>
+								<li class="fragment" style="font-size:26px">Supongamos que hay una corte en la red...</li>
+								<li class="fragment" style="font-size:26px">Si los mensajes no pueden viajar de un nodo al otro y se produce el escenario donde un usuario escribe en un server y otro usuario intenta leer el mismo dato del otro server, entonces tengo dos opciones: le devuelvo al usuario el dato viejo, <u>no soy consistente</u> pero si tengo disponibilidad o hago esperar al usuario hasta que el dato nuevo pueda llegar,  entonces soy consistente pero <u>no tengo disponibilidad</u>.</li>
+							</ul>
+				</section>
+				<section>
+					<b style="font-size:48px">NoSQL</b>
+					<p class="fragment">Hoy es una movida MUY grande... y se valen de otras características también:</p>
+					<p class="fragment"><u>Esquema Flexible</u>: No tienen un esquema rígido como el relacional, es flexible (json en general).</p>
+					<p class="fragment"><u>Big Data</u>: Al distribuir soportan Big Data (por esto Google puede indexar la web completa...).</p>
+					<p class="fragment"><u>Open Source</u>: Y sobre HW más económico al aprovechar el cluster.</p>
+				</section>
+				<section>
+					<b style="font-size:48px">NoSQL BASE vs Relacional ACID</b>
+					<ul>
+						<li class="fragment"><b style="font-size:68px">B</b>asically <b style="font-size:68px">A</b>vailable: Siempre habra respuesta</li>
+						<li class="fragment"><b style="font-size:68px">S</b>oft-State: Los datos pueden cambiar a raiz de cambios en otros nodos (eventual consistency)</li>
+						<li class="fragment"><b style="font-size:68px">E</b>ventual Consistency: Los datos pueden cambiar a raiz de cambios en otros nodos (eventual consistency)</li>
+					</ul>
+					<p class="fragment">Esto para competirle al ACID del mundo relacional... :)</p>
+				</section>
+				<section>
+					<b style="font-size:48px">NoSQL</b>: ¿Y que significa?
+					<p class="fragment">NoSQL: Not Only SQL</p>
+					<p class="fragment">nosql-database.org: Next Generation Databases mostly addressing some of the points: being non-relational, distributed, open-source and horizontally scalable.</p>
+					<p class="fragment">Noten que quienes las inventaron son Google y Amazon, simplemente porque sino su negocio no prosperaba.</p>
+				</section>
+
 			</div>
 		</div>
 
