@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Clase - Escalando Bases de Datos</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/agate.css">
+
+		<link rel="stylesheet" href="css/font-4.5.0-awesome.min.css">
+		<link rel="stylesheet" href="css/ballon.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+		<style>
+			.column-container{
+				display: flex;
+			}
+			.col{
+				flex: 1;
+			}
+			u.dotted {
+				border-bottom: 1px dashed #999;
+				text-decoration: none;
+			}
+			.reveal pre code {
+				max-height: 1000px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h2>Escalando Bases de Datos</h2>
+					<p style="font-size:64px">Conceptos Fundamentales</p>
+				</section>
+				<section>
+					<h3>Escalando Bases de Datos</h3>
+					<h5>Dos formas de Escalar</h5>
+					<p class="fragment">Escalar Vertical (scale-up)</p>
+					<p class="fragment">Escalar Horizontal (scale-out)</p>
+				</section>
+				<section>
+					<h3>Escalar Vertical</h3>
+					<div class="column-container">
+						<div class="col">
+								<img style="background:none; border:none; box-shadow:none;" class="fragment"  src="imgs/escaling-up.png" alt="scale-up">
+						</div>
+						<div class="col">
+							<ul>
+								<li class="fragment">Scale-up</li>
+								<li class="fragment">Un server mas grande cada vez que notemos degradarse la performance.</li>
+							</ul>
+						</div>
+					</div>
+				</section>
+				<section>
+					<h3>Escalar Horizontal</h3>
+					<img style="background:none; border:none; box-shadow:none;" class="fragment" src="imgs/escaling-out.png" alt="scale-out">
+					<p class="fragment">Scale-out: Agregamos mas servers simples al cluster.</p>
+					<p class="fragment">Es la forma mas barata de scalar. Y la única forma para soportar "Planet Size" Apps (google, facebook, twitter, amazon, etc).</p>
+				</section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+				dependencies: [
+					{ src: 'js/d3.v3.min.js'},
+					{ src: 'plugin/chalkboard/chalkboard.js' },
+					{ src: 'node_modules/reveal.js-d3js/d3js.js' },
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				],
+				chalkboard: {
+					toggleChalkboardButton: { left: "80px" },
+					toggleNotesButton: { left: "130px" },
+				},
+				keyboard: {
+			    67: function() { RevealChalkboard.toggleNotesCanvas() },	// toggle notes canvas when 'c' is pressed
+			    66: function() { RevealChalkboard.toggleChalkboard() },	// toggle chalkboard when 'b' is pressed
+			    46: function() { RevealChalkboard.clear() },	// clear chalkboard when 'DEL' is pressed
+			     8: function() { RevealChalkboard.reset() },	// reset chalkboard data on current slide when 'BACKSPACE' is pressed
+			    68: function() { RevealChalkboard.download() },	// downlad recorded chalkboard drawing when 'd' is pressed
+				},
+			});
+		</script>
+	</body>
+</html>
