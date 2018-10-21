@@ -68,9 +68,54 @@
 				</section>
 				<section>
 					<h3>Escalar Horizontal</h3>
-					<img style="background:none; border:none; box-shadow:none;" class="fragment" src="imgs/escaling-out.png" alt="scale-out">
+					<img style="background:none; border:none; box-shadow:none;" class="fragment" src="imgs/escaling-out2.png" alt="scale-out">
 					<p class="fragment">Scale-out: Agregamos mas servers simples al cluster.</p>
-					<p class="fragment">Es la forma mas barata de scalar. Y la única forma para soportar "Planet Size" Apps (google, facebook, twitter, amazon, etc).</p>
+					<p class="fragment">La única forma para soportar "Planet Size" Apps (google, facebook, twitter, amazon, etc).</p>
+					<p class="fragment">Es la forma "out of the box" de las BDs NoSQL. Muy complejo en BDs relacionales.</p>
+				</section>
+				<section>
+					<h3>Escalando Bases de Datos Relacionales</h3>
+					<div class="column-container">
+						<div class="col">
+							<img style="background:none; border:none; box-shadow:none;" class="fragment" src="imgs/scaling-relational-simple.png" alt="simple">
+						</div>
+						<div class="col">
+							<ul>
+								<li class="fragment">Muy simple, si alcanza usen esto !</li>
+								<li class="fragment">Siempre es mas simple escalar vertical que horizontal en términos de complejidad del software.</li>
+							</ul>
+						</div>
+					</div>
+				</section>
+				<section>
+					<h3>Escalando Bases de Datos Relacionales</h3>
+					<div class="column-container">
+						<div class="col">
+							<img style="background:none; border:none; box-shadow:none;" class="fragment" src="imgs/scaling-read.png" alt="simple">
+						</div>
+						<div class="col">
+							<ul>
+								<li style="font-size:32px" class="fragment">Replicas read-only para distribuir la carga.</li>
+								<li style="font-size:32px" class="fragment">Permite escalar sin límite las <u>lecturas</u>. Pero no las escrituras.</li>
+								<li style="font-size:32px" class="fragment">La aplicación debe determinar a que BD ir segun vayamos a leer o a escribir.</li>
+								<li style="font-size:32px" class="fragment">Replicación maestro/esclavo en MySQL o PostgreSQL.</li>
+							</ul>
+						</div>
+					</div>
+				</section>
+				<section>
+					<h3>Escalando Bases de Datos Relacionales</h3>
+					<p>Sharding</p>
+					<img style="background:none; border:none; box-shadow:none;" class="fragment" src="imgs/sharding.png" alt="sharding">
+				</section>
+				<section>
+					<h3>Escalando Bases de Datos Relacionales - Sharding</h3>
+					<ul>
+						<li class="fragment">Única forma de escalar las <u>escrituras</u>.</li>
+						<li class="fragment">3 Shards con dos esclavos replicados read-only por shard (para garantizar disponibilidad).</li>
+						<li class="fragment">Cada shard contiene un subconjunto de los datos. Aplicando una función de hash sobre algun atributo se distribuye.</li>
+						<li class="fragment">En BDs relacionales, es la aplicación quien debe determinar a que shard ir a buscar los datos. En BDs NoSQL el motor lo resuelve (feature "out of the box").</li>
+					</ul>
 				</section>
 			</div>
 		</div>
