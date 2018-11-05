@@ -58,15 +58,14 @@
 					<p class="fragment">¿Que vemos de cada una?</p>
 					<p class="fragment"><b>Estructura</b>, <b>Usos adecuados</b> y <b>Vendors</b></p>
 				</section>
+				<section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
+					<h2>Key-Value Stores</h2>
+				</section>
 				<section>
 					<h3>Key-Value Stores</h3>
 					<ul>
 						<li class="fragment">Las más simples y comunes. Column-family y Document estan basadas en esta.</li>
-						<li class="fragment">Posee tablas y filas al igual que una BD relacional.</li>
-						<li class="fragment">Cada fila esta conformada por: Una <i>Key</i> → <i>Value</i> (HashMap o Array Asociativo).</li>
-						<li class="fragment">Cada fila puede tener un <i>Value</i> con un esquema completamente diferente.</li>
 						<li class="fragment">Amazon DynamoDB, una de las primeras. Usada actualmente por Amazon (propietaria).</li>
- 						<li class="fragment">Redis (open source), el mas conocido hoy</li>
 					</ul>
 				</section>
 				<section>
@@ -80,7 +79,6 @@
 								<li class="fragment">Cada fila tiene una key, clave primaría única.</li>
 								<li class="fragment">Y el value es un objeto/estructura de cualquier tipo.</li>
 								<li class="fragment">Cada fila es una session de usuario, junto a su perfil y carrito de compras.</li>
-								<li class="fragment"><a href="https://github.com/xetorthio/jedis">Redis Java Client</a></li>
 							</ul>
 						</div>
 					</div>
@@ -94,150 +92,137 @@
 					</ul>
 				</section>
 				<section>
-					<h3>Apache TinkerPop</h3>
-					<h4>Gremlin Console: Instalación y Ejecución</h4>
-					<p class="fragment">Descargar de: <a href="http://tinkerpop.apache.org/">http://tinkerpop.apache.org/</a></p>
-					<p class="fragment">Ejecutar desde una consola:</p>
-					<p>
-						<pre class="fragment">                      > cd gremlin-console
-                      > bin/gremlin.sh</pre>
-					</p>
-					<span class="fragment"><img src="imgs/gremlin-console-running.png" alt="gremlin console" style="background:none; border:none; box-shadow:none;"/></span>
+					<h3>Key-Value Stores</h3>
+					<h5>Vendors</h5>
+					<ul>
+						<li class="fragment">DynamoDB (Amazon)</li>
+						<li class="fragment">Redis (<a href="https://github.com/xetorthio/jedis">Redis Java Client</a>)</li>
+						<li class="fragment">BerkeleyDB</li>
+						<li class="fragment">MemcacheDB</li>
+					</ul>
+				</section>
+				<section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
+					<h2>Column Family</h2>
 				</section>
 				<section>
-					<h3>Lenguaje Gremlin</h3>
-					<p style="font-size: 32px">Supongamos que tenemos el siguiente grafo (<u>películas</u>), con vértices "persona" y "película" y la propiedad "nombre".</p>
-					<span class="fragment"><img src="imgs/grafo-pelis.png" alt="grafo de pelis" style="background:none; border:none; box-shadow:none;"/></span>
-				</section>
-				<section>
-					<h3>Lenguaje Gremlin</h3>
-					<p>Inicialización</p>
-					<pre><code code-trim data-noescape class="Java"><span>gremlin> peliculas = TinkerGraph.open()</span>
-<span class="fragment">gremlin> peliculas.toString()</span>
-<span class="fragment">==>tinkergraph[vertices:0 edges:0]</span></code></pre>
-				</section>
-				<section>
-					<h3>Lenguaje Gremlin</h3>
-					<p>Creamos el Grafo "Películas"</p>
-					<pre><code code-trim data-noescape class="Java" style="font-size:16px"><span>peliculas = TinkerGraph.open()</span>
-<span>g = peliculas.traversal()</span>
-<span class="fragment">keanu = g.addV("persona").property(T.id, 1).property("nombre", "Keanu").next()</span>
-<span class="fragment">andy = g.addV("persona").property(T.id, 2).property("nombre", "A. Wach...").next()</span>
-<span class="fragment">jack = g.addV("persona").property(T.id, 3).property("nombre", "Jack Black").next()</span>
-<span class="fragment">lau = g.addV("persona").property(T.id, 9).property("nombre", "L. Fishburn").next()</span>
-<span class="fragment">ben = g.addV("persona").property(T.id, 12).property("nombre", "Ben Affleck").next()</span>
-<span class="fragment">matrix = g.addV("pelicula").property(T.id, 4).property("nombre", "The Matrix").next()</span>
-<span class="fragment">batvsSup = g.addV("pelicula").property(T.id, 11).property("nombre", "Batman vs Superman").next()</span>
-<span class="fragment">school = g.addV("pelicula").property(T.id, 5).property("nombre", "School Of Rock").next()</span>
-<span class="fragment">g.addE("actuo").from(lau).to(batvsSup).property(T.id, 13).property("role", "periodista")</span>
-<span class="fragment">g.addE("actuo").from(ben).to(batvsSup).property(T.id, 14).property("role", "batman")</span>
-<span class="fragment">g.addE("actuo").from(keanu).to(matrix).property(T.id, 6).property("role", "neo")</span>
-<span class="fragment">g.addE("actuo").from(lau).to(matrix).property(T.id, 10).property("role", "morpheous")</span>
-<span class="fragment">g.addE("dirigio").from(andy).to(matrix).property(T.id, 7)</span>
-<span class="fragment">g.addE("actuo").from(jack).to(school).property(T.id, 8).property("role", "Dewey")</span>
-					</code></pre>
-				</section>
-				<section>
-					<h3>Lenguaje Gremlin</h3>
-					<p>Creamos el Grafo "Películas"</p>
-					<p class="fragment">Guardemos el script anterior como "pelis.grm", y luego desde la consola gremlin:</p>
-					<pre class="fragment"><code code-trim data-noescape class="Java" style="font-size:16px"><span>gremlin>:load pelis.grm</span></code></pre>
-					<p class="fragment">Nos quedará el grafo cargado en memoria listo para usar.</p>
-				</section>
-				<section>
-					<h3>Lenguaje Gremlin</h3>
-					<p>Graph Traversal</p>
-					<p class="fragment">Una query/consulta sobre una base de datos de grafos generalmente se denomina "traversal" (recorrer), dado que de hecho es lo que hacemos.</p>
-					<pre class="fragment"><code code-trim data-noescape class="Java"><span>gremlin>pelis = TinkerGraph.open()
-gremlin>g = pelis.traversal()
-</span></code></pre>
-					<p class="fragment">Esto nos deja la variable "g" lista para empezar a recorrer el grafo.</p>
-				</section>
-				<section>
-					<h3>Lenguaje Gremlin</h3>
-					<p>Queries sobre Vértices: Algunos Ejemplos</p>
-						<pre class="fragment"><code code-trim data-noescape class="Java" style="font-size:18px"><span class="fragment">//recupero todos los vértices
-gremlin>g.V()</span>
-<span class="fragment">//recupero el vértice con ID 1
-gremlin>g.V(1)</span>
-<span class="fragment">//recupero los vértices con label "persona"
-gremlin>g.V().hasLabel('persona')</span>
-<span class="fragment">//recupero los vértices con propiedad nombre = "Keanu"
-gremlin>g.V().has('nombre','Keanu')</span>
-<span class="fragment">//recupero los vértices "persona" con propiedad nombre = "Keanu"
-gremlin>g.V().hasLabel('persona').has('nombre','Keanu')</span>
-<span class="fragment">//recupero todos los valores de las propiedades de los vértices 'película'
-gremlin>g.V().hasLabel('pelicula').values()</span>
-<span class="fragment">//recupero los vértices que no tienen la propiedad "nombre"
-gremlin>g.V().hasNot('nombre')</span>
-<span class="fragment">//cantidad de vértices
-gremlin>g.V().count()</span>
-<span class="fragment">//cantidad de películas
-gremlin>g.V().hasLabel('pelicula').count()</span>
+					<h3>Column Family</h3>
+					<p class="fragment">Una tabla relacional se ve asi:</p>
+					<pre class="fragment"><code class="json" code-trim data-noescape style="font-size:18px">Map&lt;Id, Map&lt;String, Value>>
+1 --> 	nombre	--> Jose, apellido --> Hernandez
+2 --> 	nombre 	--> Dora, apellido --> Garcia
 </code></pre>
+<p class="fragment">En column family se ve asi:</p>
+<pre class="fragment"><code class="json" code-trim data-noescape style="font-size:18px">Map&lt;Id, Map&lt;String, Map&lt;String, Value>>>
+1 --> info personal --> nombre = Jose, apellido = Hernandez
+      amigos        --> Jose = jose@gmail.com
+2 --> info personal --> nombre = Dora, apellido = Garcia
+      amigos        --> Javier = javi@yahoo.com
+</code></pre>
+<p class="fragment">Los values son agrupados en <u>familias</u> <u>de</u> <u>columnas</u></p>
 				</section>
 				<section>
-					<h3>Lenguaje Gremlin</h3>
-					<p>Queries sobre Relaciones. Muy similar que sobre los vértices</p>
-						<pre class="fragment"><code code-trim data-noescape class="Java" style="font-size:18px"><span class="fragment">//recupero todas las relaciones
-gremlin>g.E()</span>
-<span class="fragment">//recupero la relación con ID 5
-gremlin>g.E(5)</span>
-<span class="fragment">//todas las relaciones con label "actuo"
-g.E().hasLabel("actuo")</span>
-<span class="fragment">//todas las relaciones con la propiedad role = "batman"
-g.E().has("role","batman")</span>
-</code></pre>
+					<h3>Column Family</h3>
+					<ul>
+						<li class="fragment">Cada column family se define en tiempo de diseño (al igual que las BDs relacionales)</li>
+						<li class="fragment">Todos los datos de una misma column family se <u>almacenan juntos</u></li>
+					</ul>
 				</section>
 				<section>
-					<h3>Lenguaje Gremlin</h3>
-					<p>Traversal: Recorriendo el grafo</p>
-						<pre class="fragment"><code code-trim data-noescape class="Java" style="font-size:18px"><span class="fragment">//Parto de una o varias relaciones
-gremlin>g.E().has("role","batman")</span>
-<span class="fragment">==>e[14][12-actuo->11]</span>
-<span class="fragment">//Quiero las propiedades del nodo del cual parte la relación</span>
-<span class="fragment">gremlin>g.E().has("role","batman").outV().values()</span>
-<span class="fragment">==>Ben Affleck</span>
-<span class="fragment">//Quiero las propiedades del nodo al cual llega la relación</span>
-<span class="fragment">gremlin>g.E().has("role","batman").inV().values()</span>
-<span class="fragment">==>Batman vs Superman</span>
-</code></pre>
+					<h3>Column Family</h3>
+					<div class="column-container">
+						<div class="col">
+								<img style="background:none; border:none; box-shadow:none;" class="fragment"  src="imgs/wide-column.png" alt="wide-column">
+						</div>
+						<div class="col">
+							<ul>
+								<li class="fragment">La imagen representa una tabla en una Wide Column Family Store.</li>
+								<li class="fragment">Las lineas punteadas de cada column family indican que todos sus datos de toda la tabla son almacenados juntos para mejorar el acceso a ellos.</li>
+							</ul>
+						</div>
+					</div>
 				</section>
 				<section>
-					<h3>Lenguaje Gremlin</h3>
-					<p>Traversal: Recorriendo el grafo</p>
-						<pre class="fragment"><code code-trim data-noescape class="Java" style="font-size:18px"><span class="fragment">//Parto de uno o varios vértices
-gremlin>g.V().has('nombre', eq('Keanu'))</span>
-<span class="fragment">==>v[1]</span>
-<span class="fragment">//Quiero las propiedades de las relaciones que salen del nodo</span>
-<span class="fragment">gremlin>g.V().has('nombre', eq('Keanu')).outE().values()</span>
-<span class="fragment">==>neo</span>
-<span class="fragment">//Quiero las propiedades de las relaciones que entran al nodo</span>
-<span class="fragment">gremlin>g.V().has('nombre', eq('Keanu')).inE().values()</span>
-<span class="fragment">==>(empty)</span>
-<span class="fragment">//Quiero las propiedades de los nodos a los que llego desde este nodo</span>
-<span class="fragment">gremlin>g.V().has('nombre', eq('Keanu')).out().values()</span>
-<span class="fragment">==>The Matrix</span>
-<span class="fragment">//Todas las pelis donde actuó Keanu?</span>
-<span class="fragment">gremlin>g.V().has('nombre', eq('Keanu')).out('actuo').values()</span>
-<span class="fragment">==>The Matrix</span>
-</code></pre>
+					<h3>Column Family</h3>
+					<img style="background:none; border:none; box-shadow:none;" class="fragment" src="imgs/columnar-storage.png" alt="key-value">
+					<p class="fragment">¿Qué forma de persistir facilita este tipo de queries? select sum(salary) from table</p>
 				</section>
 				<section>
-					<h3>Lenguaje Gremlin</h3>
-					<p>Traversal: Recorriendo el grafo</p>
-						<pre class="fragment"><code code-trim data-noescape class="Java" style="font-size:18px"><span class="fragment">//Quienes dirigieron las películas donde actuó Keanu?</span>
-<span class="fragment">gremlin>g.V().has('nombre', eq('Keanu')).out('actuo').</span><span class="fragment">in('dirigio').values()</span>
-<span class="fragment">==>Andy Wachowisky</span>
-<span class="fragment">//Quienes actuaron en las películas donde actuó con Keanu?</span>
-<span class="fragment">gremlin>g.V().has('nombre', eq('Keanu')).out('actuo').</span><span class="fragment">in('actuo').values()</span>
-<span class="fragment">==>Laurence Fishburn</span>
-<span class="fragment">//Quienes actuaron en las películas donde actuaron los que actuaron con Keanu?</span>
-<span class="fragment">gremlin>g.V().has('nombre', eq('Keanu')).repeat(out('actuo').in('actuo')).times(2).values()
-<span class="fragment">==>Ben Affleck</span>
-</code></pre>
+					<h3>Column Family</h3>
+					<ul>
+						<li class="fragment">Columnar Database (VerticaDB)</li>
+						<li class="fragment">No confundir Wide Column Family con Columar DB. Existen Bases de Datos Relacionales que permiten el almacenamiento en columnas (VerticaDB). Wide Column Family, aprovecha esto pero no se destacan por resolver en forma performante las queries analíticas. Sino que sigue siendo el acceso vía key lo mejor que hacen (además de soportar miles de Terabytes sin problemas). Acceso directo: @joe/friends/zet</li>
+					</ul>
 				</section>
-
+				<section>
+					<h3>Column Family</h3>
+					<h5>Usos Adecuados</h5>
+					<ul>
+						<li class="fragment">Big Data / Hadoop</li>
+						<li class="fragment">Google's BigTable fue diseñado especialmente para almacenar grandes volúmenes de datos y procesarlos en forma distribuida.</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Column Family</h3>
+					<h5>Vendors</h5>
+					<ul>
+						<li class="fragment">HBase (Hadoop)</li>
+						<li class="fragment">Cassandra</li>
+					</ul>
+				</section>
+				<section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
+					<h2>Graph Databases</h2>
+				</section>
+				<section>
+					<h3>Graph DataBases</h3>
+					<ul>
+						<li class="fragment">Las bases de datos de tipo relacional, documentos, columnas, key-value, se centran en almacenar “cosas” representadas por diferentes estructuras: json, tablas, valores binarios.</li>
+						<li class="fragment">Pero a veces, la relaciones entre éstas "cosas" son las que nos importan, por sobre las "cosas".</li>
+						<li class="fragment"><u>Facebook</u>: ¿Quién es amigo de quién?</li>
+						<li class="fragment"><u>Twitter</u>: ¿Quién sigue a quién?</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Graph DataBases</h3>
+					<ul>
+						<li class="fragment">Las BDs relacionales permiten modelar relaciones a través de claves forañas y joins. Pero no escalan con gran volumen de datos y SQL carece de poder expresivo para las consultas de éste tipo.</li>
+						<li class="fragment">Las BDs NoSQL vistas hasta ahora (Document, Column y Key-Value) hacen un peor trabajo que las relacionales en éste sentido.</li>
+						<li class="fragment">Por éste motivo surgieron las Graph DBs. <b>Brillan</b> cuando lo que importa es la relación! </li>
+					</ul>
+				</section>
+				<section>
+					<h3>Graph DataBases</h3>
+					<h5>¿Qué es una Graph DB?</h5>
+					<div class="column-container">
+						<div class="col">
+								<img style="background:none; border:none; box-shadow:none;" class="fragment"  src="imgs/grafo-1.png" alt="grafo">
+						</div>
+						<div class="col">
+							<ul>
+								<li style="font-size:32px" class="fragment">Una colección de Vértices (o nodos) y Relaciones entre vértices.</li>
+								<li style="font-size:32px" class="fragment">Tanto vértices como las relaciones pueden poseer propiedades.</li>
+								<li style="font-size:32px" class="fragment">Una query característica de estas estructuras sería encontrar todos los actores que trabajaron en las películas donde trabajó Keanu Reeves.</li>
+							</ul>
+						</div>
+					</div>
+				</section>
+				<section>
+					<h3>Graph DataBases</h3>
+					<h5>¿Y en relacional simple resolver esto?</h5>
+					<img style="background:none; border:none; box-shadow:none;" class="fragment"  src="imgs/bd-rel.png" alt="bd-rel">
+				</section>
+				<section>
+					<h3>Graph DataBases</h3>
+					<h5>¿Y en relacional simple resolver esto?</h5>
+					<p>Todos los actores que trabajaron en las películas donde trabajó Keanu Reeves</p>
+					<pre class="fragment"><code class="sql" code-trim data-noescape style="font-size:18px">select p2.nombre, m1.nombre
+  from personas p1
+    join actores a1 on (p1.id_persona = a1.id_persona)
+    join peliculas m1 on (a1.id_pelicula = m1.id_pelicula)
+    join actores a2 on (a2.id_pelicula = m1.id_pelicula)
+    join personas p2 on (p2.id_persona = a1.id_persona)
+  where p1.nombre = 'Keanu Reeves'</code></pre>
+					<p class="fragment">¿Y los que trabajaron con los que trabajaron con Keanu?<span class="fragment"> Tres Join mas...</span></p>
+				</section>
 			</div>
 		</div>
 
