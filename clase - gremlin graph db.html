@@ -228,7 +228,7 @@ gremlin>g.V().has('nombre', eq('Keanu'))</span>
 						<pre class="fragment"><code code-trim data-noescape class="Java" style="font-size:18px"><span class="fragment">//Quienes dirigieron las películas donde actuó Keanu?</span>
 <span class="fragment">gremlin>g.V().has('nombre', eq('Keanu')).out('actuo').</span><span class="fragment">in('dirigio').values()</span>
 <span class="fragment">==>Andy Wachowisky</span>
-<span class="fragment">//Quienes actuaron en las películas donde actuó con Keanu?</span>
+<span class="fragment">//Quienes actuaron en las películas donde actuó Keanu?</span>
 <span class="fragment">gremlin>g.V().has('nombre', eq('Keanu')).out('actuo').</span><span class="fragment">in('actuo').values()</span>
 <span class="fragment">==>Laurence Fishburn</span>
 <span class="fragment">//Quienes actuaron en las películas donde actuaron los que actuaron con Keanu?</span>

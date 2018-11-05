@@ -56,7 +56,8 @@
 						<li class="fragment">Graph</li>
 					</ol>
 					<p class="fragment">¿Que vemos de cada una?</p>
-					<p class="fragment"><b>Estructura</b>, <b>Usos adecuados</b> y <b>Vendors</b></p>
+					<p class="fragment"><b>Estructura</b>, <b>Usos adecuados</b> y <a href="http://nosql-database.org/">Vendors</a>
+</p>
 				</section>
 				<section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
 					<h2>Key-Value Stores</h2>
@@ -175,6 +176,7 @@
 				<section>
 					<h3>Graph DataBases</h3>
 					<ul>
+						<li class="fragment">Categoría que NO fue diseñada para soportar demanda.</li>
 						<li class="fragment">Las bases de datos de tipo relacional, documentos, columnas, key-value, se centran en almacenar “cosas” representadas por diferentes estructuras: json, tablas, valores binarios.</li>
 						<li class="fragment">Pero a veces, la relaciones entre éstas "cosas" son las que nos importan, por sobre las "cosas".</li>
 						<li class="fragment"><u>Facebook</u>: ¿Quién es amigo de quién?</li>
@@ -223,6 +225,42 @@
   where p1.nombre = 'Keanu Reeves'</code></pre>
 					<p class="fragment">¿Y los que trabajaron con los que trabajaron con Keanu?<span class="fragment"> Tres Join mas...</span></p>
 				</section>
+				<section>
+					<h3>Graph DataBases</h3>
+					<h5>¿Y en relacional simple resolver esto?</h5>
+					<p>No podemos escribir una query con profundida arbitraria.</p>
+					<p><u>Problemas de performance</u>: Suponiendo que hacemos las cosas bien y ponemos los indices correctamente en cada pk y fk, cada join debería recorrer el índice por cada actor y película, eso agrega overhead que se incrementa a medida que incrementamos la profundidad.</p>
+				</section>
+				<section>
+					<h3>Graph DataBases</h3>
+					<p>En una Graph DB, <u>cada nodo conoce la ubicación física de los nodos a los que llega</u>, no se necesitan índices.</p>
+				</section>
+
+				<section>
+					<h3>Graph DataBases</h3>
+					<p>Ok, todo lindo ! ¿y? ¿Cómo recorro el grafo?</p>
+						<pre class="fragment"><code code-trim data-noescape class="Java" style="font-size:18px"><span class="fragment">//recupero todos los vértices
+g.V()</span>
+<span class="fragment">  //con nombre = ‘Keanu’
+  .has('nombre',eq('Keanu'))</span>
+<span class="fragment">  //vértices a donde llega la relación actuó
+  .out('actuo')</span>
+<span class="fragment">  //de los vértices anteriores, todos los vértices que llegan a éstos
+  .in('actuo')</span>
+<span class="fragment">  //y de éstos vértices, dame el nombre
+  .values('nombre')</span>
+</code></pre>
+				</section>
+				<section>
+					<h3>Graph DataBases</h3>
+					<h5>Vendors</h5>
+					<ul>
+						<li class="fragment">Neo4J</li>
+						<li class="fragment">Infinity Graph</li>
+						<li class="fragment">TinkerPop - Lenguaje Gremlin</li>
+					</ul>
+				</section>
+
 			</div>
 		</div>
 
