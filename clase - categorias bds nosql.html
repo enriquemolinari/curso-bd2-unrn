@@ -56,13 +56,12 @@
 						<li class="fragment">Graph</li>
 					</ol>
 					<p class="fragment">¿Que vemos de cada una?</p>
-					<p class="fragment"><b>Estructura</b>, <b>Usos adecuados</b> y <a href="http://nosql-database.org/">Vendors</a>
-</p>
+					<p class="fragment"><b>Estructura</b>, <b>Usos adecuados</b> y <a href="http://nosql-database.org/">Vendors</a></p>
 				</section>
 				<section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
 					<h2>Key-Value Stores</h2>
 				</section>
-				<section>
+				<section
 					<h3>Key-Value Stores</h3>
 					<ul>
 						<li class="fragment">Las más simples y comunes. Column-family y Document estan basadas en esta.</li>
@@ -112,7 +111,7 @@
 1 --> 	nombre	--> Jose, apellido --> Hernandez
 2 --> 	nombre 	--> Dora, apellido --> Garcia
 </code></pre>
-<p class="fragment">En column family se ve asi:</p>
+<p class="fragment">Una tabla en column family se ve asi:</p>
 <pre class="fragment"><code class="json" code-trim data-noescape style="font-size:18px">Map&lt;Id, Map&lt;String, Map&lt;String, Value>>>
 1 --> info personal --> nombre = Jose, apellido = Hernandez
       amigos        --> Jose = jose@gmail.com
@@ -120,13 +119,7 @@
       amigos        --> Javier = javi@yahoo.com
 </code></pre>
 <p class="fragment">Los values son agrupados en <u>familias</u> <u>de</u> <u>columnas</u></p>
-				</section>
-				<section>
-					<h3>Column Family</h3>
-					<ul>
-						<li class="fragment">Cada column family se define en tiempo de diseño (al igual que las BDs relacionales)</li>
-						<li class="fragment">Todos los datos de una misma column family se <u>almacenan juntos</u></li>
-					</ul>
+<p class="fragment"><u>Noten</u>: nombre:email son valores no metadatos</p>
 				</section>
 				<section>
 					<h3>Column Family</h3>
@@ -209,13 +202,13 @@
 				</section>
 				<section>
 					<h3>Graph DataBases</h3>
-					<h5>¿Y en relacional simple resolver esto?</h5>
+					<h5>¿Y en relacional no es simple resolver esto?</h5>
 					<img style="background:none; border:none; box-shadow:none;" class="fragment"  src="imgs/bd-rel.png" alt="bd-rel">
 				</section>
 				<section>
 					<h3>Graph DataBases</h3>
-					<h5>¿Y en relacional simple resolver esto?</h5>
-					<p>Todos los actores que trabajaron en las películas donde trabajó Keanu Reeves</p>
+					<h5>¿Y en relacional no es simple resolver esto?</h5>
+					<p>Query: Todos los actores que trabajaron en las películas donde trabajó Keanu Reeves</p>
 					<pre class="fragment"><code class="sql" code-trim data-noescape style="font-size:18px">select p2.nombre, m1.nombre
   from personas p1
     join actores a1 on (p1.id_persona = a1.id_persona)
@@ -227,9 +220,9 @@
 				</section>
 				<section>
 					<h3>Graph DataBases</h3>
-					<h5>¿Y en relacional simple resolver esto?</h5>
-					<p>No podemos escribir una query con profundida arbitraria.</p>
-					<p><u>Problemas de performance</u>: Suponiendo que hacemos las cosas bien y ponemos los indices correctamente en cada pk y fk, cada join debería recorrer el índice por cada actor y película, eso agrega overhead que se incrementa a medida que incrementamos la profundidad.</p>
+					<h5>¿Y en relacional no es simple resolver esto?</h5>
+					<p class="fragment">No podemos escribir una query con profundida arbitraria.</p>
+					<p class="fragment"><u>Problemas de performance</u>: Suponiendo que hacemos las cosas bien y ponemos los indices correctamente en cada pk y fk, cada join debería recorrer el índice por cada actor y película, eso agrega overhead que se incrementa a medida que incrementamos la profundidad.</p>
 				</section>
 				<section>
 					<h3>Graph DataBases</h3>
