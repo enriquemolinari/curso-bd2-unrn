@@ -69,6 +69,7 @@
 					<h3>Concurrencia</h3>
 								<p><u>Lost</u> <u>Update</u>: Sucede si dos transacciones modifican el mismo dato y la segunda transacción aborta.</p>
 								<p class="fragment"><img src="imgs/lost-updates.png"></p>
+								<p class="fragment">TxA cambia D0 por D1, y TxB cambia D1 por D2, pero "rollbackea", volviendo a D0.</p>
 				</section>
 				<section>
 					<h3>Concurrencia</h3>
@@ -108,7 +109,7 @@
 				<section>
 					<h3>ANSI SQL Isolation Levels</h4>
 					<p class="fragment">
-						2. <u>Read</u> <u>Commited</u>: Permite unrepeatable reads pero no permite dirty reads. Las lecturas dentro de la transacción no bloquean, pero las escrituras bloquean cualquier tipo de lectura/escritura de otras transacciones concurrentes.
+						2. <u>Read</u> <u>Commited</u>: Permite unrepeatable reads pero no permite dirty reads. Las lecturas dentro de la transacción no bloquean, pero las escrituras (el where del update) bloquean cualquier tipo de lectura/escritura de otras transacciones concurrentes.
 					</p>
 					<div class="column-container">
 						<div class="col">
