@@ -1,0 +1,277 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>MongoDB - Document Database</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/agate.css">
+
+		<link rel="stylesheet" href="css/font-4.5.0-awesome.min.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+		<style>
+			.column-container{
+				display: flex;
+			}
+			.col{
+				flex: 1;
+			}
+			u.dotted {
+				border-bottom: 1px dashed #999;
+				text-decoration: none;
+			}
+			.reveal pre code {
+				max-height: 1000px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h1>MongoDB</h1>
+					<p style="font-size:64px">Apache TinkerPop</p>
+					<p>
+						<small>Introducción a MongoDB</small>
+					</p>
+				</section>
+				<section>
+					<h3>¿Qué es Apache TinkerPop?</h3>
+					<p class="fragment">
+						Una suit de productos para trabajar con Bases de Datos de Grafos.
+					</p>
+				</section>
+				<section>
+					<h3>Apache TinkerPop</h3>
+					<p>¿Que productos contiene?</p>
+					<table>
+						<tbody>
+							<tr>
+								<td><a href="http://tinkerpop.apache.org/docs/current/reference/#gremlin-console">Gremlin Console</a></td>
+							</tr>
+							<tr>
+								<td><a href="http://tinkerpop.apache.org/docs/current/reference/#gremlin-server">Gremlin Server</a></td>
+							</tr>
+							<tr>
+								<td><a href="http://tinkerpop.apache.org/docs/current/reference/#tinkergraph-gremlin">Tinker Graph</a></td>
+							</tr>
+							<tr>
+								<td><a href="http://tinkerpop.apache.org/javadocs/current/full/">Java API</a></td>
+							</tr>
+						</tbody>
+					</table>
+					<p class="fragment">
+						Vamos a aprender el lenguaje de consulta de BDs de grafos llamado <b>Gremlin</b>. Y para eso vamos a utilizar la <b>Gremlin Console</b>.
+					</p>
+				</section>
+				<section>
+					<h3>Apache TinkerPop</h3>
+					<h4>BD Grafos: Conceptos</h4>
+					<span class="fragment"><img src="imgs/grafo-conceptos.png" alt="conceptos" style="background:none; border:none; box-shadow:none;"/></span>
+					<ul>
+						<li class="fragment">Los vértices y las relaciones tienen un ID (único) y un Label (propiedades reservadas). Ambos, además, pueden tener sus propias propiedades definidas por el usuario.</li>
+						<li class="fragment">Las relaciones tienen dirección, con lo cual el vértice "1" es de salida y el vértice "2" de entrada.</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Apache TinkerPop</h3>
+					<h4>Gremlin Console</h4>
+					<span class="fragment"><img src="imgs/gremlin-console.png" alt="gremlin console" style="background:none; border:none; box-shadow:none;"/></span>
+					<span class="fragment">REPL (Read-Eval-Print-Loop) Shell</span>
+				</section>
+				<section>
+					<h3>Apache TinkerPop</h3>
+					<h4>Gremlin Console: Instalación y Ejecución</h4>
+					<p class="fragment">Descargar de: <a href="http://tinkerpop.apache.org/">http://tinkerpop.apache.org/</a></p>
+					<p class="fragment">Ejecutar desde una consola:</p>
+					<p>
+						<pre class="fragment">                      > cd gremlin-console
+                      > bin/gremlin.sh</pre>
+					</p>
+					<span class="fragment"><img src="imgs/gremlin-console-running.png" alt="gremlin console" style="background:none; border:none; box-shadow:none;"/></span>
+				</section>
+				<section>
+					<h3>Lenguaje Gremlin</h3>
+					<p style="font-size: 32px">Supongamos que tenemos el siguiente grafo (<u>películas</u>), con vértices "persona" y "película" y la propiedad "nombre".</p>
+					<span class="fragment"><img src="imgs/grafo-pelis.png" alt="grafo de pelis" style="background:none; border:none; box-shadow:none;"/></span>
+				</section>
+				<section>
+					<h3>Lenguaje Gremlin</h3>
+					<p>Inicialización</p>
+					<pre><code code-trim data-noescape class="Java"><span>gremlin> peliculas = TinkerGraph.open()</span>
+<span class="fragment">gremlin> peliculas.toString()</span>
+<span class="fragment">==>tinkergraph[vertices:0 edges:0]</span></code></pre>
+				</section>
+				<section>
+					<h3>Lenguaje Gremlin</h3>
+					<p>Creamos el Grafo "Películas"</p>
+					<pre><code code-trim data-noescape class="Java" style="font-size:16px"><span>peliculas = TinkerGraph.open()</span>
+<span>g = peliculas.traversal()</span>
+<span class="fragment">keanu = g.addV("persona").property(T.id, 1).property("nombre", "Keanu").next()</span>
+<span class="fragment">andy = g.addV("persona").property(T.id, 2).property("nombre", "A. Wach...").next()</span>
+<span class="fragment">jack = g.addV("persona").property(T.id, 3).property("nombre", "Jack Black").next()</span>
+<span class="fragment">lau = g.addV("persona").property(T.id, 9).property("nombre", "L. Fishburn").next()</span>
+<span class="fragment">ben = g.addV("persona").property(T.id, 12).property("nombre", "Ben Affleck").next()</span>
+<span class="fragment">matrix = g.addV("pelicula").property(T.id, 4).property("nombre", "The Matrix").next()</span>
+<span class="fragment">batvsSup = g.addV("pelicula").property(T.id, 11).property("nombre", "Batman vs Superman").next()</span>
+<span class="fragment">school = g.addV("pelicula").property(T.id, 5).property("nombre", "School Of Rock").next()</span>
+<span class="fragment">g.addE("actuo").from(lau).to(batvsSup).property(T.id, 13).property("role", "periodista")</span>
+<span class="fragment">g.addE("actuo").from(ben).to(batvsSup).property(T.id, 14).property("role", "batman")</span>
+<span class="fragment">g.addE("actuo").from(keanu).to(matrix).property(T.id, 6).property("role", "neo")</span>
+<span class="fragment">g.addE("actuo").from(lau).to(matrix).property(T.id, 10).property("role", "morpheous")</span>
+<span class="fragment">g.addE("dirigio").from(andy).to(matrix).property(T.id, 7)</span>
+<span class="fragment">g.addE("actuo").from(jack).to(school).property(T.id, 8).property("role", "Dewey")</span>
+					</code></pre>
+				</section>
+				<section>
+					<h3>Lenguaje Gremlin</h3>
+					<p>Creamos el Grafo "Películas"</p>
+					<p class="fragment">Guardemos el script anterior como "pelis.grm", y luego desde la consola gremlin:</p>
+					<pre class="fragment"><code code-trim data-noescape class="Java" style="font-size:16px"><span>gremlin>:load pelis.grm</span></code></pre>
+					<p class="fragment">Nos quedará el grafo cargado en memoria listo para usar.</p>
+				</section>
+				<section>
+					<h3>Lenguaje Gremlin</h3>
+					<p>Graph Traversal</p>
+					<p class="fragment">Una query/consulta sobre una base de datos de grafos generalmente se denomina "traversal" (recorrer), dado que de hecho es lo que hacemos.</p>
+					<pre class="fragment"><code code-trim data-noescape class="Java"><span>gremlin>pelis = TinkerGraph.open()
+gremlin>g = pelis.traversal()
+</span></code></pre>
+					<p class="fragment">Esto nos deja la variable "g" lista para empezar a recorrer el grafo.</p>
+				</section>
+				<section>
+					<h3>Lenguaje Gremlin</h3>
+					<p>Queries sobre Vértices: Algunos Ejemplos</p>
+						<pre class="fragment"><code code-trim data-noescape class="Java" style="font-size:18px"><span class="fragment">//recupero todos los vértices
+gremlin>g.V()</span>
+<span class="fragment">//recupero el vértice con ID 1
+gremlin>g.V(1)</span>
+<span class="fragment">//recupero los vértices con label "persona"
+gremlin>g.V().hasLabel('persona')</span>
+<span class="fragment">//recupero los vértices con propiedad nombre = "Keanu"
+gremlin>g.V().has('nombre','Keanu')</span>
+<span class="fragment">//recupero los vértices "persona" con propiedad nombre = "Keanu"
+gremlin>g.V().hasLabel('persona').has('nombre','Keanu')</span>
+<span class="fragment">//recupero todos los valores de las propiedades de los vértices 'película'
+gremlin>g.V().hasLabel('pelicula').values()</span>
+<span class="fragment">//recupero los vértices que no tienen la propiedad "nombre"
+gremlin>g.V().hasNot('nombre')</span>
+<span class="fragment">//cantidad de vértices
+gremlin>g.V().count()</span>
+<span class="fragment">//cantidad de películas
+gremlin>g.V().hasLabel('pelicula').count()</span>
+</code></pre>
+				</section>
+				<section>
+					<h3>Lenguaje Gremlin</h3>
+					<p>Queries sobre Relaciones. Muy similar que sobre los vértices</p>
+						<pre class="fragment"><code code-trim data-noescape class="Java" style="font-size:18px"><span class="fragment">//recupero todas las relaciones
+gremlin>g.E()</span>
+<span class="fragment">//recupero la relación con ID 5
+gremlin>g.E(5)</span>
+<span class="fragment">//todas las relaciones con label "actuo"
+g.E().hasLabel("actuo")</span>
+<span class="fragment">//todas las relaciones con la propiedad role = "batman"
+g.E().has("role","batman")</span>
+</code></pre>
+				</section>
+				<section>
+					<h3>Lenguaje Gremlin</h3>
+					<p>Traversal: Recorriendo el grafo</p>
+						<pre class="fragment"><code code-trim data-noescape class="Java" style="font-size:18px"><span class="fragment">//Parto de una o varias relaciones
+gremlin>g.E().has("role","batman")</span>
+<span class="fragment">==>e[14][12-actuo->11]</span>
+<span class="fragment">//Quiero las propiedades del nodo del cual parte la relación</span>
+<span class="fragment">gremlin>g.E().has("role","batman").outV().values()</span>
+<span class="fragment">==>Ben Affleck</span>
+<span class="fragment">//Quiero las propiedades del nodo al cual llega la relación</span>
+<span class="fragment">gremlin>g.E().has("role","batman").inV().values()</span>
+<span class="fragment">==>Batman vs Superman</span>
+</code></pre>
+				</section>
+				<section>
+					<h3>Lenguaje Gremlin</h3>
+					<p>Traversal: Recorriendo el grafo</p>
+						<pre class="fragment"><code code-trim data-noescape class="Java" style="font-size:18px"><span class="fragment">//Parto de uno o varios vértices
+gremlin>g.V().has('nombre', eq('Keanu'))</span>
+<span class="fragment">==>v[1]</span>
+<span class="fragment">//Quiero las propiedades de las relaciones que salen del nodo</span>
+<span class="fragment">gremlin>g.V().has('nombre', eq('Keanu')).outE().values()</span>
+<span class="fragment">==>neo</span>
+<span class="fragment">//Quiero las propiedades de las relaciones que entran al nodo</span>
+<span class="fragment">gremlin>g.V().has('nombre', eq('Keanu')).inE().values()</span>
+<span class="fragment">==>(empty)</span>
+<span class="fragment">//Quiero las propiedades de los nodos a los que llego desde este nodo</span>
+<span class="fragment">gremlin>g.V().has('nombre', eq('Keanu')).out().values()</span>
+<span class="fragment">==>The Matrix</span>
+<span class="fragment">//Todas las pelis donde actuó Keanu?</span>
+<span class="fragment">gremlin>g.V().has('nombre', eq('Keanu')).out('actuo').values()</span>
+<span class="fragment">==>The Matrix</span>
+</code></pre>
+				</section>
+				<section>
+					<h3>Lenguaje Gremlin</h3>
+					<p>Traversal: Recorriendo el grafo</p>
+						<pre class="fragment"><code code-trim data-noescape class="Java" style="font-size:18px"><span class="fragment">//Quienes dirigieron las películas donde actuó Keanu?</span>
+<span class="fragment">gremlin>g.V().has('nombre', eq('Keanu')).out('actuo').</span><span class="fragment">in('dirigio').values()</span>
+<span class="fragment">==>Andy Wachowisky</span>
+<span class="fragment">//Quienes actuaron en las películas donde actuó Keanu?</span>
+<span class="fragment">gremlin>g.V().has('nombre', eq('Keanu')).out('actuo').</span><span class="fragment">in('actuo').values()</span>
+<span class="fragment">==>Laurence Fishburn</span>
+<span class="fragment">//Quienes actuaron en las películas donde actuaron los que actuaron con Keanu?</span>
+<span class="fragment">gremlin>g.V().has('nombre', eq('Keanu')).repeat(out('actuo').in('actuo')).times(2).values()
+<span class="fragment">==>Ben Affleck</span>
+</code></pre>
+				</section>
+
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+				dependencies: [
+					{ src: 'js/d3.v3.min.js'},
+					{ src: 'plugin/chalkboard/chalkboard.js' },
+					{ src: 'node_modules/reveal.js-d3js/d3js.js' },
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				],
+				chalkboard: {
+					toggleChalkboardButton: { left: "80px" },
+					toggleNotesButton: { left: "130px" },
+				},
+				keyboard: {
+			    67: function() { RevealChalkboard.toggleNotesCanvas() },	// toggle notes canvas when 'c' is pressed
+			    66: function() { RevealChalkboard.toggleChalkboard() },	// toggle chalkboard when 'b' is pressed
+			    46: function() { RevealChalkboard.clear() },	// clear chalkboard when 'DEL' is pressed
+			     8: function() { RevealChalkboard.reset() },	// reset chalkboard data on current slide when 'BACKSPACE' is pressed
+			    68: function() { RevealChalkboard.download() },	// downlad recorded chalkboard drawing when 'd' is pressed
+				},
+			});
+		</script>
+	</body>
+</html>
