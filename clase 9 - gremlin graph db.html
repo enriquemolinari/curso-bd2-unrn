@@ -225,7 +225,7 @@ gremlin>g.V().has('nombre', eq('Keanu'))</span>
 				<section>
 					<h3>Lenguaje Gremlin</h3>
 					<p>Traversal: Recorriendo el grafo</p>
-						<pre class="fragment"><code code-trim data-noescape class="Java" style="font-size:18px"><span class="fragment">//Quienes dirigieron las películas donde actuó Keanu?</span>
+						<pre class="fragment"><code code-trim data-noescape class="Java" style="font-size:18px">//Quienes dirigieron las películas donde actuó Keanu?
 <span class="fragment">gremlin>g.V().has('nombre', eq('Keanu')).out('actuo').</span><span class="fragment">in('dirigio').values()</span>
 <span class="fragment">==>Andy Wachowisky</span>
 <span class="fragment">//Quienes actuaron en las películas donde actuó Keanu?</span>
@@ -236,7 +236,24 @@ gremlin>g.V().has('nombre', eq('Keanu'))</span>
 <span class="fragment">==>Ben Affleck</span>
 </code></pre>
 				</section>
-
+				<section>
+					<h3>Lenguaje Gremlin</h3>
+					<p>Traversal: Caminos Recorridos (path)</p>
+						<pre class="fragment"><code code-trim data-noescape class="Java" style="font-size:18px"><span class="fragment">//Caminos recorridos para la query de quienes actuaron donde actuó Keanu?</span>
+<span class="fragment">g.V().has('nombre', eq('Keanu')).out('actuo').in('actuo').path()</span>
+<span class="fragment">==>[v[1],v[4],v[1]]</span>
+<span class="fragment">==>[v[1],v[4],v[9]]</span>
+<span class="fragment">//En lugar de IDs de los vértices usemos una propiedad</span>
+<span class="fragment">g.V().has('nombre', eq('Keanu')).out('actuo').in('actuo').path().by('nombre')</span>
+<span class="fragment">==>[Keanu,The Matrix,Keanu]</span>
+<span class="fragment">==>[Keanu,The Matrix,Laurence Fishburn]</span>
+<span class="fragment">//¿Observan el ciclo en el grafo resultado del primer camino devuelto?</span>
+<span class="fragment">g.V().has('nombre', eq('Keanu')).out('actuo').in('actuo')</span>
+							<span class="fragment">.not(cyclicPath())</span>
+							<span class="fragment">.path().by('nombre')</span>
+<span class="fragment">==>[Keanu,The Matrix,Laurence Fishburn]</span>
+</code></pre>
+				</section>
 			</div>
 		</div>
 
