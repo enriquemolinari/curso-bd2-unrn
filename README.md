@@ -13,5 +13,5 @@ Se recomienda clonar, instalar e iniciar para ver las teóricas. Hay algunas ani
 2. npm install
 3. npm start
 ## Notas
-1. La relación frecuenta-gusta-sirve de los ejericios del trabajo práctico sobre bases de datos de grafos fue obtenida del libro [Introducción a las Bases de Datos Relacionales (Mendelzon, Ale)](https://www.researchgate.net/publication/31710071_Introduccion_a_las_bases_de_datos_relacionales_A_Mendelzon_J_Ale). En este libro se requiere resolver los ejercicios con álgebra relacional. Aquí con el lenguaje gremlin. 
+1. La relación frecuenta-gusta-sirve de los ejercicios del trabajo práctico sobre bases de datos de grafos fue obtenida del libro [Introducción a las Bases de Datos Relacionales (Mendelzon, Ale)](https://www.researchgate.net/publication/31710071_Introduccion_a_las_bases_de_datos_relacionales_A_Mendelzon_J_Ale). En este libro se requiere resolver los ejercicios con álgebra relacional. Aquí con el lenguaje gremlin. 
 2. Los contenidos de este curso estan desarrollados utilizando el hermoso framework [Reveal.JS](http://revealjs.com).
