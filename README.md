@@ -1,6 +1,6 @@
 # Alternativas a la Persistencia Relacional
 
-Work in Progress: teóricas, pŕacticas y otras lecturas del curso de Base de Datos 2 que dicto en la [Universidad Nacional de Río Negro](http://sedeatlantica.unrn.edu.ar/). Siempre será WIP.
+Work in Progress: teóricas, pŕacticas y otras lecturas del curso de Base de Datos 2 que tengo a cargo en la [Universidad Nacional de Río Negro](http://sedeatlantica.unrn.edu.ar/). Siempre será WIP.
 
 ## Contenidos
 1. **Persistencia Orientada a Objetos**: Conceptos fundacionales: Persistencia por Alcance y Persistencia Transparente. Bases de Datos Orientadas a Objetos (OODBMS): DB4O/[ZooDB](https://github.com/tzaeschke/zoodb).
