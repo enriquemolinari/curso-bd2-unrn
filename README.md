@@ -9,5 +9,6 @@ ORM: Object Relational Mapping. Persistencia en Objetos contra una Base de Datos
 3. **Familias de BDs NoSQL**: Conceptos sobre almacenamiento de tipo Clave-Valor (Redis), Documento (MongoDB), Familia de Columnas (Cassandra) y Grafos (Neo4J / Gremlin). Usos adecuados de cada uno. Comparación con usos adecuados de bases de datos relacionales.
 
 ## Notas
-La relación frecuenta-gusta-sirve de los ejericios del trabajo práctico sobre bases de datos de grafos fue obtenida del libro [Introducción a las Bases de Datos Relacionales (Mendelzon, Ale)]. En este libro se requiere resolverlos con álgebra relacional. Aquí con el lenguaj gremlin. (https://www.researchgate.net/publication/31710071_Introduccion_a_las_bases_de_datos_relacionales_A_Mendelzon_J_Ale)
-Utiliza el hermoso framework [Reveal.JS](http://revealjs.com).
+1.La relación frecuenta-gusta-sirve de los ejericios del trabajo práctico sobre bases de datos de grafos fue obtenida del libro [Introducción a las Bases de Datos Relacionales (Mendelzon, Ale)](https://www.researchgate.net/publication/31710071_Introduccion_a_las_bases_de_datos_relacionales_A_Mendelzon_J_Ale)
+
+2.Utiliza el hermoso framework [Reveal.JS](http://revealjs.com).
