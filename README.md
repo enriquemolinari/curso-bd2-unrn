@@ -9,7 +9,7 @@ ORM: Object Relational Mapping. Persistencia en Objetos contra una Base de Datos
 3. **Familias de BDs NoSQL**: Conceptos sobre almacenamiento de tipo Clave-Valor (Redis), Documento (MongoDB), Familia de Columnas (Cassandra) y Grafos (Neo4J / Gremlin). Usos adecuados de cada uno. Comparación con usos adecuados de bases de datos relacionales.
 ## Running 
 Se recomienda clonar, instalar e iniciar para ver las teóricas. Hay algunas animaciones que en los PDFs no se ven:
-1. Clonar el proyecto
+1. clonar el proyecto
 2. npm install
 3. npm start
 ## Notas
