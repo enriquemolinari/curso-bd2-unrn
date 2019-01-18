@@ -1,7 +1,10 @@
 # Curso de Grado - Bases de Datos 2
-## Alternativas a la Persistencia Relacional
 
-Work in Progress: teóricas, pŕacticas y otras lecturas del curso de Base de Datos 2 que tengo a cargo en la [Universidad Nacional de Río Negro](http://sedeatlantica.unrn.edu.ar/). Siempre será WIP.
+Teóricas, pŕacticas y otras lecturas del curso de Base de Datos 2 que tengo a cargo en la [Universidad Nacional de Río Negro](http://sedeatlantica.unrn.edu.ar/), al que denomino **Alternativas a la Persistencia Relacional**.
+
+Desde hace algunos años compañías como Google y Amazon han tenido que diseñar sus propias bases de datos dado que las bases de datos relacionales no soportaban (ni soportan aún hoy) el alto volumen de datos y demanda concurrente que requerían las aplicaciones “Planet Size” que habían construido. Ésto llevó a una nueva generación de bases de datos denominadas NoSQL. Hoy existe una gran cantidad de variantes de estas bases de datos, en su mayoría open source, que han ido ganando terreno ya que resuelven cierto tipo de problemas de forma más eficiente. En los contenidos de ésta materia se estudia las diferentes alternativas no relacional de persistencia.
+
+El modelo relacional y sus implementaciones siguen siendo excelentes y mejores para resolver una gran mayoría de problemas que las Bases de Datos NoSQL. Por esto el objetivo del curso es entender los diferentes modelos de persistencia y entender qué problemas se resuelven mejor con qué modelo.
 
 ## Contenidos
 1. **Persistencia Orientada a Objetos**: Conceptos fundacionales: Persistencia por Alcance y Persistencia Transparente. Bases de Datos Orientadas a Objetos (OODBMS): DB4O/[ZooDB](https://github.com/tzaeschke/zoodb).
