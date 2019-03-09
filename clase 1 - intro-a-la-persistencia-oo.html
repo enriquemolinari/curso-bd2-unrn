@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>Clase 2 - Persistencia Orientada a Objetos</title>
+		<title>Clase 1 - Introducción a la Persistencia Orientada a Objetos</title>
 
 		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/theme/black.css">
@@ -35,7 +35,22 @@
 				<section>
 					<h2>Persistencia</h2>
 					<h2>Orientada a Objetos</h2>
-					<h4>Conceptos Fundamentales</h4>
+					<h4>Base de Datos 2</h4>
+				</section>
+				<section>
+					<h2>¿Persistencia OO?</h2>
+					<h3>¿De qué se trata?</h3>
+				</section>
+				<section>
+					<h3>Uds ya cursaron...</h3>
+					<ul>
+						<li class="fragment"><strong>Orientación a Objetos 1 y 2</strong></li>
+						<ul class="fragment"><li style="font-size: 32px">POO y Diseño OO</li></ul>
+						<li class="fragment"><strong>Int. a las Bases de Datos 1, 2 y Bases de Datos 1</strong></li>
+						<ul class="fragment"><li style="font-size: 32px">Modelo relacional: Diagramas ER, SQL, Normalización, Propiedades ACID</li></ul>
+						<li class="fragment"><strong>Seminario de Lenguajes y Proyecto de Software</strong></li>
+						<ul class="fragment"><li style="font-size: 32px">La plataforma Java, Sintaxis, Semántica, Colecciones, JDBC</li></ul>
+					</ul>
 				</section>
 				<section>
 					<h3>JDBC</h3>
@@ -61,11 +76,12 @@ public void ejecutarInsert(Concurso concurso) {
 				<section>
 					<h3>Persistencia Orientada a Objetos</h3>
 					<p>¿No hay una forma mejor?</p>
-					<blockquote class="fragment"><u>Transparencia</u>: El desarrollador tendría que preocuparse lo menos posible por la persistencia para centrarse en el modelo de objetos. Tenemos que trabajar con los objetos en memoria pensando que la persistencia se maneja "mágicamente".</blockquote>
+					<blockquote class="fragment"><u>Transparencia</u>: El desarrollador tendría que preocuparse lo menos posible por la persistencia para centrarse en el modelo de objetos.</blockquote>
+					<blockquote class="fragment"><u>Transparencia</u> == <u>Ortogonalidad</u> de la Persistencia.</blockquote>
 				</section>
 				<section>
 					<h3>Persistencia Orientada a Objetos</h3>
-					<p>¿Hay magia?</p>
+					<p>¿A ver cómo se "implementa" la Transparencia?</p>
 					<h4 class="fragment"><strong>Persistencia por Alcance</strong></h4>
 					<ul>
 						<li class="fragment">Objeto al cual se puede llegar a partir de un objeto ya persistente, debe ser necesariamente persistente.</li>
@@ -75,7 +91,7 @@ public void ejecutarInsert(Concurso concurso) {
 				<section>
 					<h3>Persistencia Orientada a Objetos</h3>
 					<h4>Persistencia por Alcance</h4>
-					<p>A ver la magia...</p>
+					<p class="fragment">Veamos...</p>
 					<pre class="fragment"><code class="java" code-trim data-noescape contenteditable style="font-size:18px">public class Universidad {
   private Set&lt;Concurso> cs = new HashSet&lt;>();
   public void nuevoConcurso(Concurso c) {
@@ -213,8 +229,16 @@ public class Concurso {
   ...
 }</code></pre>
 				</section>
-
-			</div>
+        <section>
+					<h3>Bibliografía</h3>
+					<ul>
+						<li>Persistencia Orientada a Objetos (Javier Bazzocco, EDULP, 2012)</li>
+						<li>Java Persistence with Hibernate (Second Edition. Gaving King, 2015)</li>
+						<li>Next Generation Databases: NoSQL, NewSQL, and Big  Data (Guy Harrison, 2015)</li>
+            <li>ODBMS <a href="http://www.odbms.org/free-downloads-and-links/object-databases/">Object Databases</a>. Papers en línea.</li>
+					</ul>
+				</section>
+				</div>
 		</div>
 
 		<script src="lib/js/head.min.js"></script>
