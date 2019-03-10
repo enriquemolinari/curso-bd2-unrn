@@ -42,7 +42,7 @@
 					<h3>¿De qué se trata?</h3>
 				</section>
 				<section>
-					<h3>Uds ya cursaron...</h3>
+					<h3>Uds ya cursaron y vieron...</h3>
 					<ul>
 						<li class="fragment"><strong>Orientación a Objetos 1 y 2</strong></li>
 						<ul class="fragment"><li style="font-size: 32px">POO y Diseño OO</li></ul>
@@ -53,44 +53,37 @@
 					</ul>
 				</section>
 				<section>
-					<h3>JDBC</h3>
+					<h3>Uds ya vieron...</h3>
+					<h4>JDBC</h4>
 					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">publc class Concurso {
 	private String id;
 	private String nombre;
 	...
 }
-public void ejecutarInsert(Concurso concurso) {
-  try (Connection conn = obtenerConexionBD();
-    PreparedStatement statement = conn.prepareStatement("insert into
-                              concurso(id, nombre) values ('ID1', ?)");) {
-    statement.setString(1, concurso.nombre());
-    statement.executeUpdate();
-  } catch (SQLException ex) {
-    throw new RuntimeException(ex);
-  }
-}</code></pre>
+<span class="fragment">public void ejecutarInsert(Concurso concurso) {</span>
+<span class="fragment">  try (Connection conn = obtenerConexionBD();</span>
+<span class="fragment">    PreparedStatement statement = conn.prepareStatement("insert into</span>
+<span class="fragment">                              concurso(id, nombre) values (?, ?)");) {</span>
+<span class="fragment">    statement.setString(1, concurso.id());</span>
+<span class="fragment">    statement.setString(2, concurso.nombre());</span>
+<span class="fragment">    statement.executeUpdate();</span>
+<span class="fragment">  } catch (SQLException ex) {</span>
+<span class="fragment">    throw new RuntimeException(ex);</span>
+<span class="fragment">  }</span>
+<span class="fragment">}</span></code></pre>
 					<aside class="notes">De esta forma vemos los objetos como estructura de datos, obteniendo su estado interno via getters para generar sentencias SQL.
 						Uno tiende a poner lógica de negocios en los métodos DAO de esta forma y no debería ser así.
 					</aside>
 				</section>
 				<section>
-					<h3>Persistencia Orientada a Objetos</h3>
-					<p>¿No hay una forma mejor?</p>
+					<h4 class="fragment">¿No hay una forma mejor?</h4>
+					<h3 class="fragment">Persistencia Orientada a Objetos</h3>
 					<blockquote class="fragment"><u>Transparencia</u>: El desarrollador tendría que preocuparse lo menos posible por la persistencia para centrarse en el modelo de objetos.</blockquote>
 					<blockquote class="fragment"><u>Transparencia</u> == <u>Ortogonalidad</u> de la Persistencia.</blockquote>
 				</section>
 				<section>
 					<h3>Persistencia Orientada a Objetos</h3>
-					<p>¿A ver cómo se "implementa" la Transparencia?</p>
-					<h4 class="fragment"><strong>Persistencia por Alcance</strong></h4>
-					<ul>
-						<li class="fragment">Objeto al cual se puede llegar a partir de un objeto ya persistente, debe ser necesariamente persistente.</li>
-						<li class="fragment">Esto nos regala una forma elegante de diseñar, ya que para persistir un objeto solo tenemos que vincularlo a otro ya persistente.</li>
-					</ul>
-				</section>
-				<section>
-					<h3>Persistencia Orientada a Objetos</h3>
-					<h4>Persistencia por Alcance</h4>
+					<h4>¿Como sería más Transparente?</h4>
 					<p class="fragment">Veamos...</p>
 					<pre class="fragment"><code class="java" code-trim data-noescape contenteditable style="font-size:18px">public class Universidad {
   private Set&lt;Concurso> cs = new HashSet&lt;>();
@@ -101,13 +94,68 @@ public void ejecutarInsert(Concurso concurso) {
 }
 <span class="fragment">public void nuevoConcurso(String nombreConcurso) {</span>
 <span class="fragment">  Concurso c = new Concurso(nombreConcurso);</span>
-<span class="fragment">  Universidad unrn = //contexto.recuperar(...) unrn de la base de datos</span>
+<span class="fragment">  Universidad unrn = //miDb.traer(...) unrn de la base de datos</span>
 <span class="fragment">  unrn.nuevoConcurso(c);</span>
 <span class="fragment">}</span></code></pre>
 					<aside class="notes">Notar que hacer la instancia de Concurso c persistente es totalmente transparente. No es tan transparente el traer de la BD a unrn.<aside>
 				</section>
-				<section data-background="imgs/shock-face-o.gif">
+				<section>
+					<h3>Persistencia Orientada a Objetos</h3>
+					<p>¿y cómo es posible?</p>
+					<h4 class="fragment"><strong>Persistencia por Alcance</strong></h4>
+					<ul>
+						<li class="fragment">Objeto al cual se puede llegar a partir de un objeto ya persistente, debe ser necesariamente persistente.</li>
+						<li class="fragment">Esto nos regala una forma elegante de diseñar, ya que para persistir un objeto solo tenemos que vincularlo a otro ya persistente.</li>
+					</ul>
 				</section>
+				<section>
+					<h3>Persistencia Orientada a Objetos</h3>
+					<p>¿Quién implementa la Persistencia por Alcance?</p>
+					<h4 class="fragment"><strong>Contexto de Persistencia</strong></h4>
+					<ul>
+						<li class="fragment">Maneja y monitorea en memoria todas las instancias de las clases persistentes.</li>
+						<li class="fragment">Reconoce cuando una instancia fue modificada para persistirla.</li>
+						<li class="fragment">Básicamente... es quien se encarga de la <u>Transparencia</u>!</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Persistencia Orientada a Objetos</h3>
+					<p>Entonces... Incorporemos el <u>Contexto de Persistencia</u></p>
+					<pre class="fragment" data-fragment-index="1"><code class="java" code-trim data-noescape contenteditable style="font-size:18px">...
+<span class="fragment" data-fragment-index="1">public void nuevoConcurso(String nombreConcurso) {</span>
+<span class="fragment" data-fragment-index="2">  // abro contexto </span>
+<span class="fragment" data-fragment-index="3"><span class="fragment highlight-blue" data-fragment-index="10">  Contexto contexto = BaseDeDatos.conn(); </span></span>
+<span class="fragment" data-fragment-index="4">  Concurso c = new Concurso(nombreConcurso);</span>
+<span class="fragment" data-fragment-index="5">  Universidad unrn = <span class="fragment highlight-blue" data-fragment-index="10">contexto.traer(1);</span> //recupero unrn de la base de datos</span>
+<span class="fragment" data-fragment-index="6">  unrn.nuevoConcurso(c);</span>
+<span class="fragment" data-fragment-index="7">  // cierro contexto </span>
+<span class="fragment" data-fragment-index="8">  <span class="fragment highlight-blue" data-fragment-index="10">contexto.close(); </span></span>
+<span class="fragment" data-fragment-index="9">}</span></code></pre>
+				</section>
+				<section>
+					<h3>Persistencia Orientada a Objetos</h3>
+					<p>¿Y cómo persisto un objeto raiz?</p>
+					<pre class="fragment" data-fragment-index="1"><code class="java" code-trim data-noescape contenteditable style="font-size:18px">...
+<span class="fragment" data-fragment-index="1">public void nuevaUniversidad(String nombreUniversidad) {</span>
+<span class="fragment" data-fragment-index="2">  // abro contexto </span>
+<span class="fragment" data-fragment-index="3"><span class="fragment highlight-blue" data-fragment-index="10">  Contexto contexto = BaseDeDatos.conn(); </span></span>
+<span class="fragment" data-fragment-index="4">  Universidad unrn = new Universidad(nombreUniversidad, ...);</span>
+<span class="fragment" data-fragment-index="5">  <span class="fragment highlight-green" data-fragment-index="10">contexto.persistir(unrn);</span></span>
+<span class="fragment" data-fragment-index="7">  // cierro contexto </span>
+<span class="fragment" data-fragment-index="8">  <span class="fragment highlight-blue" data-fragment-index="10">contexto.close(); </span></span>
+<span class="fragment" data-fragment-index="9">}</span></code></pre>
+				</section>
+
+				<section>
+					<h3>Persistencia Orientada a Objetos</h3>
+					<p>Reflexiones hasta aca...</p>
+					<ul>
+						<li class="fragment">La Persistencia OO me ofrece una forma más transparente de Persistir mis objetos.</li>
+						<li class="fragment">Principalmente basada en el concepto de <strong>Persistencia por Alcance</strong>.</li>
+						<li class="fragment">Para poder utilizarlo debo "envolver" mis sentencias en el ámbito del contexto de persistencia.</li>
+					</ul>
+				</section>
+
 				<section data-transition="slide" data-background="#b5533c" data-background-transition="zoom">
 					<h3>Persistencia Orientada a Objetos</h3>
 					<h4>¿Qué más tenemos que saber?</h4>
@@ -127,20 +175,10 @@ public void ejecutarInsert(Concurso concurso) {
 				</section>
 				<section>
 					<h3>Persistencia Orientada a Objetos</h3>
-					<p>¿Quién lleva registro en memoria del estado de los objetos persistentes?</p>
-					<h4 class="fragment"><strong>Contexto de Persistencia</strong></h4>
-					<ul>
-						<li class="fragment">Maneja y monitorea en memoria todas las instancias de las clases persistentes.</li>
-						<li class="fragment">Reconoce cuando una instancia fue modificada para persistirla.</li>
-						<li class="fragment">Básicamente... es quien se encarga de la magia!</li>
-					</ul>
-				</section>
-				<section>
-					<h3>Persistencia Orientada a Objetos</h3>
 					<p>Veamos un ejemplo en JPA (Java Persistent API)</p>
 					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">public void nuevoConcurso(String nombreConcurso) {
  <span class="fragment" data-fragment-index="1">EntityManager <span class="fragment highlight-blue" data-fragment-index="6">manager</span> = EntityManagerFactory.createEntityManager();</span>
- <span class="fragment"  data-fragment-index="2">Concurso concurso = new Concurso(nombreConcurso);</span>
+ <span class="fragment" data-fragment-index="2">Concurso concurso = new Concurso(nombreConcurso);</span>
  <span class="fragment" data-fragment-index="3">Universidad unrn = <span class="fragment highlight-blue" data-fragment-index="6">manager</span>.find(idUnrn);</span>
  <span class="fragment" data-fragment-index="4">unrn.nuevoConcurso(concurso);</span>
  <span class="fragment" data-fragment-index="5"><span class="fragment highlight-blue" data-fragment-index="6">manager</span>.close();</span><span class="fragment" data-fragment-index="7"> //Aca se persiste lo modificado...</span>
