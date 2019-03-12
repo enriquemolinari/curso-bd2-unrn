@@ -46,41 +46,53 @@
 					<h2>Persistencia</h2>
 					<h2>Orientada a Objetos</h2>
 					<h4>Base de Datos 2</h4>
+					<p style="font-size: 32px">Prof. Enrique Molinari</p>
 				</section>
 				<section>
 					<h2>¿Persistencia OO?</h2>
 					<h3>¿De qué se trata?</h3>
 				</section>
 				<section>
-					<h3>Uds ya cursaron y vieron...</h3>
+					<h3>Uds ya saben de...</h3>
 					<ul>
-						<li class="fragment"><strong>Orientación a Objetos 1 y 2</strong></li>
-						<ul class="fragment"><li style="font-size: 32px">POO y Diseño OO</li></ul>
-						<li class="fragment"><strong>Int. a las Bases de Datos 1, 2 y Bases de Datos 1</strong></li>
-						<ul class="fragment"><li style="font-size: 32px">Modelo relacional: Diagramas ER, SQL, Normalización, Propiedades ACID</li></ul>
-						<li class="fragment"><strong>Seminario de Lenguajes y Proyecto de Software</strong></li>
-						<ul class="fragment"><li style="font-size: 32px">La plataforma Java, Sintaxis, Semántica, Colecciones, JDBC</li></ul>
+						<li>Programación OO y Diseño OO</li>
+						<li>Modelo relacional: Diagramas ER, SQL, Normalización, Propiedades ACID</li>
+						<li>La plataforma Java, Sintaxis, Semántica, Colecciones, JDBC</li>
 					</ul>
 				</section>
 				<section>
-					<h3>Uds ya vieron...</h3>
+					<h3>Uds ya saben de...</h3>
 					<h4>JDBC</h4>
 					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">publc class Concurso {
 	private String id;
 	private String nombre;
 	...
 }
-<span class="fragment">public void ejecutarInsert(Concurso concurso) {</span>
-<span class="fragment">  try (Connection conn = obtenerConexionBD();</span>
-<span class="fragment">    PreparedStatement statement = conn.prepareStatement("insert into</span>
-<span class="fragment">                              concurso(id, nombre) values (?, ?)");) {</span>
-<span class="fragment">    statement.setString(1, concurso.id());</span>
-<span class="fragment">    statement.setString(2, concurso.nombre());</span>
-<span class="fragment">    statement.executeUpdate();</span>
-<span class="fragment">  } catch (SQLException ex) {</span>
-<span class="fragment">    throw new RuntimeException(ex);</span>
-<span class="fragment">  }</span>
-<span class="fragment">}</span></code></pre>
+public class Universidad {
+	private Set&lt;Concurso> cs = new HashSet&lt;>();
+	public void nuevoConcurso(Concurso c) {
+		cs.add(c);
+	}
+	...
+}
+</code></pre>
+					<aside class="notes">De esta forma vemos los objetos como estructura de datos, obteniendo su estado interno via getters para generar sentencias SQL.
+						Uno tiende a poner lógica de negocios en los métodos DAO de esta forma y no debería ser así.
+					</aside>
+				</section>
+				<section>
+					<h3>Uds ya saben de...</h3>
+					<h4>JDBC</h4>
+					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">public void nuevoConcurso(Concurso concurso, Universidad unrn) {</span>
+<span>  // ...</span>
+<span>  PreparedStatement statement = conn.prepareStatement("insert into</span>
+<span>                        concurso(id, nombre, id_univ) values (?, ?, ?)");) {</span>
+<span>  statement.setString(1, concurso.id());</span>
+<span>  statement.setString(2, concurso.nombre());</span>
+<span>  statement.setString(3, unrn.id());</span>
+<span>  statement.executeUpdate();</span>
+<span>  // ... </span>
+<span>}</span></code></pre>
 					<aside class="notes">De esta forma vemos los objetos como estructura de datos, obteniendo su estado interno via getters para generar sentencias SQL.
 						Uno tiende a poner lógica de negocios en los métodos DAO de esta forma y no debería ser así.
 					</aside>
@@ -102,9 +114,9 @@
   }
   ...
 }
-<span class="fragment">public void nuevoConcurso(String nombreConcurso) {</span>
+<span class="fragment">public void nuevoConcurso(String nombreConcurso, String idUniversidad) {</span>
 <span class="fragment">  Concurso c = new Concurso(nombreConcurso);</span>
-<span class="fragment">  Universidad unrn = //miDb.traer(...) unrn de la base de datos</span>
+<span class="fragment">  Universidad unrn = //miDb.traer(idUniversidad) unrn de la base de datos</span>
 <span class="fragment">  unrn.nuevoConcurso(c);</span>
 <span class="fragment">}</span></code></pre>
 					<aside class="notes">Notar que hacer la instancia de Concurso c persistente es totalmente transparente. No es tan transparente el traer de la BD a unrn.<aside>
@@ -132,11 +144,11 @@
 					<h3>Persistencia Orientada a Objetos</h3>
 					<p>Entonces... Incorporemos el <u>Contexto de Persistencia</u></p>
 					<pre class="fragment" data-fragment-index="1"><code class="java" code-trim data-noescape contenteditable style="font-size:18px">...
-<span class="fragment" data-fragment-index="1">public void nuevoConcurso(String nombreConcurso) {</span>
+<span class="fragment" data-fragment-index="1">public void nuevoConcurso(String nombreConcurso, String idUniversidad) {</span>
 <span class="fragment" data-fragment-index="2">  // abro contexto </span>
 <span class="fragment" data-fragment-index="3"><span class="fragment highlight-blue" data-fragment-index="10">  Contexto contexto = BaseDeDatos.conn(); </span></span>
 <span class="fragment" data-fragment-index="4">  Concurso c = new Concurso(nombreConcurso);</span>
-<span class="fragment" data-fragment-index="5">  Universidad unrn = <span class="fragment highlight-blue" data-fragment-index="10">contexto.traer(1);</span> //recupero unrn de la base de datos</span>
+<span class="fragment" data-fragment-index="5">  Universidad unrn = <span class="fragment highlight-blue" data-fragment-index="10">contexto.traer(idUniversidad);</span> //recupero unrn de la bd</span>
 <span class="fragment" data-fragment-index="6">  unrn.nuevoConcurso(c);</span>
 <span class="fragment" data-fragment-index="7">  // cierro contexto </span>
 <span class="fragment" data-fragment-index="8">  <span class="fragment highlight-blue" data-fragment-index="10">contexto.close(); </span></span>
@@ -167,10 +179,10 @@
     this.domicilio = nuevoDocimilio;
   }
 }
-<span class="fragment" data-fragment-index="2">public void modificarUniversidad(String nuevoNombre) {</span>
+<span class="fragment" data-fragment-index="2">public void modificarUniversidad(String nuevoNombre, String idUniversidad) {</span>
 <span class="fragment" data-fragment-index="3">  // abro contexto </span>
 <span class="fragment" data-fragment-index="4"><span class="fragment highlight-blue" data-fragment-index="10">  Contexto contexto = BaseDeDatos.conn(); </span></span>
-<span class="fragment" data-fragment-index="5">  Universidad unrn = <span class="fragment highlight-blue" data-fragment-index="10">contexto.traer(1);</span> //recupero unrn de la base de datos</span>
+<span class="fragment" data-fragment-index="5">  Universidad unrn = <span class="fragment highlight-blue" data-fragment-index="10">contexto.traer(idUniversidad);</span> //recupero unrn de la bd</span>
 <span class="fragment" data-fragment-index="6">  <span class="fragment highlight-green" data-fragment-index="10">unrn.nuevoDomicilio("San Martin 245");</span></span>
 <span class="fragment" data-fragment-index="7">  // cierro contexto </span>
 <span class="fragment" data-fragment-index="8">  <span class="fragment highlight-blue" data-fragment-index="10">contexto.close(); </span></span>
@@ -208,11 +220,11 @@
 					<h3>Persistencia Orientada a Objetos</h3>
 					<p>Revisemos los estados de estas instancias...</p>
 					<pre class="fragment" data-fragment-index="1"><code class="java" code-trim data-noescape contenteditable style="font-size:18px">...
-<span class="fragment" data-fragment-index="1">public void nuevoConcurso(String nombreConcurso) {</span>
+<span class="fragment" data-fragment-index="1">public void nuevoConcurso(String nombreConcurso, String idUniversidad) {</span>
 <span class="fragment" data-fragment-index="2">  // abro contexto </span>
 <span class="fragment" data-fragment-index="3"><i>  Contexto contexto = BaseDeDatos.conn(); </i></span>
 <span class="fragment" data-fragment-index="4">  Concurso <span class="fragment highlight-green" data-fragment-index="4">c</span> = new Concurso(nombreConcurso);</span>
-<span class="fragment" data-fragment-index="5">  Universidad <span class="fragment highlight-blue" data-fragment-index="5">unrn</span> = <i>contexto.traer(1);</i> //recupero unrn de la base de datos</span>
+<span class="fragment" data-fragment-index="5">  Universidad <span class="fragment highlight-blue" data-fragment-index="5">unrn</span> = <i>contexto.traer(idUniversidad);</i> //recupero unrn de la bd</span>
 <span class="fragment" data-fragment-index="6">  unrn.nuevoConcurso(c);</span>
 <span class="fragment" data-fragment-index="7">  // cierro contexto </span>
 <span class="fragment" data-fragment-index="8">  <i>contexto.close();</i> </span>
@@ -235,11 +247,11 @@
 				<section data-transition="slide" data-background="#b5533c" data-background-transition="zoom">
 					<h3>Persistencia Orientada a Objetos</h3>
 					<h4>¿Y qué más tenemos que saber?</h4>
-					<p class="fragment"><i>Cascade</i> & <i>Lazy</i> vs <i>Early</i></p>
+					<p class="fragment"><i>Persistencia en Cascada</i> & Recuperación de instancias en forma <i>Lazy</i> vs <i>Early</i></p>
 				</section>
 				<section>
 					<h3>Persistencia Orientada a Objetos</h3>
-					<p>Cascade</p>
+					<p>Persistencia en Cascada</p>
 					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">public void nuevoProducto() {
  <span><i>Contexto contexto = BaseDeDatos.conn();</i></span>
  <span class="fragment"  data-fragment-index="2">Categoria <span class="fragment highlight-blue" data-fragment-index="5">elec</span> = new Categoria("electrodoméstico");</span>
@@ -252,7 +264,7 @@
 				<p class="fragment">Sí. Debería configurar los colaboradores de <i>Producto</i> como <i>cascade</i> = true</p>
 				</section>
 				<section>
-    			 <h2>Early vs Lazy</h2>
+    			 <h2>Recuperación: Early vs Lazy</h2>
 					 <p class="fragment">Supongamos el siguiente modelo:</p>
 					 <pre class="fragment"><code class="java" code-trim data-noescape contenteditable style="font-size:18px">public class Universidad {
  private Set&lt;Concurso> concursos = new HashSet&lt;Concurso>();
@@ -332,19 +344,18 @@ manager.close();
 
 				<section>
 					<h3>Persistencia Orientada a Objetos</h3>
-					<p>¿Como continuamos con la Materia?</p>
+					<p>¿Con que tema seguimos?</p>
 					<ol>
-						<li class="fragment">ZooDB (ODBMS) + Trabajo Práctico</li>
-						<li class="fragment">ORM + Trabajo Práctico</li>
+						<li class="fragment">Bases de Datos Orientadas a Objetos</li>
+						<li class="fragment">Una Implementación: ZooDB (ODBMS) + Trabajo Práctico</li>
 					</ol>
 				</section>
 				<section>
 					<h3>Bibliografía</h3>
 					<ul>
-						<li>Persistencia Orientada a Objetos (Javier Bazzocco, EDULP, 2012)</li>
-						<li>Java Persistence with Hibernate (Second Edition. Gaving King, 2015)</li>
-						<li>Next Generation Databases: NoSQL, NewSQL, and Big  Data (Guy Harrison, 2015)</li>
-            <li><a href="http://www.odbms.org/free-downloads-and-links/object-databases/">www.odbms.org</a> (papers en línea)</li>
+						<li>Persistencia Orientada a Objetos, Capítulo 1 (Javier Bazzocco, EDULP, 2012)</li>
+						<li>Java Persistence with Hibernate, Capítulos 12 y 13 (Second Edition. Gaving King, 2015)</li>
+						<li><a href="http://www.odbms.org/free-downloads-and-links/object-databases/">www.odbms.org/object databases</a> (papers en línea)</li>
 					</ul>
 				</section>
 				</div>
