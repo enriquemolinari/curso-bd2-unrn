@@ -37,13 +37,23 @@
 			.reveal pre code {
 				max-height: 1000px;
 			}
+			section.pantallacompleta {
+				width: 100%;
+				height: 100%;
+			}
+			.reveal h1, .reveal h2 , .reveal h3 {
+				color: #369FFB;
+			}
+			.titulocolor {
+				color: #369FFB;
+			}
 		</style>
 	</head>
 	<body>
 		<div class="reveal">
 			<div class="slides">
 				<section>
-					<p style="font-size:130px"><strong>NoSQL</strong></p>
+					<p style="font-size:130px" class="titulocolor"><strong>NoSQL</strong></p>
 					<p style="font-size:64px">Introducción</p>
 				</section>
 				<section>
@@ -138,14 +148,14 @@
 					</p>
 				</section>
 				<section>
-					<b style="font-size:48px">NoSQL</b>
+					<b style="font-size:48px" class="titulocolor">NoSQL</b>
 					<p>¿Qué generó su aparición?</p>
 					<blockquote class="fragment">
 						Entre 1995 y 2005 Internet fue transformándose... partiendo desde conexiones dial-up, utilizadas mas que nada por “curiosos” hacia el sistema de comunicación mas importante de nuestra civilización.
 					</blockquote>
 				</section>
 				<section>
-					<b style="font-size:48px">NoSQL</b>
+					<b style="font-size:48px" class="titulocolor">NoSQL</b>
 					<p>¿Qué generó su aparición?</p>
 					<ul>
 						<li class="fragment">Hoy Google procesa <b>40.000 búsquedas por segundo</b> en promedio, que se traduce en 3.5 billones por día.</li>
@@ -154,7 +164,7 @@
 					</ul>
 				</section>
 				<section>
-					<b style="font-size:48px">NoSQL</b>
+					<b style="font-size:48px" class="titulocolor">NoSQL</b>
 					<p>¿Qué generó su aparición?</p>
 					<ul>
 						<li class="fragment"><b>Amazon</b> necesitaba procesar 35 ordenes de compra por segundo.</li>
@@ -200,7 +210,7 @@
 					<p class="fragment">¿Queremos soportar aplicaciones Planet Size?<blockquote class="fragment">Entonces no tenemos opción, tenemos que relajar estas cuestiones (sobre todo la consistencia) para poder distribuír.</blockquote></p>
 				</section>
 				<section>
-					<b style="font-size:48px">NoSQL: Arquitectura Típica</b>
+					<b style="font-size:48px" class="titulocolor">NoSQL: Arquitectura Típica</b>
 					<div class="column-container">
 						<div class="col">
 								<img style="background:none; border:none; box-shadow:none;" class="fragment" src="imgs/nosql-arch.png" alt="nosql-arch">
@@ -226,14 +236,14 @@
 							</ul>
 				</section>
 				<section>
-					<b style="font-size:48px">NoSQL</b>
+					<b style="font-size:48px" class="titulocolor">NoSQL</b>
 					<p class="fragment">Hoy es una movida MUY grande... y se valen de otras características también:</p>
 					<p class="fragment"><u>Esquema Flexible</u>: No tienen un esquema rígido como el relacional, es flexible (json en general).</p>
 					<p class="fragment"><u>Big Data</u>: Al distribuir soportan Big Data (por esto Google puede indexar la web completa...).</p>
 					<p class="fragment"><u>Open Source</u>: Y sobre HW más económico al aprovechar el cluster.</p>
 				</section>
 				<section>
-					<b style="font-size:48px">NoSQL BASE vs Relacional ACID</b>
+					<b style="font-size:48px" class="titulocolor">NoSQL BASE vs Relacional ACID</b>
 					<ul>
 						<li class="fragment"><b style="font-size:68px">B</b>asically <b style="font-size:68px">A</b>vailable: Siempre habra respuesta</li>
 						<li class="fragment"><b style="font-size:68px">S</b>oft-State: Los datos pueden cambiar a raiz de cambios en otros nodos (eventual consistency)</li>
@@ -242,7 +252,7 @@
 					<p class="fragment">Esto para competirle al ACID del mundo relacional... :)</p>
 				</section>
 				<section>
-					<b style="font-size:48px">Consistencia vs Disponibilidad</b>
+					<b style="font-size:48px" class="titulocolor">Consistencia vs Disponibilidad</b>
 					<ul>
 						<li class="fragment">Las BDs relacionales favorecen la <b>consistencia</b> por sobre otro atributo.</li>
 						<li class="fragment">Las BDs NoSQL favorecen la <b>disponibilidad</b> por sobre la consistencia.</li>
@@ -250,7 +260,7 @@
 					</ul>
 				</section>
 				<section>
-					<b style="font-size:48px">NoSQL</b>: ¿Y que significa?
+					<b style="font-size:48px" class="titulocolor">NoSQL</b>: ¿Y que significa?
 					<p class="fragment">NoSQL: Not Only SQL</p>
 					<p class="fragment">nosql-database.org: Next Generation Databases mostly addressing some of the points: being non-relational, distributed, open-source and horizontally scalable.</p>
 					<p class="fragment">Noten que quienes las inventaron son Google y Amazon, simplemente porque sino su negocio no prosperaba.</p>
