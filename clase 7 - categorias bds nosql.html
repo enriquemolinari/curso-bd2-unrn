@@ -36,13 +36,22 @@
 			.reveal pre code {
 				max-height: 1000px;
 			}
+			.reveal h1, .reveal h2 , .reveal h3 {
+				color: #369FFB;
+			}
+			.titulocolor {
+				color: #369FFB;
+			}
+			.reveal h2.tituloblanco, .reveal h1.tituloblanco, .reveal h3.tituloblanco {
+				color: #FFFFFF;
+			}
 		</style>
 	</head>
 	<body>
 		<div class="reveal">
 			<div class="slides">
 				<section>
-					<p style="font-size:124px"><b>NoSQL</b></p>
+					<p style="font-size:124px" class="titulocolor"><b>NoSQL</b></p>
 					<p style="font-size:84px"><b>Diferentes Categorías</b></p>
 				</section>
 				<section>
@@ -59,9 +68,9 @@
 					<p class="fragment"><b>Estructura</b>, <b>Usos adecuados</b> y <a href="http://nosql-database.org/">Vendors</a></p>
 				</section>
 				<section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
-					<h2>Key-Value Stores</h2>
+					<h2 class="tituloblanco">Key-Value Stores</h2>
 				</section>
-				<section
+				<section>
 					<h3>Key-Value Stores</h3>
 					<ul>
 						<li class="fragment">Las más simples y comunes. Column-family y Document estan basadas en esta.</li>
@@ -102,7 +111,7 @@
 					</ul>
 				</section>
 				<section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
-					<h2>Column Family</h2>
+					<h2 class="tituloblanco">Column Family</h2>
 				</section>
 				<section>
 					<h3>Column Family</h3>
@@ -164,7 +173,7 @@
 					</ul>
 				</section>
 				<section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
-					<h2>Document</h2>
+					<h2 class="tituloblanco">Document</h2>
 				</section>
 				<section>
 					<h3>Document DataBases</h3>
@@ -176,7 +185,6 @@
 				</section>
 				<section>
 					<h3>Document DataBases</h3>
-					<p>¿Qué es un Documento?</p>
 					<div class="column-container">
 						<div class="col">
 							<pre class="fragment"><code class="json" code-trim data-noescape style="font-size:18px">{
@@ -203,18 +211,13 @@
 						</div>
 						<div class="col">
 							<ul>
-								<li style="font-size:32px" class="fragment">Una colección de Vértices (o nodos) y Relaciones entre vértices.</li>
-								<li style="font-size:32px" class="fragment">Tanto vértices como las relaciones pueden poseer propiedades.</li>
-								<li style="font-size:32px" class="fragment">Una query característica de estas estructuras sería encontrar todos los actores que trabajaron en las películas donde trabajó Keanu Reeves.</li>
+								<li style="font-size:32px" class="fragment">Hacer...</li>
 							</ul>
 						</div>
 					</div>
 				</section>
-
-
-
-				<section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
-					<h2>Graph Databases</h2>
+			<section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
+					<h2 class="tituloblanco">Graph Databases</h2>
 				</section>
 				<section>
 					<h3>Graph DataBases</h3>
