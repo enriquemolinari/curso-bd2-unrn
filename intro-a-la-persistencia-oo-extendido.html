@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>Clase 1 - Introducción a la Persistencia Orientada a Objetos</title>
+		<title>Introducción a la Persistencia Orientada a Objetos (Extendido)</title>
 
 		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/theme/black.css">
@@ -285,9 +285,9 @@ public class Concurso {
     			 <h2>Early vs Lazy</h2>
 					 <p class="fragment">Segun el modelo anterior, si traemos de la BD la instancia <i>unrn</i>:</p>
 					 <pre class="fragment"><code class="java" code-trim data-noescape contenteditable style="font-size:18px">...
-EntityManager manager = EntityManagerFactory.createEntityManager();
-Universidad unrn = manager.find(idUnrn);
-manager.close();
+Contexto contexto = BaseDeDatos.conn();
+Universidad unrn = contexto.traer(idUnrn);
+contexto.close();
 ...</pre></code>
 					<p class="fragment">¿Qué trae a memoria junto con <i>unrn</i>? ¿su instancia de categoria? ¿sus concursos?</p>
 				</section>
@@ -304,9 +304,7 @@ manager.close();
 					<p class="fragment"><u>Por colaborador</u> se configura si deseo <i>early</i> o <i>lazy</i></p>
 					<p class="fragment"><b>Early</b> (temprano): Al recuperar una instancia, recupero su colaborador también.</p>
 					<p class="fragment"><b>Lazy</b> (tardío): Al recuperar una instancia, inyecta en su colaborador un <u>Proxy</u>, quién sabe recuperar el <u>colaborador real</u> solo cuando sea necesario.</p>
-					<blockquote class="fragment">¿Cuando se vuelve necesario?</blockquote>
 				</section>
-
 				<section>
 					<h3>Persistencia Orientada a Objetos</h3>
 					<p>Cascade & Early vs Lazy</p>
@@ -347,7 +345,9 @@ manager.close();
 					<p>¿Con que tema seguimos?</p>
 					<ol>
 						<li class="fragment">Bases de Datos Orientadas a Objetos</li>
-						<li class="fragment">Una Implementación: ZooDB (ODBMS) + Trabajo Práctico</li>
+						<li class="fragment">Una Implementación: <a href="https://github.com/tzaeschke/zoodb/">ZooDB</a> (ODBMS) + Trabajo Práctico</li>
+						<li class="fragment">Estudiaremos como funcionan los Object Relacional Mapper (ORM)</li>
+						<li class="fragment">Una Implementación: Hibernate + Trabajo Práctico</li>
 					</ol>
 				</section>
 				<section>
