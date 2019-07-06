@@ -18,7 +18,7 @@
       <data key="d6">
         <y:GenericNode configuration="com.yworks.flowchart.process">
           <y:Geometry height="236.0" width="283.0" x="-635.0" y="-406.0"/>
-          <y:Fill hasColor="false" transparent="false"/>
+          <y:Fill color="#222222" transparent="false"/>
           <y:BorderStyle color="#008000" type="line" width="2.0"/>
           <y:NodeLabel alignment="left" autoSizePolicy="node_width" borderDistance="2.0" configuration="CroppingLabel" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="229.5" modelName="custom" textColor="#FFFFFF" visible="true" width="283.0" x="0.0" y="3.25">{
   "_id": "1",

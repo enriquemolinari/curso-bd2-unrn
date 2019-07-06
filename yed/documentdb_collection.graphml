@@ -47,7 +47,7 @@
           <data key="d6">
             <y:GenericNode configuration="com.yworks.flowchart.process">
               <y:Geometry height="130.0" width="261.0" x="266.0000000000002" y="125.0"/>
-              <y:Fill hasColor="false" transparent="false"/>
+              <y:Fill color="#222222" transparent="false"/>
               <y:BorderStyle color="#008000" type="line" width="2.0"/>
               <y:NodeLabel alignment="left" autoSizePolicy="node_width" borderDistance="2.0" configuration="CroppingLabel" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="99.125" modelName="custom" textColor="#FFFFFF" visible="true" width="261.0" x="0.0" y="15.4375">{
   "fecha" : "20/02/2014",
@@ -67,7 +67,7 @@
           <data key="d6">
             <y:GenericNode configuration="com.yworks.flowchart.process">
               <y:Geometry height="130.0" width="261.0" x="306.0000000000002" y="150.0"/>
-              <y:Fill color="#000000" transparent="false"/>
+              <y:Fill color="#222222" transparent="false"/>
               <y:BorderStyle color="#008000" type="line" width="2.0"/>
               <y:NodeLabel alignment="left" autoSizePolicy="node_width" borderDistance="2.0" configuration="CroppingLabel" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="99.125" modelName="custom" textColor="#FFFFFF" visible="true" width="261.0" x="0.0" y="15.4375">{
   "fecha" : "20/02/2014",
@@ -87,7 +87,7 @@
           <data key="d6">
             <y:GenericNode configuration="com.yworks.flowchart.process">
               <y:Geometry height="130.0" width="261.0" x="345.0000000000002" y="174.0"/>
-              <y:Fill color="#000000" transparent="false"/>
+              <y:Fill color="#222222" transparent="false"/>
               <y:BorderStyle color="#008000" type="line" width="2.0"/>
               <y:NodeLabel alignment="left" autoSizePolicy="node_width" borderDistance="2.0" configuration="CroppingLabel" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="99.125" modelName="custom" textColor="#FFFFFF" visible="true" width="261.0" x="0.0" y="15.4375">{
   "fecha" : "20/02/2014",

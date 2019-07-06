@@ -23,7 +23,7 @@
               <y:Geometry height="539.3385416666667" width="832.0000000000001" x="9.0" y="20.5390625"/>
               <y:Fill hasColor="false" transparent="false"/>
               <y:BorderStyle hasColor="false" type="dashed" width="1.0"/>
-              <y:NodeLabel alignment="right" autoSizePolicy="node_width" borderDistance="0.0" fontFamily="Dialog" fontSize="15" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="21.4609375" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="832.0000000000001" x="0.0" y="0.0">Base De Datos Basada en Documentos</y:NodeLabel>
+              <y:NodeLabel alignment="right" autoSizePolicy="node_width" borderDistance="0.0" fontFamily="Dialog" fontSize="15" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="21.4609375" modelName="internal" modelPosition="t" textColor="#FFFFFF" visible="true" width="832.0000000000001" x="0.0" y="0.0">Base De Datos Basada en Documentos</y:NodeLabel>
               <y:Shape type="roundrectangle"/>
               <y:State closed="false" closedHeight="50.0" closedWidth="50.0" innerGraphDisplayEnabled="false"/>
               <y:Insets bottom="15" bottomF="15.0" left="15" leftF="15.0" right="15" rightF="15.0" top="15" topF="15.0"/>
@@ -76,7 +76,7 @@
               <data key="d6">
                 <y:GenericNode configuration="com.yworks.flowchart.process">
                   <y:Geometry height="130.0" width="261.0" x="39.0" y="72.0"/>
-                  <y:Fill hasColor="false" transparent="false"/>
+                  <y:Fill color="#222222" transparent="false"/>
                   <y:BorderStyle color="#008000" type="line" width="2.0"/>
                   <y:NodeLabel alignment="left" autoSizePolicy="node_width" borderDistance="2.0" configuration="CroppingLabel" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="117.75" modelName="custom" textColor="#FFFFFF" visible="true" width="261.0" x="0.0" y="6.125">{
   "nombre" : "Javier",
@@ -97,7 +97,7 @@
               <data key="d6">
                 <y:GenericNode configuration="com.yworks.flowchart.process">
                   <y:Geometry height="130.0" width="261.0" x="79.0" y="97.0"/>
-                  <y:Fill color="#000000" transparent="false"/>
+                  <y:Fill color="#222222" transparent="false"/>
                   <y:BorderStyle color="#008000" type="line" width="2.0"/>
                   <y:NodeLabel alignment="left" autoSizePolicy="node_width" borderDistance="2.0" configuration="CroppingLabel" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="117.75" modelName="custom" textColor="#FFFFFF" visible="true" width="261.0" x="0.0" y="6.125">{
   "nombre" : "Javier",
@@ -118,7 +118,7 @@
               <data key="d6">
                 <y:GenericNode configuration="com.yworks.flowchart.process">
                   <y:Geometry height="130.0" width="261.0" x="118.0" y="121.0"/>
-                  <y:Fill color="#000000" transparent="false"/>
+                  <y:Fill color="#222222" transparent="false"/>
                   <y:BorderStyle color="#008000" type="line" width="2.0"/>
                   <y:NodeLabel alignment="left" autoSizePolicy="node_width" borderDistance="2.0" configuration="CroppingLabel" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="117.75" modelName="custom" textColor="#FFFFFF" visible="true" width="261.0" x="0.0" y="6.125">{
   "nombre" : "Javier",
@@ -170,7 +170,7 @@
               <data key="d6">
                 <y:GenericNode configuration="com.yworks.flowchart.process">
                   <y:Geometry height="130.0" width="261.0" x="440.0000000000001" y="72.0"/>
-                  <y:Fill hasColor="false" transparent="false"/>
+                  <y:Fill color="#222222" transparent="false"/>
                   <y:BorderStyle color="#008000" type="line" width="2.0"/>
                   <y:NodeLabel alignment="left" autoSizePolicy="node_width" borderDistance="2.0" configuration="CroppingLabel" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="99.125" modelName="custom" textColor="#FFFFFF" visible="true" width="261.0" x="0.0" y="15.4375">{
   "fecha" : "20/02/2014",
@@ -190,7 +190,7 @@
               <data key="d6">
                 <y:GenericNode configuration="com.yworks.flowchart.process">
                   <y:Geometry height="130.0" width="261.0" x="480.0000000000001" y="97.0"/>
-                  <y:Fill color="#000000" transparent="false"/>
+                  <y:Fill color="#222222" transparent="false"/>
                   <y:BorderStyle color="#008000" type="line" width="2.0"/>
                   <y:NodeLabel alignment="left" autoSizePolicy="node_width" borderDistance="2.0" configuration="CroppingLabel" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="99.125" modelName="custom" textColor="#FFFFFF" visible="true" width="261.0" x="0.0" y="15.4375">{
   "fecha" : "20/02/2014",
@@ -210,7 +210,7 @@
               <data key="d6">
                 <y:GenericNode configuration="com.yworks.flowchart.process">
                   <y:Geometry height="130.0" width="261.0" x="519.0000000000001" y="121.0"/>
-                  <y:Fill color="#000000" transparent="false"/>
+                  <y:Fill color="#222222" transparent="false"/>
                   <y:BorderStyle color="#008000" type="line" width="2.0"/>
                   <y:NodeLabel alignment="left" autoSizePolicy="node_width" borderDistance="2.0" configuration="CroppingLabel" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="99.125" modelName="custom" textColor="#FFFFFF" visible="true" width="261.0" x="0.0" y="15.4375">{
   "fecha" : "20/02/2014",
@@ -261,7 +261,7 @@
               <data key="d6">
                 <y:GenericNode configuration="com.yworks.flowchart.process">
                   <y:Geometry height="130.0" width="261.0" x="247.0" y="320.4166666666667"/>
-                  <y:Fill hasColor="false" transparent="false"/>
+                  <y:Fill color="#222222" transparent="false"/>
                   <y:BorderStyle color="#008000" type="line" width="2.0"/>
                   <y:NodeLabel alignment="left" autoSizePolicy="node_width" borderDistance="2.0" configuration="CroppingLabel" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="117.75" modelName="custom" textColor="#FFFFFF" visible="true" width="261.0" x="0.0" y="6.125">{
   "producto" : "Pelota",
@@ -282,7 +282,7 @@
               <data key="d6">
                 <y:GenericNode configuration="com.yworks.flowchart.process">
                   <y:Geometry height="130.0" width="261.0" x="287.0" y="345.4166666666667"/>
-                  <y:Fill color="#000000" transparent="false"/>
+                  <y:Fill color="#222222" transparent="false"/>
                   <y:BorderStyle color="#008000" type="line" width="2.0"/>
                   <y:NodeLabel alignment="left" autoSizePolicy="node_width" borderDistance="2.0" configuration="CroppingLabel" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="117.75" modelName="custom" textColor="#FFFFFF" visible="true" width="261.0" x="0.0" y="6.125">{
   "producto" : "Pelota",
@@ -303,7 +303,7 @@
               <data key="d6">
                 <y:GenericNode configuration="com.yworks.flowchart.process">
                   <y:Geometry height="130.0" width="261.0" x="326.0" y="369.4166666666667"/>
-                  <y:Fill color="#000000" transparent="false"/>
+                  <y:Fill color="#222222" transparent="false"/>
                   <y:BorderStyle color="#008000" type="line" width="2.0"/>
                   <y:NodeLabel alignment="left" autoSizePolicy="node_width" borderDistance="2.0" configuration="CroppingLabel" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="117.75" modelName="custom" textColor="#FFFFFF" visible="true" width="261.0" x="0.0" y="6.125">{
   "producto" : "Pelota",
