@@ -137,6 +137,132 @@
 						<li style="font-size:32px" class="fragment" data-fragment-index="4"><u>Si vas a necesitar utilizar muchas relaciones, utiliza mejor una BD relacional</u>.</li>
 					</ul>
 				</section>
+				<section>
+					<h3>¿Transaciones?</h3>
+					<ul>
+						<li style="font-size:32px" class="fragment">MongoDB es una Base de Datos NoSQL, distribuída, por lo que se rige por el teorema CAP.</li>
+						<li style="font-size:32px" class="fragment">Las modificaciones son atómicas a nivel de Documento (incluyendo sub-documentos embebidos). O sea, si deseo modificar dos o mas propiedades de un documento, se modifican todas o ninguna.</li>
+						<li style="font-size:32px" class="fragment">Un operación de modificación sobre múltiples documentos, <u>no</u> es atómica.</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Usos Adecuados</h3>
+					<ul>
+						<li style="font-size:32px" class="fragment">Logueo de Eventos: Las aplicaciones tienen diferentes necesidades de logueo y la estructura flexible de MongoDB permite agregar nuevos datos de diferentes aplicaciones sin cambiar el esquema.</li>
+						<li style="font-size:32px" class="fragment">Web Analytics: Páginas Visitadas.</li>
+						<li style="font-size:32px" class="fragment">Content Manangement Systems, Blogging Systems.</li>
+					</ul>
+				</section>
+				<section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
+					<h2 class="tituloblanco">MongoDB</h2>
+					<h4 class="tituloblanco">Shell (Comandos Básicos)</h4>
+				</section>
+				<section>
+					<h3>MongoDB - Comandos del Shell</h3>
+				<pre class="fragment"><code code-trim data-noescape class="Java" style="font-size:18px"><span class="fragment">//Muestra todas las bases de datos de la instancia de MongoDB
+> show dbs</span>
+<span class="fragment">//Cambia a utilizar la BD db_x, o la crea sino existe
+> use db_x</span>
+<span class="fragment">//Muestra las collections existentes en la BD db_x
+> show collections</span>
+<span class="fragment">//Inserta un documento en la collection movie, la crea sino existe
+> db.movie.insert({"name":"tutorials point"})</span>
+<span class="fragment">//Lista todos los documentos de la collection movie
+> db.movie.find()</span>
+<span class="fragment">//Lista los documentos de paginas donde el autor es Yo Mismo
+> db.paginas.find({"autor":"Yo Mismo"})</span>
+</code></pre>
+				</section>
+				<section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
+					<h2 class="tituloblanco">MongoDB</h2>
+					<h4 class="tituloblanco">Java Driver</h4>
+				</section>
+				<section>
+					<h3>MongoDB - Java Driver</h3>
+					<h4>Session Skeleton</h4>
+				<pre class="fragment"><code code-trim data-noescape class="Java" style="font-size:18px"><span class="fragment">try (MongoClient mongoClient = new MongoClient()) {
+  //Obtengo la instancia de Base de Datos
+  MongoDatabase database = mongoClient.getDatabase("unaBD");
+
+  //Obtengo la Colección con la que deseo trabajar
+  MongoCollection<Document> collection = database.getCollection("unaColección");
+
+  //Aca trabajo con la collection...
+}
+</code></pre>
+<span class="fragment">Usamos <u>try</u> <u>with</u> <u>resources</u> para que se cierre la session al finalizar.</span>
+				</section>
+				<section>
+					<h3>MongoDB - Java Driver</h3>
+					<h4>Insertar un Documento</h4>
+				<pre class="fragment"><code code-trim data-noescape class="Java" style="font-size:18px"><span class="fragment">try (MongoClient mongoClient = new MongoClient()) {
+  //Obtengo la BD y la Colección
+  MongoDatabase database = mongoClient.getDatabase(“unaBD”);
+  MongoCollection<Document> collection = database.getCollection(“unaColección”);
+
+  //Creo una instancia de org.bson.Document
+  Document document = new Document("atributo1", "valor1")
+                        .append("atributo2", "valor2")
+                        .append("atributo-arreglo",
+                                     Arrays.asList("valor1", "valor2"))
+                        .append("atributo-fecha", new Date());
+                        .append("atributo-documento",
+                                     new Document("at1","val1"));
+   //Inserto el Documento en la collection
+   collection.insertOne(document);
+}
+</code></pre>
+				</section>
+				<section>
+					<h3>MongoDB - Java Driver</h3>
+					<h4>Buscar Documentos</h4>
+				<pre class="fragment"><code code-trim data-noescape class="Java" style="font-size:18px"><span class="fragment">try (MongoClient mongoClient = new MongoClient()) {
+  //Obtengo la BD y la Colección
+  MongoDatabase database = mongoClient.getDatabase(“unaBD”);
+  MongoCollection<Document> collection = database.getCollection(“unaColección”);
+
+  //Imprimo en consola el documento con id = “abc1”.
+  collection.find(Filters.eq("_id", new ObjectId("abc1")))
+                    .forEach((Document d) -> System.out.println(d));
+
+   //Imprimo en consola los documentos donde “atributo1” = “valorX”,
+   //ordenados por atributo-fecha.
+   collection.find(Filters.eq("atributo1", "valorX"))
+                             .sort(Sorts.descending("atributo-fecha"))
+                             .forEach((Document d) -> System.out.println(d));
+}
+</code></pre>
+				</section>
+				<section>
+					<h3>MongoDB - Java Driver</h3>
+					<h4>Buscar Documentos</h4>
+				<pre class="fragment"><code code-trim data-noescape class="Java" style="font-size:18px"><span class="fragment">try (MongoClient mongoClient = new MongoClient()) {
+  //Obtengo la BD y la Colección
+  MongoDatabase database = mongoClient.getDatabase(“unaBD”);
+  MongoCollection<Document> collection = database.getCollection(“unaColección”);
+
+  //Genero JSON y lo Imprimo en consola para el documento con id = “abc1”.
+  FindIterable<Document> d = collection.find(Filters.eq("_id", new ObjectId("abc1")));
+  System.out.println(JSON.serialize(d));
+
+  //Genero JSON y lo Imprimo en consola para los documentos donde
+  //“atributo1” = “valorX”, ordenados por atributo-fecha.
+  FindIterable<Document> ds = collection.find(Filters.eq("atributo1", "valorX"))
+                                  .sort(Sorts.descending("atributo-fecha"));
+  System.out.println(JSON.serialize(d));
+}
+</code></pre>
+				</section>
+				<section>
+					<h3>MongoDB - Docs</h3>
+					<ul>
+						<li><a href="https://docs.mongodb.com/manual/installation/">Instalación de MongoDB</a></li>
+						<li><a href="https://docs.mongodb.com/manual/mongo/">Shell Docs</a></li>
+						<li><a href="http://mongodb.github.io/mongo-java-driver/3.4/driver/getting-started/quick-start/">Java Driver</a></li>
+						<li><a href="http://mongodb.github.io/mongo-java-driver/3.4/driver/tutorials/">Java Driver Tutorial</a></li>
+					</ul>
+			</section>
+
 			</div>
 		</div>
 
