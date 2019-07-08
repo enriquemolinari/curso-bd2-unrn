@@ -120,7 +120,19 @@
 						<li class="fragment">Única forma de escalar las <u>escrituras</u>.</li>
 						<li class="fragment">3 Shards con dos esclavos replicados read-only por shard (para garantizar disponibilidad).</li>
 						<li class="fragment">Cada shard contiene un subconjunto de los datos. Aplicando una función de hash sobre algun atributo se distribuye.</li>
-						<li class="fragment">En BDs relacionales, es la aplicación quien debe determinar a que shard ir a buscar los datos. En BDs NoSQL el motor lo resuelve (feature "out of the box").</li>
+						<li class="fragment">En BDs relacionales, es la <u>aplicación</u> quien debe determinar a que shard ir a buscar los datos. En BDs NoSQL el <u>motor</u> lo resuelve (feature "out of the box").</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Sharding</h3>
+					<p>NoSQL Databases</p>
+					<img style="background:none; border:none; box-shadow:none;" class="fragment" src="imgs/sharding-mongodb.png" alt="sharding">
+				</section>
+				<section>
+					<h3>Sharding</h3>
+					<p>NoSQL Databases</p>
+					<ul>
+						<li class="fragment">Si <u>no</u> <u>hay</u> <i>id</i>, el <u>router</u> se encarga de revisar todos los shards y componer el resultado antes de devolverlo.</li>
 					</ul>
 				</section>
 			</div>
