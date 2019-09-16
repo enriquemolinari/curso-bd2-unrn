@@ -157,6 +157,20 @@
 				</section>
 				<section>
 					<h3>¿Cómo uso ZooDB?</h3>
+					<h4>Estructura de una Transacción (Solo Lectura)</h4>
+					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">  ZooHelper.createDb("dbfile.zoodb");
+  PersistenceManager pm = ZooJdoHelper.openDB(dbName);
+  pm.currentTransaction().setNonTransactionalRead(true);
+  try {
+    //Usar pm aca...
+  } finally {
+    pm.close();
+    pm.getPersistenceManagerFactory().close();
+  }</code></pre>
+					<aside class="notes">pm es el Contexto de Persistencia del que hablamos antes</aside>
+				</section>
+				<section>
+					<h3>¿Cómo uso ZooDB?</h3>
 					<h4>Objetos Persistentes</h4>
 					<p>Los objetos persistentes deben extender de <i>org.zoodb.api.impl.ZooPC</i></p>
 					<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">public class Categoria extends ZooPC {
