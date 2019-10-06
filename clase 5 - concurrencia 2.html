@@ -1,0 +1,379 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Clase 5 - CONCURRENCIA</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/agate.css">
+
+		<link rel="stylesheet" href="css/font-4.5.0-awesome.min.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+		<style>
+			.column-container{
+		    display: flex;
+			}
+			.col{
+		    flex: 1;
+			}
+			u.dotted {
+	  		border-bottom: 1px dashed #999;
+	  		text-decoration: none;
+			}
+			section.pantallacompleta {
+				width: 100%;
+				height: 100%;
+			}
+			.reveal h1, .reveal h2 , .reveal h3 {
+				color: #369FFB;
+			}
+			h4.titulocolor {
+				color: #369FFB;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h2>Concurrencia</h2>
+					<p>
+						Aprendamos a manejar <u>sistemas multi-usuario</u> de forma <u>correcta</u>!
+					</p>
+				</section>
+				<section>
+					<h3>Concurrencia</h3>
+					<p class="fragment">
+						<b>Problema 1</b>: Compra de asientos de colectivo para el mismo viaje desde dos sucursales distintas.
+					</p>
+					<p class="fragment">
+						El empleado le muestra la pantalla al comprador con los asientos disponibles.
+					</p>
+					<p class="fragment">
+						Elije el asiento 10. Ejecutando la siguiente sentencia:
+					</p>
+					<pre class="fragment"><code class="java" code-trim data-noescape contenteditable style="font-size:18px">Tx begin
+  update asientos set ocupado = 1
+		  where id_asiendo = 10 and ocupado = 0 and viaje = 2
+  insert into asiento_vendido (10 (asiento), persona_x)
+Tx commit</code></pre>
+				</section>
+
+				<section>
+					<h3>Concurrencia</h3>
+					<p class="fragment">
+						¿Le voy a vender el mismo asiento a dos personas distintas o no?
+					</p>
+				</section>
+
+				<section>
+					<h3>Concurrencia</h3>
+					<h4>Isolation Levels</h4>
+					<ol>
+						<li class="fragment" data-fragment-index="1">
+							Read Uncommited
+						</li>
+						<li class="fragment" data-fragment-index="1">
+							Read Commited
+						</li>
+						<li class="fragment" data-fragment-index="1">
+							Repeatable Read
+						</li>
+						<li class="fragment" data-fragment-index="1">
+							Serializable
+						</li>
+					</ol>
+				</section>
+
+				<section>
+					<h3>ANSI SQL Isolation Levels</h4>
+					<p class="fragment">
+						1. <u>Read</u> <u>Uncommited</u>: Permite dirty-reads pero no permite lost-updates. O sea, una transacción no tiene permitido escribir un dato que fue modificado por otra transacción que aún esta ejecutándose. Pero si puede leer cualquier dato.
+					</p>
+					<div class="column-container">
+						<div class="col">
+							<p class="fragment"><img src="imgs/lost-updates.png" alt="lost update"></p>
+						</div>
+						<div class="col">
+							<p class="fragment"><img src="imgs/dirty-read.png" alt="dirty read"></p>
+						</div>
+					</div>
+				</section>
+				<section>
+					<h3>ANSI SQL Isolation Levels</h4>
+					<p class="fragment">
+						2. <u>Read</u> <u>Commited</u>: Permite unrepeatable reads pero no permite dirty reads. Las lecturas dentro de la transacción no bloquean, pero las escrituras (el where del update) bloquean cualquier tipo de lectura/escritura de otras transacciones concurrentes.
+					</p>
+					<div class="column-container">
+						<div class="col">
+							<p class="fragment"><img src="imgs/dirty-read.png"></p>
+						</div>
+						<div class="col">
+							<p class="fragment"><img src="imgs/unrepeatable-read.png"></p>
+						</div>
+					</div>
+				</section>
+				<section>
+					<h3>ANSI SQL Isolation Levels</h4>
+					<p class="fragment">
+						3. <u>Repeatable</u> <u>Read</u>: No permite unrepeatable read, si permite phanton reads. Las lecturas dentro de una transacción bloquean las escrituras (el where de un update por ejemplo) de otras transacciones concurrentes.
+					</p>
+					<div class="column-container">
+						<div class="col">
+							<p class="fragment"><img src="imgs/unrepeatable-read.png"></p>
+						</div>
+						<div class="col">
+							<p class="fragment"><img src="imgs/phanton-read.png"></p>
+						</div>
+					</div>
+				</section>
+				<section>
+					<h3>ANSI SQL Isolation Levels</h4>
+					<p class="fragment">
+						4. <u>Serializable</u>: No permite phanton reads. Una transacción se ejecuta despues de otra (en serie). No hay concurrencia alguna.
+					</p>
+				</section>
+
+				<section>
+					<h3>Concurrencia</h3>
+
+					<p class="fragment" data-fragment-index="2">
+						¿Que Base de Datos estan usando? ¿Saben en que nivel de aislamiento esta ejecutándose?
+					</p>
+					<p class="fragment" data-fragment-index="3">
+						PostgreSQL, Oracle y MS SQL Server por defecto usan <u>Read Committed</u>. MySQL y MariaDB en <u>Repeatable Read</u>.
+					</p>
+				</section>
+
+				<section>
+					<h3>Concurrencia</h3>
+					<p class="fragment">
+						Volvamos al <b>Problema 1</b>
+					</p>
+					<p class="fragment">
+						Si concurrentemente sucede que compran el mismo asiento, el update no modificaría nada y el insert seguramente (si tenemos restricciones de PK)
+						genera una excepción de PK duplicada.
+					</p>
+					<p class="fragment">
+						Al menos no le vendo el mismo asiento a dos personas distintas
+					</p>
+					<p class="fragment">
+						Lo mejoro preguntado antes del <i>update</i>, con un <u>select</u> a la misma fila y generando un mensaje amigable al usuario.
+					</p>
+				</section>
+
+
+<!--				<section>
+					<h3>Concurrencia</h3>
+					<p class="fragment">
+						¿Cuál o cuales de las propiedades <strong>ACID</strong> estan relacionadas con la concurrencia?
+					</p>
+					<p class="fragment">
+						I: Isolation. <span class="fragment"><u>Aislamiento</u> de las transacciones</span>
+					</p>
+					<p class="fragment">
+						Por defecto, las BDs relacionales estan configuradas <u>relajando</u> el aislamiento completo, <u>para</u> <u>aumentar</u> la performance y escalar mejor.
+					</p>
+					<p class="fragment">
+						El aislamiento completo no permite ejecutar transacciones en forma concurrente.
+					</p>
+				</section>
+				<section>
+					<h3>Concurrencia</h3>
+					<p class="fragment">
+							¿Cuáles son los problemas que podemos encontrarnos al no configurar la BD con aislamiento completo?
+					</p>
+				</section>
+				<section>
+					<h3>Concurrencia</h3>
+								<p><u>Lost</u> <u>Update</u>: Sucede si dos transacciones modifican el mismo dato y la segunda transacción aborta.</p>
+								<p class="fragment"><img src="imgs/lost-updates.png"></p>
+								<p class="fragment">TxA cambia D0 por D1, y TxB cambia D1 por D2, pero "rollbackea", volviendo a D0.</p>
+				</section>
+				<section>
+					<h3>Concurrencia</h3>
+								<p><u>Dirty</u> <u>Read</u>: Sucede si una transacción lee datos modificados por otra transacción que aún no comiteo. Esto es peligroso porque podría darse que la transacción termine abortado, con lo cual se leyeron datos espurios/sucios.</p>
+								<p class="fragment"><img src="imgs/dirty-read.png"></p>
+				</section>
+				<section>
+					<h3>Concurrencia</h3>
+								<p><u>Unrepeatable</u> <u>Read</u>: Sucede si una transacción lee un dato dos veces y la segunda vez es diferente a la primera.</p>
+								<p class="fragment"><img src="imgs/unrepeatable-read.png"></p>
+				</section>
+				<section>
+					<h3>Concurrencia</h3>
+								<p><u>Last</u> <u>Commit</u> <u>Wins</u>: Dos transacciones leen el mismo dato, la primera lo modifica y comitea y la segunda hace lo mismo después.</p>
+								<p class="fragment"><img src="imgs/last-commit-wins.png"></p>
+								<p class="fragment">Esto es <u>muy</u> frustrante para los usuarios, ya que el primero pierde los cambios que hizo.</p>
+				</section>
+				<section>
+					<h3>Concurrencia</h3>
+								<p><u>Phanton</u> <u>Read</u>: Ocurre cuando una transacción ejecuta una query dos veces, y la segunda vez obtiene mas datos (o menos si se borraron) que la primera.</p>
+								<p class="fragment"><img src="imgs/phanton-read.png"></p>
+				</section>
+				<section>
+					<h3>ANSI SQL Isolation Levels</h4>
+					<p>
+						¿Niveles de Aislamiento? ¿Qué son?
+					</p>
+				</section>
+
+				<section>
+					<h3>Concurrencia</h3>
+					<h4>Isolation Levels (repaso)</h4>
+					<ol>
+						<li class="fragment" data-fragment-index="1">
+							Read Uncommited
+						</li>
+						<li class="fragment" data-fragment-index="1">
+							Read Commited
+						</li>
+						<li class="fragment" data-fragment-index="1">
+							Repeatable Read
+						</li>
+						<li class="fragment" data-fragment-index="1">
+							Serializable
+						</li>
+					</ol>
+					<p class="fragment" data-fragment-index="2">
+						¿Que Base de Datos estan usando? ¿Saben en que nivel de aislamiento esta ejecutándose?
+					</p>
+					<p class="fragment" data-fragment-index="3">
+						PostgreSQL, Oracle y MS SQL Server por defecto usan Read Committed. MySQL y MariaDB en Repeatable Read.
+					</p>
+				</section>
+
+				<section>
+					<h3>Concurrencia</h3>
+					<h4>Algunas Reflexiones</h4>
+					<p class="fragment">
+						<u>Read Uncommitted</u> es muy peligroso, por eso por defecto debe descartarse.
+					</p>
+					<p class="fragment">
+						<u>Serializable</u> es muy costoso en términos de escalabilidad del sistema y las lecturas fantasmas no suelen ser un problema en la mayoría de los casos. Sí es probable que necesitemos serializar ciertas acciones (casos de uso) de una aplicación.
+					</p>
+				</section>
+				<section>
+					<h3>Concurrencia</h3>
+					<h4>Algunas Reflexiones</h4>
+					<blockquote class="fragment">
+						No hay una única forma de prevenir todos los casos particulares que pueden darse en una aplicación. Debemos manejarlos desde la aplicación, segun casos de uso.
+					</blockquote>
+				</section>
+			-->
+			<section>
+				<h3>Concurrencia</h3>
+				<h4>Problema 2</h4>
+				<p class="fragment" data-fragment-index="1">Ejemplo: Crear un expediente que debe generarse con un número único que se resetea cada nuevo año.</p>
+				<pre class="fragment" data-fragment-index="2"><code class="java" code-trim data-noescape contenteditable style="font-size:18px">Tx begin
+  n = select numero from numero_exp
+  n = n + 1;
+  -- n para el nuevo expediente
+  update numero_exp set numero = n;
+Tx commit</code></pre>
+<p class="fragment" data-fragment-index="3">¿Qué nivel de aislamiento lo previene?</p>
+			</section>
+			<section>
+				<h3>Concurrencia</h3>
+				<h4>Problema 2</h4>
+					<p class="fragment"><i>Repeatable Read</i> no, porque no va a dejar escribir hasta que termine la otra pero una vez que pueda repite el mismo numero</p>
+					<p class="fragment"><i>Serializable</i> si funciona pero mejor usar "select for update"</p>
+					<pre class="fragment"><code class="java" code-trim data-noescape contenteditable style="font-size:18px">Tx begin
+  n = select numero from numero_exp for update
+  n = n + 1;
+  -- n para el nuevo expediente
+  update numero_exp set numero = n;
+Tx commit</code></pre>
+			</section>
+			<section>
+				<h3>Concurrencia</h3>
+				<h4>Problema 3 - Last Update Wins</h4>
+				<p class="fragment">Ej: Un usuario lee un producto con intenciones de modificarlo, otro hace lo mismo y ambos lo modifican...</p>
+				<p class="fragment">El usuario se paso 10 minutos modificando el producto y luego pierde sus cambios...</p>
+				<p class="fragment">¿Cómo lo resuelvo de forma elegante?</p>
+			</section>
+			<section>
+					<h3>Concurrencia</h3>
+					<h4>Last Update Wins</h4>
+					<p class="fragment">Dos estratégias para resolverlo a nivel aplicación:</p>
+					<ul>
+						<li class="fragment">Optimista</li>
+						<li class="fragment">Pesimista</li>
+					</ul>
+					<p class="fragment">Elegir una u otra depende de cuan frecuente podría darse que los usuarios se pisen entre ellos.</p>
+				</section>
+				<section>
+					<h3>Concurrencia</h3>
+					<h4>Estratégia Optimista</h4>
+					<p class="fragment">Los objetos tienen un número de versión y al leer el objeto la obtienen. Al persistir una modificación primero revisan si la versión es la misma, si lo es, persisten el cambio y actualizan la versión sino lanzan una excepción.</p>
+				</section>
+				<section>
+					<h3>Concurrencia</h3>
+					<h4>Estratégia Pesimista</h4>
+					<p class="fragment">Al leer un objeto, éste se marca en BD como "bloqueado" y queda bloqueado para el resto de los usuarios.</p>
+					<p class="fragment">Se libera con la acción de persistir el cambio, o con una acción específica de "desbloquear".</p>
+					<p class="fragment"><u>Ojo</u>!: Si un usuario lo bloquea y se va a su casa... nadie podra accederlo. Plan B!</p>
+				</section>
+				<section>
+					<h3>Java Persistence API (JPA)</h3>
+					<h4>Estrategia Optimista en JPA</h4>
+					<pre class="fragment"><code class="java" code-trim data-noescape contenteditable style="font-size:18px">@Entity
+public class Persona {
+ ...
+ @Version
+ private Long version;
+ ...
+}</code></pre>
+					<p class="fragment">Definir la versión y luego manejar la excepción <i>javax.persistence.OptimisticLockException</i></p>
+				</section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+				dependencies: [
+					{ src: 'js/d3.v3.min.js'},
+					{ src: 'plugin/chalkboard/chalkboard.js' },
+					{ src: 'node_modules/reveal.js-d3js/d3js.js' },
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				],
+				chalkboard: {
+					toggleChalkboardButton: { left: "80px" },
+					toggleNotesButton: { left: "130px" },
+				},
+				keyboard: {
+			    67: function() { RevealChalkboard.toggleNotesCanvas() },	// toggle notes canvas when 'c' is pressed
+			    66: function() { RevealChalkboard.toggleChalkboard() },	// toggle chalkboard when 'b' is pressed
+			    46: function() { RevealChalkboard.clear() },	// clear chalkboard when 'DEL' is pressed
+			     8: function() { RevealChalkboard.reset() },	// reset chalkboard data on current slide when 'BACKSPACE' is pressed
+			    68: function() { RevealChalkboard.download() },	// downlad recorded chalkboard drawing when 'd' is pressed
+				},
+			});
+		</script>
+	</body>
+</html>
