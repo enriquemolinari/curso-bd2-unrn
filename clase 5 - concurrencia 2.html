@@ -63,12 +63,12 @@
 						El empleado le muestra la pantalla al comprador con los asientos disponibles.
 					</p>
 					<p class="fragment">
-						Elije el asiento 10. Ejecutando la siguiente sentencia:
+						Elije el asiento 10, y al confirmar se ejecuta la siguiente sentencia:
 					</p>
 					<pre class="fragment"><code class="java" code-trim data-noescape contenteditable style="font-size:18px">Tx begin
   update asientos set ocupado = 1
 		  where id_asiendo = 10 and ocupado = 0 and viaje = 2
-  insert into asiento_vendido (10 (asiento), persona_x)
+  insert into asiento_vendido (10 (asiento), 2 (viaje),  comprador_x)
 Tx commit</code></pre>
 				</section>
 
@@ -279,10 +279,10 @@ Tx commit</code></pre>
 				<h4>Problema 2</h4>
 				<p class="fragment" data-fragment-index="1">Ejemplo: Crear un expediente que debe generarse con un número único que se resetea cada nuevo año.</p>
 				<pre class="fragment" data-fragment-index="2"><code class="java" code-trim data-noescape contenteditable style="font-size:18px">Tx begin
-  n = select numero from numero_exp
+  n = select numero from numero_exp where año = AAAA;
   n = n + 1;
   -- n para el nuevo expediente
-  update numero_exp set numero = n;
+  update numero_exp set numero = n where año = AAAA;
 Tx commit</code></pre>
 <p class="fragment" data-fragment-index="3">¿Qué nivel de aislamiento lo previene?</p>
 			</section>
@@ -292,10 +292,10 @@ Tx commit</code></pre>
 					<p class="fragment"><i>Repeatable Read</i> no, porque no va a dejar escribir hasta que termine la otra pero una vez que pueda repite el mismo numero</p>
 					<p class="fragment"><i>Serializable</i> si funciona pero mejor usar "select for update"</p>
 					<pre class="fragment"><code class="java" code-trim data-noescape contenteditable style="font-size:18px">Tx begin
-  n = select numero from numero_exp for update
+  n = select numero from numero_exp where año = AAAA for update
   n = n + 1;
   -- n para el nuevo expediente
-  update numero_exp set numero = n;
+  update numero_exp set numero = n where año = AAAA;
 Tx commit</code></pre>
 			</section>
 			<section>
