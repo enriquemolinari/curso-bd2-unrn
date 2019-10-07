@@ -60,12 +60,13 @@
 						<b>Problema 1</b>: Compra de asientos de colectivo para el mismo viaje desde dos sucursales distintas.
 					</p>
 					<p class="fragment">
-						El empleado le muestra la pantalla al comprador con los asientos disponibles.
-					</p>
-					<p class="fragment">
-						Elije el asiento 10, y al confirmar se ejecuta la siguiente sentencia:
+						El empleado le muestra la pantalla al comprador con los asientos disponibles. Supongamos se elije el asiento 10 y confirma:
 					</p>
 					<pre class="fragment"><code class="java" code-trim data-noescape contenteditable style="font-size:18px">Tx begin
+  ocupado = select 1 from asientos
+			where id_asiendo = 10 and ocupado = 1 and viaje = 2
+  if (ocupado)
+    throw new Exception("Lo siento, el asiento fue vendido");
   update asientos set ocupado = 1
 		  where id_asiendo = 10 and ocupado = 0 and viaje = 2
   insert into asiento_vendido (10 (asiento), 2 (viaje),  comprador_x)
@@ -81,98 +82,19 @@ Tx commit</code></pre>
 
 				<section>
 					<h3>Concurrencia</h3>
-					<h4>Isolation Levels</h4>
-					<ol>
-						<li class="fragment" data-fragment-index="1">
-							Read Uncommited
-						</li>
-						<li class="fragment" data-fragment-index="1">
-							Read Commited
-						</li>
-						<li class="fragment" data-fragment-index="1">
-							Repeatable Read
-						</li>
-						<li class="fragment" data-fragment-index="1">
-							Serializable
-						</li>
-					</ol>
-				</section>
-
-				<section>
-					<h3>ANSI SQL Isolation Levels</h4>
 					<p class="fragment">
-						1. <u>Read</u> <u>Uncommited</u>: Permite dirty-reads pero no permite lost-updates. O sea, una transacción no tiene permitido escribir un dato que fue modificado por otra transacción que aún esta ejecutándose. Pero si puede leer cualquier dato.
+						Lo resolvemos utilizando "select for update"
 					</p>
-					<div class="column-container">
-						<div class="col">
-							<p class="fragment"><img src="imgs/lost-updates.png" alt="lost update"></p>
-						</div>
-						<div class="col">
-							<p class="fragment"><img src="imgs/dirty-read.png" alt="dirty read"></p>
-						</div>
-					</div>
-				</section>
-				<section>
-					<h3>ANSI SQL Isolation Levels</h4>
-					<p class="fragment">
-						2. <u>Read</u> <u>Commited</u>: Permite unrepeatable reads pero no permite dirty reads. Las lecturas dentro de la transacción no bloquean, pero las escrituras (el where del update) bloquean cualquier tipo de lectura/escritura de otras transacciones concurrentes.
-					</p>
-					<div class="column-container">
-						<div class="col">
-							<p class="fragment"><img src="imgs/dirty-read.png"></p>
-						</div>
-						<div class="col">
-							<p class="fragment"><img src="imgs/unrepeatable-read.png"></p>
-						</div>
-					</div>
-				</section>
-				<section>
-					<h3>ANSI SQL Isolation Levels</h4>
-					<p class="fragment">
-						3. <u>Repeatable</u> <u>Read</u>: No permite unrepeatable read, si permite phanton reads. Las lecturas dentro de una transacción bloquean las escrituras (el where de un update por ejemplo) de otras transacciones concurrentes.
-					</p>
-					<div class="column-container">
-						<div class="col">
-							<p class="fragment"><img src="imgs/unrepeatable-read.png"></p>
-						</div>
-						<div class="col">
-							<p class="fragment"><img src="imgs/phanton-read.png"></p>
-						</div>
-					</div>
-				</section>
-				<section>
-					<h3>ANSI SQL Isolation Levels</h4>
-					<p class="fragment">
-						4. <u>Serializable</u>: No permite phanton reads. Una transacción se ejecuta despues de otra (en serie). No hay concurrencia alguna.
-					</p>
-				</section>
-
-				<section>
-					<h3>Concurrencia</h3>
-
-					<p class="fragment" data-fragment-index="2">
-						¿Que Base de Datos estan usando? ¿Saben en que nivel de aislamiento esta ejecutándose?
-					</p>
-					<p class="fragment" data-fragment-index="3">
-						PostgreSQL, Oracle y MS SQL Server por defecto usan <u>Read Committed</u>. MySQL y MariaDB en <u>Repeatable Read</u>.
-					</p>
-				</section>
-
-				<section>
-					<h3>Concurrencia</h3>
-					<p class="fragment">
-						Volvamos al <b>Problema 1</b>
-					</p>
-					<p class="fragment">
-						Si concurrentemente sucede que compran el mismo asiento, el update no modificaría nada y el insert seguramente (si tenemos restricciones de PK)
-						genera una excepción de PK duplicada.
-					</p>
-					<p class="fragment">
-						Al menos no le vendo el mismo asiento a dos personas distintas
-					</p>
-					<p class="fragment">
-						Lo mejoro preguntado antes del <i>update</i>, con un <u>select</u> a la misma fila y generando un mensaje amigable al usuario.
-					</p>
+					<pre class="fragment"><code class="java" code-trim data-noescape contenteditable style="font-size:18px">Tx begin
+  ocupado = select 1 from asientos
+		where id_asiendo = 10 and ocupado = 1 and viaje = 2
+		for update
+  if (ocupado)
+    throw new Exception("Lo siento, el asiento fue vendido");
+  update asientos set ocupado = 1
+		  where id_asiendo = 10 and ocupado = 0 and viaje = 2
+  insert into asiento_vendido (10 (asiento), 2 (viaje),  comprador_x)
+Tx commit</code></pre>
 				</section>
 
 
@@ -284,13 +206,12 @@ Tx commit</code></pre>
   -- n para el nuevo expediente
   update numero_exp set numero = n where año = AAAA;
 Tx commit</code></pre>
-<p class="fragment" data-fragment-index="3">¿Qué nivel de aislamiento lo previene?</p>
 			</section>
 			<section>
 				<h3>Concurrencia</h3>
 				<h4>Problema 2</h4>
-					<p class="fragment"><i>Repeatable Read</i> no, porque no va a dejar escribir hasta que termine la otra pero una vez que pueda repite el mismo numero</p>
-					<p class="fragment"><i>Serializable</i> si funciona pero mejor usar "select for update"</p>
+<!--					<p class="fragment"><i>Repeatable Read</i> no, porque no va a dejar escribir hasta que termine la otra pero una vez que pueda repite el mismo numero</p>-->
+					<p class="fragment">Usemos "select for update" nuevamente</p>
 					<pre class="fragment"><code class="java" code-trim data-noescape contenteditable style="font-size:18px">Tx begin
   n = select numero from numero_exp where año = AAAA for update
   n = n + 1;
@@ -339,6 +260,86 @@ public class Persona {
 }</code></pre>
 					<p class="fragment">Definir la versión y luego manejar la excepción <i>javax.persistence.OptimisticLockException</i></p>
 				</section>
+
+				<section>
+					<h3>Concurrencia</h3>
+					<h4>Repaso: Isolation Levels</h4>
+					<ol>
+						<li class="fragment" data-fragment-index="1">
+							Read Uncommited
+						</li>
+						<li class="fragment" data-fragment-index="1">
+							Read Commited
+						</li>
+						<li class="fragment" data-fragment-index="1">
+							Repeatable Read
+						</li>
+						<li class="fragment" data-fragment-index="1">
+							Serializable
+						</li>
+					</ol>
+				</section>
+
+				<section>
+					<h3>ANSI SQL Isolation Levels</h4>
+					<p class="fragment">
+						1. <u>Read</u> <u>Uncommited</u>: Permite dirty-reads pero no permite lost-updates. O sea, una transacción no tiene permitido escribir un dato que fue modificado por otra transacción que aún esta ejecutándose. Pero si puede leer cualquier dato.
+					</p>
+					<div class="column-container">
+						<div class="col">
+							<p class="fragment"><img src="imgs/lost-updates.png" alt="lost update"></p>
+						</div>
+						<div class="col">
+							<p class="fragment"><img src="imgs/dirty-read.png" alt="dirty read"></p>
+						</div>
+					</div>
+				</section>
+				<section>
+					<h3>ANSI SQL Isolation Levels</h4>
+					<p class="fragment">
+						2. <u>Read</u> <u>Commited</u>: Permite unrepeatable reads pero no permite dirty reads. Las lecturas dentro de la transacción no bloquean, pero las escrituras (el where del update) bloquean cualquier tipo de lectura/escritura de otras transacciones concurrentes.
+					</p>
+					<div class="column-container">
+						<div class="col">
+							<p class="fragment"><img src="imgs/dirty-read.png"></p>
+						</div>
+						<div class="col">
+							<p class="fragment"><img src="imgs/unrepeatable-read.png"></p>
+						</div>
+					</div>
+				</section>
+				<section>
+					<h3>ANSI SQL Isolation Levels</h4>
+					<p class="fragment">
+						3. <u>Repeatable</u> <u>Read</u>: No permite unrepeatable read, si permite phanton reads. Las lecturas dentro de una transacción bloquean las escrituras (el where de un update por ejemplo) de otras transacciones concurrentes.
+					</p>
+					<div class="column-container">
+						<div class="col">
+							<p class="fragment"><img src="imgs/unrepeatable-read.png"></p>
+						</div>
+						<div class="col">
+							<p class="fragment"><img src="imgs/phanton-read.png"></p>
+						</div>
+					</div>
+				</section>
+				<section>
+					<h3>ANSI SQL Isolation Levels</h4>
+					<p class="fragment">
+						4. <u>Serializable</u>: No permite phanton reads. Una transacción se ejecuta despues de otra (en serie). No hay concurrencia alguna.
+					</p>
+				</section>
+
+				<section>
+					<h3>Concurrencia</h3>
+
+					<p class="fragment" data-fragment-index="2">
+						¿Que Base de Datos estan usando? ¿Saben en que nivel de aislamiento esta ejecutándose?
+					</p>
+					<p class="fragment" data-fragment-index="3">
+						PostgreSQL, Oracle y MS SQL Server por defecto usan <u>Read Committed</u>. MySQL y MariaDB en <u>Repeatable Read</u>.
+					</p>
+				</section>
+
 			</div>
 		</div>
 
