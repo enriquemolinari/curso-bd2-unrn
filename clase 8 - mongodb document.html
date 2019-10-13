@@ -243,13 +243,17 @@
 
   //Genero JSON y lo Imprimo en consola para el documento con id = “abc1”.
   FindIterable<Document> d = collection.find(Filters.eq("_id", new ObjectId("abc1")));
-  System.out.println(JSON.serialize(d));
+  System.out.println(StreamSupport.stream(d.spliterator(), false)
+	        .map(Document::toJson)
+	        .collect(Collectors.joining(", ", "[", "]")));
 
   //Genero JSON y lo Imprimo en consola para los documentos donde
   //“atributo1” = “valorX”, ordenados por atributo-fecha.
   FindIterable<Document> ds = collection.find(Filters.eq("atributo1", "valorX"))
-                                  .sort(Sorts.descending("atributo-fecha"));
-  System.out.println(JSON.serialize(d));
+                              .sort(Sorts.descending("atributo-fecha"));
+  System.out.println(StreamSupport.stream(ds.spliterator(), false)
+                              .map(Document::toJson)
+                              .collect(Collectors.joining(", ", "[", "]")));
 }
 </code></pre>
 				</section>
