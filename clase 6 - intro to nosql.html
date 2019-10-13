@@ -57,9 +57,9 @@
 					<p style="font-size:64px">Introducción</p>
 				</section>
 				<section>
-					<h3>Algo de Historia primero ...</h3>
+					<h3>¿De donde partimos y cómo llegamos hasta NoSQL?</h3>
 					<p class="fragment">
-						¿Cómo llegamos hasta NoSQL?
+						Comencemos con algo de historia...
 					</p>
 					<blockquote class="fragment">
 						Tres Revoluciones de las Bases de Datos
@@ -85,11 +85,11 @@
 							<small class="fragment">1984: DB2</small>
 							<small class="fragment">1987: Sysbase</small>
 							<small class="fragment">1989: SQL Server</small>
-							<small class="fragment">1990: OODBMS (Non Relational)</small>
+							<small class="fragment"><u>1990: OODBMS (Non Relational)</u></small>
 							<small class="fragment">1995: MySQL</small>
 							<small class="fragment">1995: PostgreSQL</small>
 						</div>
-						<div class="col">
+	<!--					<div class="col">
 							<b class="fragment">Tercera Revolución</b>
 							<small class="fragment">2005: Hadoop / <u>Google</u> Big Table</small>
 							<small class="fragment">2007: Dynamo (<u>Amazon</u>)</small>
@@ -97,7 +97,7 @@
 							<small class="fragment">2009: MongoDB</small>
 							<small class="fragment">2010: VoltDB</small>
 							<small class="fragment">... muchas mas en <a href="http://nosql.org">nosql.org</a></small>
-						</div>
+						</div>-->
 					</div>
 					<aside class="notes">
 							- Magnetic Tape y Magnetic Disk: Acceso secuencial para ambos, cambia el soporte. El disco es mas rápido.
@@ -107,7 +107,7 @@
 								Tecnologías que dominaron los mercados en la época de los Mainframes</aside>
 				</section>
 				<section>
-					<h3>Segunda Revolución</h3>
+					<h3>Segunda Revolución: El Modelo Relacional</h3>
 					<p class="fragment">
 						¿Qué generó su aparición?
 					</p>
@@ -131,15 +131,30 @@
 				</section>
 				<section>
 					<h3>El Modelo Relacional</h3>
-					<ul>
-						<li class="fragment">El Modelo Relacional describe como los datos deben ser presentados a los usuarios, en lugar de como deben ser persistidos.</li>
-						<li class="fragment">Tuplas, Relaciones (Tablas), Restricciones, un lenguaje de consulta SQL.</li>
-						<li class="fragment">Las formas normales definen el buen diseño.</li>
-						<li class="fragment">Jim Gray (IBM) agrega al trabajo de Cood las transacciones ACID.</li>
-					</ul>
+					<p class="fragment">
+						¿En qué se diferencia de los modelos jerárquico y de Red?
+					</p>
+					<blockquote class="fragment">
+						El Modelo Relacional describe como los <u>datos</u> deben ser <u>presentados</u> a los <u>usuarios</u>, en lugar de como deben ser <u>persistidos</u>.
+					</blockquote>
 				</section>
 				<section>
-					<h3>Tercera Revolución</h3>
+					<h3>El Modelo Relacional</h3>
+					<p class="fragment">
+						Fortalezas, principales características
+					</p>
+					<ul>
+<!--						<li class="fragment">Tuplas, Relaciones (Tabla)</li>-->
+						<li class="fragment">Lenguaje de Consulta SQL (estandar)</li>
+						<li class="fragment">Las formas normales definen el buen diseño (no existe en el diseño de objetos).</li>
+						<li class="fragment">Transacciones <u>ACID</u> (Agregado por Jim Gray (IBM) al trabajo de Cood).</li>
+						<li class="fragment"><u>Consistencia</u>: Transacciones, Claves Forañas, Restricciones. <span class="fragment">Todas herramientas para garantizar la consistencia.</span></li>
+					</ul>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Tercera Revolución (2005)</h3>
 					<p class="fragment">
 						<b style="font-size:48px">NoSQL</b>
 					</p>
@@ -174,11 +189,9 @@
 				<section>
 					<h3>Aplicaciones "Planet Size"</h3>
 					<ul>
-						<li class="fragment"><b>Google</b>, <b>Amazon</b>, <b>Facebook</b>, <b>Twitter</b>, y otras son denominadas aplicaciones "Planet Size".</li>
-						<li class="fragment">También se las denomina "Web Scale".</li>
-						<li class="fragment">Son aplicaciones de escala mundial, con <u>altísima demanda</u>.</li>
+						<li class="fragment"><b>Google</b>, <b>Amazon</b>, <b>Facebook</b>, <b>Twitter</b>, y recibieron el nombre de aplicaciones "Planet Size". O también se las denomina "Web Scale".</li>
 					</ul>
-					<blockquote class="fragment">Su demanda es Tan alta... pero <b>TAN ALTA</b>... que <u>no es posible</u> hostear su base de datos en un <u>único servidor</u>, por mas grande que éste fuera.</li>
+					<blockquote class="fragment">Su demanda es Tan alta... pero <b>TAN ALTA</b>... que <u>no funcionaban</u> en un <u>único servidor</u> de base de datos, por mas grande que éste fuera.</li>
 				</section>
 				<section>
 					<h3>Aplicaciones "Planet Size"</h3>
@@ -186,8 +199,25 @@
 					<ul>
 						<li class="fragment">Distribuyeron la carga en varios servers (segun la demanda cerca de 100).</li>
 						<li class="fragment"><b>Cluster</b>: Varias máquinas conectadas entre sí que funcionan como si fueran <u>solo una</u>.</li>
-						<li class="fragment">¿Y esto lo podían hacer con una BD relacional?</li>
+	<!--					<li class="fragment">¿Y esto lo podían hacer con una BD relacional?</li>-->
 					</ul>
+				</section>
+				<section>
+					<h3>Teorema de CAP</h3>
+					<span class="fragment">Al distribuir una base de datos...</span> <span class="fragment">te encontras con el <u>Teorema de CAP</u> = Consistency, Availability, Partition Tolerance</span>
+					<p class="fragment">¿Sabemos que es Consistencia? ¿Sabemos que es Disponibilidad? ¿Tolerante a Fallos de red?</p>
+				</section>
+				<section>
+					<h3>Teorema de CAP</h3>
+					<blockquote class="fragment">Solo puedo ser CP o AP</blockquote>
+							<ul>
+								<li class="fragment" style="font-size:26px">Supongamos dos nodos conetados vía red...</li>
+<!--								<li class="fragment" style="font-size:26px">Si quiero ser consistente, al modificar un dato en un nodo, se debe bloquear ese dato en todos los nodos hasta tanto todos tengan en el mismo valor.</li>-->
+								<li class="fragment" style="font-size:26px">Si quiero ser consistente, al escribir un dato en un nodo, no puedo devolver el control al usuario hasta que ese dato se replique en todos los nodos.</li>
+								<li class="fragment" style="font-size:26px">Supongamos que hay una corte en la red...</li>
+								<!--<li class="fragment" style="font-size:26px">Si los mensajes no pueden viajar de un nodo al otro y se produce el escenario donde un usuario escribe en un nodo y otro usuario intenta leer el mismo dato del otro server, entonces tengo dos opciones: le devuelvo al usuario el dato viejo, <u>no soy consistente</u> pero si tengo disponibilidad o hago esperar al usuario hasta que el dato nuevo pueda llegar,  entonces soy consistente pero <u>no tengo disponibilidad</u>.</li>--->
+								<li class="fragment" style="font-size:26px">Si los mensajes no pueden viajar de un nodo al otro, en el escenario donde un usuario escribe en un nodo, entonces tengo dos opciones: le devuelvo al usuario el control sin terminar de replicar en el resto de los nodos, <u>no soy consistente</u> pero si tengo disponibilidad o hago esperar al usuario hasta que el dato nuevo pueda llegar, entonces soy consistente pero <u>no tengo disponibilidad</u>.</li>
+							</ul>
 				</section>
 				<section>
 					<h3>Distribuir una BD Relacional</h3>
@@ -225,17 +255,6 @@
 					</div>
 				</section>
 				<section>
-					<h3>Teorema de CAP</h3>
-					<span class="fragment">CAP = Consistency, Availability, Partition Tolerance</span>
-					<blockquote class="fragment">No puedo ser las tres a la vez. Solo puedo ser CP o AP.</blockquote>
-							<ul>
-								<li class="fragment" style="font-size:26px">Supongamos dos nodos conetados vía red...</li>
-								<li class="fragment" style="font-size:26px">Si quiero ser consistente, al modificar un dato en un nodo, se debe bloquear ese dato en todos los nodos hasta tanto todos tenga en el mismo valor.</li>
-								<li class="fragment" style="font-size:26px">Supongamos que hay una corte en la red...</li>
-								<li class="fragment" style="font-size:26px">Si los mensajes no pueden viajar de un nodo al otro y se produce el escenario donde un usuario escribe en un server y otro usuario intenta leer el mismo dato del otro server, entonces tengo dos opciones: le devuelvo al usuario el dato viejo, <u>no soy consistente</u> pero si tengo disponibilidad o hago esperar al usuario hasta que el dato nuevo pueda llegar,  entonces soy consistente pero <u>no tengo disponibilidad</u>.</li>
-							</ul>
-				</section>
-				<section>
 					<b style="font-size:48px" class="titulocolor">NoSQL</b>
 					<p class="fragment">Hoy es una movida MUY grande... y se valen de otras características también:</p>
 					<p class="fragment"><u>Esquema Flexible</u>: No tienen un esquema rígido como el relacional, es flexible (json en general).</p>
@@ -249,7 +268,7 @@
 						<li class="fragment"><b style="font-size:68px">S</b>oft-State: Los datos pueden cambiar a raiz de cambios en otros nodos (eventual consistency)</li>
 						<li class="fragment"><b style="font-size:68px">E</b>ventual Consistency: La cosistencia será eventual, o sea, cuando sea posible replicar un cambio en todos los nodos del cluster.</li>
 					</ul>
-					<p class="fragment">Esto para competirle al ACID del mundo relacional... :)</p>
+<!--					<p class="fragment">Esto para competirle al ACID del mundo relacional... :)</p>-->
 				</section>
 				<section>
 					<b style="font-size:48px" class="titulocolor">Consistencia vs Disponibilidad</b>
@@ -264,6 +283,31 @@
 					<p class="fragment">NoSQL: Not Only SQL</p>
 					<p class="fragment">nosql-database.org: Next Generation Databases mostly addressing some of the points: being non-relational, distributed, open-source and horizontally scalable.</p>
 					<p class="fragment">Noten que quienes las inventaron son Google y Amazon, simplemente porque sino su negocio no prosperaba.</p>
+				</section>
+				<section>
+					<p class="fragment">Esto no es todo...</p>
+					<p class="fragment">En la competencia entre <b>SQL/Relacional</b> vs <b>NoSQL</b>...</p>
+					<img class="fragment" src="imgs/sql-vs-nosql.gif"/>
+					<p class="fragment titulocolor" style="font-size:130px"><strong>NewSQL</strong></p>
+				</section>
+				<section>
+					<p class="fragment">Tambien tenemos:</p>
+					<p  class="fragment titulocolor" style="font-size:130px"><strong>NewSQL</strong></p>
+				</section>
+				<section data-background="imgs/surprise-face/s2.jpeg">
+				</section>
+				<section data-background="imgs/surprise-face/wills.jpg">
+				</section>
+				<section data-background="imgs/surprise-face/deadpool.jpg">
+				</section>
+				<section>
+					<b style="font-size:68px" class="titulocolor">NewSQL</b>
+					<ul>
+						<li class="fragment">Extrañamos el Lenguaje SQL</li>
+						<li class="fragment">Extrañamos ser Consistentes, teniendo alta disponibilidad.</li>
+						<li class="fragment">Y queremos distribuir, escalar en forma horizontal</li>
+					</ul>
+
 				</section>
 
 			</div>
