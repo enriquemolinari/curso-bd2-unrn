@@ -85,9 +85,9 @@
 						</div>
 						<div class="col">
 							<ul>
-								<li class="fragment">Cada fila tiene una key, clave primaría única.</li>
-								<li class="fragment">Y el value es un objeto/estructura de cualquier tipo.</li>
-								<li class="fragment">Cada fila es una session de usuario, junto a su perfil y carrito de compras.</li>
+								<li class="fragment">Cada fila tiene una <u>key</u>, clave primaría única.</li>
+								<li class="fragment">Y el <u>value</u> es un objeto/estructura de cualquier tipo.</li>
+								<!--<li class="fragment">Cada fila es una session de usuario, junto a su perfil y carrito de compras.</li>-->
 							</ul>
 						</div>
 					</div>
@@ -115,23 +115,6 @@
 				</section>
 				<section>
 					<h3>Column Family</h3>
-					<p class="fragment">Una tabla relacional se ve asi:</p>
-					<pre class="fragment"><code class="json" code-trim data-noescape style="font-size:18px">Map&lt;Id, Map&lt;String, Value>>
-1 --> 	nombre	--> Jose, apellido --> Hernandez
-2 --> 	nombre 	--> Dora, apellido --> Garcia
-</code></pre>
-<p class="fragment">Una tabla en column family se ve asi:</p>
-<pre class="fragment"><code class="json" code-trim data-noescape style="font-size:18px">Map&lt;Id, Map&lt;String, Map&lt;String, Value>>>
-1 --> info personal --> nombre = Jose, apellido = Hernandez
-      amigos        --> Jose = jose@gmail.com
-2 --> info personal --> nombre = Dora, apellido = Garcia
-      amigos        --> Javier = javi@yahoo.com
-</code></pre>
-<p class="fragment">Los values son agrupados en <u>familias</u> <u>de</u> <u>columnas</u></p>
-<p class="fragment"><u>Noten</u>: nombre:email son valores no metadatos</p>
-				</section>
-				<section>
-					<h3>Column Family</h3>
 					<div class="column-container">
 						<div class="col">
 								<img style="background:none; border:none; box-shadow:none;" class="fragment"  src="imgs/wide-column.png" alt="wide-column">
@@ -153,7 +136,7 @@
 					<h3>Column Family</h3>
 					<ul>
 						<li class="fragment">Columnar Database (VerticaDB)</li>
-						<li class="fragment">No confundir Wide Column Family con Columar DB. Existen Bases de Datos Relacionales que permiten el almacenamiento en columnas (VerticaDB). Wide Column Family, aprovecha esto pero no se destacan por resolver en forma performante las queries analíticas. Sino que sigue siendo el acceso vía key lo mejor que hacen (además de soportar miles de Terabytes sin problemas). Acceso directo: @joe/friends/zet</li>
+						<li class="fragment">No confundir Wide Column Family con Columar DB. Existen Bases de Datos Relacionales que permiten el almacenamiento en columnas (VerticaDB). Wide Column Family, aprovecha esto pero no se destacan por resolver en forma performante las queries analíticas. Sino que sigue siendo el acceso vía key lo mejor que hacen (además de soportar <u>miles de Terabytes</u> sin problemas). Acceso directo: @joe/friends/zet</li>
 					</ul>
 				</section>
 				<section>
@@ -173,16 +156,16 @@
 					</ul>
 				</section>
 				<section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
-					<h2 class="tituloblanco">Document</h2>
+					<h2 class="tituloblanco">Document Based</h2>
 				</section>
-				<section>
+			<!--	<section>
 					<h3>Document DataBases</h3>
 					<ul>
 						<li class="fragment">La unidad básica de datos es el <u><b>Documento</b></u>. Comparable con un registro del modelo relacional, aunque con esquema flexible.</li>
 						<li class="fragment">Un conjunto de Documentos, es denominado <u><b>Collection</b></u>. Comparable con tabla del modelo relacional.</li>
 						<li class="fragment">Un conjunto de Collections es una Base de Datos de Documentos.</li>
 					</ul>
-				</section>
+				</section>-->
 				<section>
 					<h3>¿Qué es un Documento?</h3>
 					<div class="column-container">
