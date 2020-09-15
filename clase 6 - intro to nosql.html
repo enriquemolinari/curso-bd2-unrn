@@ -182,7 +182,8 @@
 					<p>¿Qué generó su aparición?</p>
 					<ul>
 						<li class="fragment"><b>Amazon</b> necesitaba procesar 35 ordenes de compra por segundo.</li>
-						<li class="fragment"><b>Facebook</b>, <b>Twitter</b> y otras redes sociales tuvieron que lidear también con un número <b>altísimo</b> de demanda.</li>
+						<li class="fragment"><b>Facebook</b> tiene 2.449 millones usuarios (enero 2020).</li>
+						<li class="fragment"><b>Twitter</b> en 2013 recibía 150.000 tweets por segundo.</li>
 					</ul>
 				</section>
 				<section>
@@ -250,9 +251,9 @@
 					<h3>Distribuir una BD Relacional</h3>
 					<p class="fragment">Las BDs relacionales <u>NO fueron diseñadas para distribuirse</u>.</p>
 					<p class="fragment"><u>Todas</u> sus características fuertes van en contra de distribuir los datos en más de un único server.</p>
-					<p class="fragment">Veamos algunos ejemplos.</p>
+					<p class="fragment"><u>Consistencia</u> por sobre cualquier otra propiedad.</p>
 				</section>
-				<section>
+<!--				<section>
 					<h3>Distribuir una BD Relacional</h3>
 					<p class="fragment">Pensemos que estamos en un cluster con <i>n</i> número de máquinas.</p>
 					<ul>
@@ -260,19 +261,15 @@
 						<li class="fragment"><u>Transacciones</u>: imagínense arrancando una transacción y teniendo que bloquear tablas que estan en otro server.</li>
 						<li class="fragment">La red del cluster y su latencia hace que esto sea impracticable. Muy lento sería.</li>
 					</ul>
-				</section>
+				</section>-->
 				<section>
 					<h3>Distribuir una BD Relacional</h3>
-					<p class="fragment">Todas estas cuestiones hacen que las BDs relacionales solo puedan hostearse en un único server.</p>
 					<p class="fragment">¿Queremos soportar aplicaciones Planet Size?<blockquote class="fragment">Entonces no tenemos opción, tenemos que relajar estas cuestiones (sobre todo la consistencia) para poder distribuír.</blockquote></p>
 				</section>
 				<section>
 					<b style="font-size:48px" class="titulocolor">NoSQL</b>
-					<p>Diseñadas para escalar en forma horizontal</p>
-					<img style="background:none; border:none; box-shadow:none;" class="fragment" src="imgs/nosql-arch2.png" alt="nosql-arch">
-					<ul>
-						<li class="fragment">Puede haber un coordinador o los nodos realizan esa tarea.</li>
-					</ul>
+					<p>Diseñadas para escalar en forma horizontal: Sharding</p>
+					<img style="background:none; border:none; box-shadow:none;" class="fragment" src="imgs/sharding-mongodb.png" alt="sharding">
 				</section>
 				<section>
 					<b style="font-size:48px" class="titulocolor">NoSQL</b>
@@ -325,9 +322,9 @@
 						<li class="fragment">Extrañamos ser Consistentes, teniendo alta disponibilidad.</li>
 						<li class="fragment">Y queremos distribuir, escalar en forma horizontal</li>
 					</ul>
-					<p class="fragment">Google Spanner, VoltDB, YugaByte</p>
+					<p class="fragment">Google Spanner, VoltDB, YugaByte, MySQL Cluster</p>
 				</section>
-<section>
+<!--<section>
 	<b style="font-size:68px" class="titulocolor">NewSQL</b>
 	<h3>Google Spanner</h3>
 	<p style="font-size:24px" >Spanner claims to be <u>consistent and available</u>.
@@ -337,7 +334,26 @@ as defined by CAP? The short answer is “no” technically, but “yes” in ef
 assume CA.</p>
 <p style="font-size:24px" >The purist answer is “no” because partitions can happen and in fact have happened at Google, and during
 (some) partitions, Spanner chooses C and forfeits A. It is technically a CP system.</p>
-</section>
+</section>-->
+				<section>
+					<h3>Teorema de PACELC</h3> (2010)
+					<blockquote class="fragment">CAP aplica solamente cuando hay corte de red... entonces:</blockquote>
+							<ul>
+								<li class="fragment" style="font-size:26px">Si hubiera corte de red (P):</li>
+								<ul>
+									<li class="fragment" style="font-size:26px">(A) Tengo Disponibilidad o</li>
+									<li class="fragment" style="font-size:26px">(C) Tengo Consistencia</li>
+								</ul>
+							</ul>
+							<ul>
+								<li class="fragment" style="font-size:26px">(E) Sino, si estamos en situación normal:</li>
+								<ul>
+									<li class="fragment" style="font-size:26px">(L) Baja Lantencia o </li>
+									<li class="fragment" style="font-size:26px">(C) Consistencia</li>
+								</ul>
+							</ul>
+				</section>
+
 			</div>
 		</div>
 
