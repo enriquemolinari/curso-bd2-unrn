@@ -220,16 +220,50 @@
 					<p class="fragment">Scale-out: Agregamos mas servers simples al cluster.</p>
 					<p class="fragment">La única forma para soportar "Planet Size" Apps (google, facebook, twitter, amazon, etc).</p>
 				</section>
+				<section>
+					<h3>Escalar Lecturas</h3>
+					<div class="column-container">
+						<div class="col">
+							<img style="background:none; border:none; box-shadow:none;" class="fragment" src="imgs/scaling-read.png" alt="simple">
+						</div>
+						<div class="col">
+							<ul>
+								<li style="font-size:32px" class="fragment">Replicas read-only para distribuir la carga.</li>
+								<li style="font-size:32px" class="fragment">Permite escalar sin límite las <u>lecturas</u>. Pero no las escrituras.</li>
+								<li style="font-size:32px" class="fragment">La aplicación debe determinar a que BD ir segun vayamos a leer o a escribir.</li>
+								<li style="font-size:32px" class="fragment">Replicación maestro/esclavo en MySQL o PostgreSQL.</li>
+							</ul>
+						</div>
+					</div>
+				</section>
+				<section>
+					<h3>Escalar Escrituras</h3>
+					<p>Partición Horizontal de los Datos: Sharding</p>
+					<img style="background:none; border:none; box-shadow:none;" class="fragment" src="imgs/sharding-particion-horizontal.png" alt="sharding">
+				</section>
+				<section>
+					<b style="font-size:48px" class="titulocolor">Sharding</b>
+					<p>Con replicas read only</p>
+					<img style="background:none; border:none; box-shadow:none;" class="fragment" src="imgs/sharding-mongodb.png" alt="sharding">
+				</section>
 
 				<section>
+					<h3>Distribuir una BD Relacional</h3>
+					<p class="fragment">Las BDs relacionales <u>NO fueron diseñadas para distribuirse</u>.</p>
+					<p class="fragment">No tienen soporte para <u>Sharding</u>.</p>
+					<p class="fragment"><u>Todas</u> sus características fuertes van en contra de distribuir los datos en más de un único server.</p>
+					<p class="fragment"><u>Consistencia</u> por sobre cualquier otra propiedad.</p>
+				</section>
+
+<!--				<section>
 					<h3>Aplicaciones "Planet Size"</h3>
 					<p>¿entonces? Habia que escalar horizontal ...</p>
 					<ul>
 						<li class="fragment">Distribuyeron la carga en varios servers (segun la demanda cerca de 100).</li>
 						<li class="fragment"><b>Cluster</b>: Varias máquinas conectadas entre sí que funcionan como si fueran <u>solo una</u>.</li>
-	<!--					<li class="fragment">¿Y esto lo podían hacer con una BD relacional?</li>-->
 					</ul>
-				</section>
+				</section>-->
+
 				<section>
 					<h3>Teorema de CAP</h3>
 					<span class="fragment">Al distribuir una base de datos...</span> <span class="fragment">te encontras con el <u>Teorema de CAP</u> = Consistency, Availability, Partition Tolerance</span>
@@ -247,30 +281,30 @@
 								<li class="fragment" style="font-size:26px">Si los mensajes no pueden viajar de un nodo al otro, en el escenario donde un usuario escribe en un nodo, entonces tengo dos opciones: le devuelvo al usuario el control sin terminar de replicar en el resto de los nodos, <u>no soy consistente</u> pero si tengo disponibilidad o hago esperar al usuario hasta que el dato nuevo pueda llegar, entonces soy consistente pero <u>no tengo disponibilidad</u>.</li>
 							</ul>
 				</section>
-				<section>
-					<h3>Distribuir una BD Relacional</h3>
-					<p class="fragment">Las BDs relacionales <u>NO fueron diseñadas para distribuirse</u>.</p>
-					<p class="fragment"><u>Todas</u> sus características fuertes van en contra de distribuir los datos en más de un único server.</p>
-					<p class="fragment"><u>Consistencia</u> por sobre cualquier otra propiedad.</p>
-				</section>
+
+								<section>
+									<h3>Teorema de PACELC</h3> (2010)
+									<blockquote class="fragment">CAP aplica solamente cuando hay corte de red... entonces:</blockquote>
+											<ul>
+												<li class="fragment" style="font-size:26px">Si hubiera corte de red (P):</li>
+												<ul>
+													<li class="fragment" style="font-size:26px">(A) Tengo Disponibilidad o</li>
+													<li class="fragment" style="font-size:26px">(C) Tengo Consistencia</li>
+												</ul>
+											</ul>
+											<ul>
+												<li class="fragment" style="font-size:26px">(E) Sino, si estamos en situación normal:</li>
+												<ul>
+													<li class="fragment" style="font-size:26px">(L) Baja Lantencia o </li>
+													<li class="fragment" style="font-size:26px">(C) Consistencia</li>
+												</ul>
+											</ul>
+								</section>
+
 <!--				<section>
 					<h3>Distribuir una BD Relacional</h3>
-					<p class="fragment">Pensemos que estamos en un cluster con <i>n</i> número de máquinas.</p>
-					<ul>
-						<li class="fragment"><u>Consistencia</u>: Todos los servers deben estar idénticos, si escribo en uno debo replicarlo en el otro y no puedo devolver el control al cliente hasta que todos los servers en el cluster esten iguales.</li>
-						<li class="fragment"><u>Transacciones</u>: imagínense arrancando una transacción y teniendo que bloquear tablas que estan en otro server.</li>
-						<li class="fragment">La red del cluster y su latencia hace que esto sea impracticable. Muy lento sería.</li>
-					</ul>
-				</section>-->
-				<section>
-					<h3>Distribuir una BD Relacional</h3>
 					<p class="fragment">¿Queremos soportar aplicaciones Planet Size?<blockquote class="fragment">Entonces no tenemos opción, tenemos que relajar estas cuestiones (sobre todo la consistencia) para poder distribuír.</blockquote></p>
-				</section>
-				<section>
-					<b style="font-size:48px" class="titulocolor">NoSQL</b>
-					<p>Diseñadas para escalar en forma horizontal: Sharding</p>
-					<img style="background:none; border:none; box-shadow:none;" class="fragment" src="imgs/sharding-mongodb.png" alt="sharding">
-				</section>
+				</section>-->
 				<section>
 					<b style="font-size:48px" class="titulocolor">NoSQL</b>
 					<p class="fragment">Hoy es una movida MUY grande... y se valen de otras características también:</p>
@@ -335,24 +369,6 @@ assume CA.</p>
 <p style="font-size:24px" >The purist answer is “no” because partitions can happen and in fact have happened at Google, and during
 (some) partitions, Spanner chooses C and forfeits A. It is technically a CP system.</p>
 </section>-->
-				<section>
-					<h3>Teorema de PACELC</h3> (2010)
-					<blockquote class="fragment">CAP aplica solamente cuando hay corte de red... entonces:</blockquote>
-							<ul>
-								<li class="fragment" style="font-size:26px">Si hubiera corte de red (P):</li>
-								<ul>
-									<li class="fragment" style="font-size:26px">(A) Tengo Disponibilidad o</li>
-									<li class="fragment" style="font-size:26px">(C) Tengo Consistencia</li>
-								</ul>
-							</ul>
-							<ul>
-								<li class="fragment" style="font-size:26px">(E) Sino, si estamos en situación normal:</li>
-								<ul>
-									<li class="fragment" style="font-size:26px">(L) Baja Lantencia o </li>
-									<li class="fragment" style="font-size:26px">(C) Consistencia</li>
-								</ul>
-							</ul>
-				</section>
 
 			</div>
 		</div>
