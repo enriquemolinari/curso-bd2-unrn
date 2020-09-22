@@ -219,6 +219,24 @@ Tx commit</code></pre>
   update numero_exp set numero = n where año = AAAA;
 Tx commit</code></pre>
 			</section>
+
+			<section>
+				<h3>Concurrencia</h3>
+				<h4>Select For Update en JPA</h4>
+					<pre class="fragment"><code class="java" code-trim data-noescape contenteditable style="font-size:18px">...
+tx.begin();
+TypedQuery<NextNumber> query = em.createQuery(
+	"from NextNumber where anio = :anioActual", NextNumber.class);
+query.setParameter("anioActual", anioActual);
+query.setLockMode(LockModeType.PESSIMISTIC_WRITE);
+NextNumber l = query.getSingleResult();
+
+//hacer algo con l.numeroActual();
+tx.commit();
+...</code></pre>
+			</section>
+
+
 			<section>
 				<h3>Concurrencia</h3>
 				<h4>Problema 3 - Last Update Wins</h4>
@@ -258,7 +276,8 @@ public class Persona {
  private Long version;
  ...
 }</code></pre>
-					<p class="fragment">Definir la versión y luego manejar la excepción <i>javax.persistence.OptimisticLockException</i></p>
+					<p class="fragment">Utilizar: em.merge(entidad); Para el update de la entidad.</p>
+					<p class="fragment">Luego manejar la excepción <i>javax.persistence.OptimisticLockException</i></p>
 				</section>
 <!--
 				<section>
