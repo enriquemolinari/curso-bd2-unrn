@@ -132,13 +132,15 @@
 					<img style="background:none; border:none; box-shadow:none;" class="fragment" src="imgs/columnar-storage.png" alt="key-value">
 					<p class="fragment">¿Qué forma de persistir facilita este tipo de queries? select sum(salary) from table</p>
 				</section>
-				<section>
+
+<!--				<section>
 					<h3>Column Family</h3>
 					<ul>
 						<li class="fragment">Columnar Database (VerticaDB)</li>
 						<li class="fragment">No confundir Wide Column Family con Columar DB. Existen Bases de Datos Relacionales que permiten el almacenamiento en columnas (VerticaDB). Wide Column Family, aprovecha esto pero no se destacan por resolver en forma performante las queries analíticas. Sino que sigue siendo el acceso vía key lo mejor que hacen (además de soportar <u>miles de Terabytes</u> sin problemas). Acceso directo: @joe/friends/zet</li>
 					</ul>
 				</section>
+			-->
 				<section>
 					<h3>Column Family</h3>
 					<h5>Usos Adecuados</h5>
@@ -256,12 +258,12 @@
   where p1.nombre = 'Keanu Reeves'</code></pre>
 					<p class="fragment">¿Y los que trabajaron con los que trabajaron con Keanu?<span class="fragment"> Tres Join mas...</span></p>
 				</section>
-				<section>
+				<!--<section>
 					<h3>Graph DataBases</h3>
 					<h5>¿Y en relacional no es simple resolver esto?</h5>
 					<p class="fragment">No podemos escribir una query con profundida arbitraria.</p>
 					<p class="fragment"><u>Problemas de performance</u>: Suponiendo que hacemos las cosas bien y ponemos los indices correctamente en cada pk y fk, cada join debería recorrer el índice por cada actor y película, eso agrega overhead que se incrementa a medida que incrementamos la profundidad.</p>
-				</section>
+				</section>-->
 				<section>
 					<h3>Graph DataBases</h3>
 					<p>En una Graph DB, <u>cada nodo conoce la ubicación física de los nodos a los que llega</u>, no se necesitan índices.</p>

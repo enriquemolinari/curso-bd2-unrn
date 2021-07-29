@@ -72,7 +72,7 @@
 							<b class="fragment">Primera Revolución</b>
 							<small class="fragment">1951: Magnetic Tape</small>
 							<small class="fragment">1955: Magnetic Disk</small>
-							<small class="fragment">1965: ISAM</small>
+							<small class="fragment">1965: ISAM (Indexed Sequential Access Method)</small>
 							<small class="fragment">1965: Modelo Jerárquico (IBM IMS)</small>
 							<small class="fragment">1969: Modelo de Red (IDMS Mainframes)</small>
 						</div>
@@ -122,7 +122,7 @@
 							<ul>
 								<li class="fragment"><a href="#" data-tooltip="Future users of large data banks must be protected from having to know how the data is organized in the machine (the internal representation)."><small>Paper Fundacional: A Relational Model for Large Shared Data Banks</small></a></li>
 								<li class="fragment"><small>Trabajaba en IBM cuando escribió y publico su trabajo sobre el modelo relacional. ¿Saben que BD tiene IBM en el mercado?</small></li>
-								<li class="fragment"><small>IBM no quizo implementar el modelo de Cood.</small></li>
+								<li class="fragment"><small>IBM decidió no implementar el modelo de Cood.</small></li>
 								<li class="fragment"><small>¿Saben cual es la BD con más éxito en el mercado?</small></li>
 								<li class="fragment"><small>Larry Ellison diseño e implementó su Base de Datos basándose en las ideas de Codd. ¿Cual es la empresa de Larry?</small></li>
 							</ul>
@@ -189,7 +189,7 @@
 				<section>
 					<h3>Aplicaciones "Planet Size"</h3>
 					<ul>
-						<li class="fragment"><b>Google</b>, <b>Amazon</b>, <b>Facebook</b>, <b>Twitter</b>, y recibieron el nombre de aplicaciones "Planet Size". O también se las denomina "Web Scale".</li>
+						<li class="fragment"><b>Google</b>, <b>Amazon</b>, <b>Facebook</b>, <b>Twitter</b>, etc. recibieron el nombre de aplicaciones "Planet Size". O también se las denomina "Web Scale".</li>
 					</ul>
 					<blockquote class="fragment">Su demanda es Tan alta... pero <b>TAN ALTA</b>... que <u>no funcionaban</u> en un <u>único servidor</u> de base de datos, por mas grande que éste fuera.</li>
 				</section>
@@ -255,6 +255,14 @@
 					<p class="fragment"><u>Consistencia</u> por sobre cualquier otra propiedad.</p>
 				</section>
 
+				<section>
+					<b style="font-size:68px" class="titulocolor">NoSQL</b>
+					<p class="fragment">Fueron diseñadas para <u>distribuirse</u>.</p>
+					<p class="fragment"><u>Sharding</u> built in!</p>
+					<p class="fragment"><u>Replicación</u> built in!</p>
+					<p class="fragment"><u>Alta Disponibilidad</u> built in!</p>
+				</section>
+
 <!--				<section>
 					<h3>Aplicaciones "Planet Size"</h3>
 					<p>¿entonces? Habia que escalar horizontal ...</p>
@@ -265,9 +273,9 @@
 				</section>-->
 
 				<section>
+					<h3>Bases de Datos Distribuidas</h3>
 					<h3>Teorema de CAP</h3>
 					<span class="fragment">Al distribuir una base de datos...</span> <span class="fragment">te encontras con el <u>Teorema de CAP</u> = Consistency, Availability, Partition Tolerance</span>
-					<p class="fragment">¿Sabemos que es Consistencia? ¿Sabemos que es Disponibilidad? ¿Tolerante a Fallos de red?</p>
 				</section>
 				<section>
 					<h3>Teorema de CAP</h3>
@@ -301,17 +309,18 @@
 											</ul>
 								</section>
 
+				<section>
+					<b style="font-size:48px" class="titulocolor">Consistencia vs Disponibilidad</b>
+					<ul>
+						<li class="fragment">Las BDs relacionales <u>favorecen</u> la <u>consistencia</u> por sobre otro atributo.</li>
+						<li class="fragment">Las BDs NoSQL <u>favorecen</u> la <u>disponibilidad</u> y la <u>escalabilidad</u> por sobre la consistencia.</li>
+					</ul>
+				</section>
+
 <!--				<section>
 					<h3>Distribuir una BD Relacional</h3>
 					<p class="fragment">¿Queremos soportar aplicaciones Planet Size?<blockquote class="fragment">Entonces no tenemos opción, tenemos que relajar estas cuestiones (sobre todo la consistencia) para poder distribuír.</blockquote></p>
 				</section>-->
-				<section>
-					<b style="font-size:48px" class="titulocolor">NoSQL</b>
-					<p class="fragment">Hoy es una movida MUY grande... y se valen de otras características también:</p>
-					<p class="fragment"><u>Esquema Flexible</u>: No tienen un esquema rígido como el relacional, es flexible (json en general).</p>
-					<p class="fragment"><u>Big Data</u>: Al distribuir soportan Big Data (por esto Google puede indexar la web completa...).</p>
-					<p class="fragment"><u>Open Source</u>: Y sobre HW más económico al aprovechar el cluster.</p>
-				</section>
 				<section>
 					<b style="font-size:48px" class="titulocolor">NoSQL BASE vs Relacional ACID</b>
 					<ul>
@@ -321,13 +330,16 @@
 					</ul>
 <!--					<p class="fragment">Esto para competirle al ACID del mundo relacional... :)</p>-->
 				</section>
+
 				<section>
-					<b style="font-size:48px" class="titulocolor">Consistencia vs Disponibilidad</b>
-					<ul>
-						<li class="fragment">Las BDs relacionales <u>favorecen</u> la <u>consistencia</u> por sobre otro atributo.</li>
-						<li class="fragment">Las BDs NoSQL <u>favorecen</u> la <u>disponibilidad</u> por sobre la consistencia.</li>
-					</ul>
+					<b style="font-size:48px" class="titulocolor">NoSQL</b>
+					<p class="fragment">Hoy es una movida MUY grande... y se valen de otras características también:</p>
+					<p class="fragment"><u>Esquema Flexible</u>: No tienen un esquema rígido como el relacional, es flexible (json en general).</p>
+					<p class="fragment"><u>Big Data</u>: Al distribuir soportan Big Data (por esto Google puede indexar la web completa...).</p>
+					<p class="fragment"><u>Open Source</u>: Y sobre HW más económico al aprovechar el cluster.</p>
+					<p class="fragment"><u>Search Engines</u>: Búsquedas performantes.</p>
 				</section>
+
 				<section>
 					<b style="font-size:48px" class="titulocolor">NoSQL</b>: ¿Y que significa?
 					<p class="fragment">NoSQL: Not Only SQL</p>

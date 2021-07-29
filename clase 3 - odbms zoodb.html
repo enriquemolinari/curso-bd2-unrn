@@ -1,107 +1,472 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
 
-		<title>Clase 3 - ODMBS and ZooDB</title>
+    <title>Clase 3 - ODMBS and ObjectDB</title>
 
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+    <link rel="stylesheet" href="css/reveal.css" />
+    <link rel="stylesheet" href="css/theme/black.css" />
 
-		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/agate.css">
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/agate.css" />
 
-		<link rel="stylesheet" href="css/font-4.5.0-awesome.min.css">
+    <link rel="stylesheet" href="css/font-4.5.0-awesome.min.css" />
 
-		<style>
-				section.pantallacompleta {
-							 width: 100%;
-							 height: 100%;
-					 }
-					 .reveal h1, .reveal h2 , .reveal h3 {
-						 color: #369FFB;
-					 }
-					 h4.titulocolor {
-						 color: #369FFB;
-					 }
-			 </style>
+    <style>
+      section.pantallacompleta {
+        width: 100%;
+        height: 100%;
+      }
+      .reveal h1,
+      .reveal h2,
+      .reveal h3 {
+        color: #369ffb;
+      }
+      h4.titulocolor {
+        color: #369ffb;
+      }
+    </style>
 
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>
-					<h1>ZooDB</h1>
-					<h2>Object Oriented Database Management System</h2>
-					<p>
-						<small>Introducción a las Bases de Datos Orientadas a Objetos y <a href="https://github.com/tzaeschke/zoodb/">ZooDB</a></small>
-					</p>
-				</section>
-				<section>
-					<h3>¿Qué es una Base de Datos Orientada a Objetos?</h3>
-					<p class="fragment">
-						Es una colección de objetos durable (persistida), a la que se le agregan las propiedades ACID para trabajarla.
-					</p>
-				</section>
-				<section>
-					<h3>¿Qué beneficios obtengo al utilizar una BD orientada a Objetos?</h3>
-					<p class="fragment">
-						<u>Diseño Natural</u>: Mi modelo de objetos no se ve afectado por cuestiones de persistencia.
-					</p>
-					<blockquote class="fragment">Transparencia!</blockquote>
-				</section>
-				<section>
-					<h3>¿Reemplazarán a las Bases de Datos Relacionales?</h3>
-					<p class="fragment">
-						No, de ninguna manera. ¿Por qué no?
-					</p>
-						<ul>
-							<li class="fragment">Las BD relacionales son un excelente producto</li>
-							<li class="fragment">Recursos Humanos Capacitados</li>
-							<li class="fragment">Madurez en el Mercado</li>
-							<li class="fragment">Gran variedad de herramientas de soporte, monitoreo y backup</li>
-							<li class="fragment">Sistemas funcionando actualmente</li>
-							<li class="fragment">Miedo al cambio</li>
-						</ul>
-				</section>
-				<section>
-					<h3>¿Existe mucha Oferta de Bases de Datos Orientadas a Objetos?</h3>
-					<table>
-						<tbody>
-							<tr>
-								<td><a href="https://www.actian.com/data-management/versant-nosql-object-database/">Versant</a></td>
-								<td><a href="https://gemtalksystems.com/products/gs64/">Gemstone</a></td>
-								<td><a href="http://www.objectivity.com/products/objectivitydb/">Objetivity/DB</a></td>
-							</tr>
-							<tr>
-								<td><a href="http://www.mcobject.com/perst">Perst</a></td>
-								<td><a href="https://velocitydb.com/">VelocityDB</a></td>
-								<td><a href="https://www.objectdb.com/">ObjectDB</a></td>
-							</tr>
-							<tr>
-								<td><a href="http://www.newtdb.org/en/latest/">Newt DB</a></td>
-								<td><a href="https://neo.nexedi.com/">NEO</a></td>
-								<td><a href="http://www.eyedb.org/">EyeDB</a></td>
-							</tr>
-							<tr>
-								<td><a href="https://github.com/tzaeschke/zoodb/">ZooDB</a></td>
-								<td><a href="http://ndatabase.wixsite.com/home">NDatabase</a></td>
-								<td><a href="http://coreobject.org/">CoreObject</a></td>
-							</tr>
-						</tbody>
-					</table>
-					<p> y mas en <a href="http://nosql-database.org/">nosql-database.org</a></p>
-				</section>
-				<section>
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.type = "text/css";
+      link.href = window.location.search.match(/print-pdf/gi)
+        ? "css/print/pdf.css"
+        : "css/print/paper.css";
+      document.getElementsByTagName("head")[0].appendChild(link);
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <!-- <h1>ZooDB</h1> -->
+          <h2>Object Oriented Database Management System</h2>
+          <p>
+            <small
+              >Introducción a las Bases de Datos Orientadas a Objetos</small
+            >
+          </p>
+        </section>
+        <section>
+          <h3>¿Qué es una Base de Datos Orientada a Objetos?</h3>
+          <p class="fragment">
+            Es una colección de objetos durable (persistida), a la que se le
+            agregan las propiedades ACID para trabajarla.
+          </p>
+        </section>
+        <section>
+          <h3>
+            ¿Qué beneficios obtengo al utilizar una BD orientada a Objetos?
+          </h3>
+          <p class="fragment">
+            <u>Diseño Natural</u>: Mi modelo de objetos no se ve afectado por
+            cuestiones de persistencia.
+          </p>
+          <blockquote class="fragment">Transparencia!</blockquote>
+        </section>
+        <section>
+          <h3>
+            ¿Qué beneficios obtengo al utilizar una BD orientada a Objetos?
+          </h3>
+          <p class="fragment">
+            No hay modelo relacional, matemático. Simplemente objetos
+            persistentes.
+          </p>
+          <blockquote class="fragment">Transparencia!</blockquote>
+        </section>
+        <section>
+          <h3>¿Reemplazarán a las Bases de Datos Relacionales?</h3>
+          <p class="fragment">No, de ninguna manera. ¿Por qué no?</p>
+          <ul>
+            <li class="fragment">
+              Las BD relacionales son un excelente producto
+            </li>
+            <li class="fragment">Recursos Humanos Capacitados</li>
+            <li class="fragment">Madurez en el Mercado</li>
+            <li class="fragment">
+              Gran variedad de herramientas de soporte, monitoreo y backup
+            </li>
+            <li class="fragment">Sistemas funcionando actualmente</li>
+            <li class="fragment">Miedo al cambio</li>
+          </ul>
+        </section>
+        <section>
+          <h3>¿Existe mucha Oferta de Bases de Datos Orientadas a Objetos?</h3>
+          <table>
+            <tbody>
+              <tr>
+                <td>
+                  <a
+                    href="https://www.actian.com/data-management/versant-nosql-object-database/"
+                    >Versant</a
+                  >
+                </td>
+                <td>
+                  <a href="https://gemtalksystems.com/products/gs64/"
+                    >Gemstone</a
+                  >
+                </td>
+                <td>
+                  <a href="http://www.objectivity.com/products/objectivitydb/"
+                    >Objetivity/DB</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td><a href="http://www.mcobject.com/perst">Perst</a></td>
+                <td><a href="https://velocitydb.com/">VelocityDB</a></td>
+                <td><a href="https://www.objectdb.com/">ObjectDB</a></td>
+              </tr>
+              <tr>
+                <td><a href="http://www.newtdb.org/en/latest/">Newt DB</a></td>
+                <td><a href="https://neo.nexedi.com/">NEO</a></td>
+                <td><a href="http://www.eyedb.org/">EyeDB</a></td>
+              </tr>
+              <tr>
+                <td><a href="https://github.com/tzaeschke/zoodb/">ZooDB</a></td>
+                <td>
+                  <a href="http://ndatabase.wixsite.com/home">NDatabase</a>
+                </td>
+                <td><a href="http://coreobject.org/">CoreObject</a></td>
+              </tr>
+            </tbody>
+          </table>
+          <p>
+            y mas en <a href="http://nosql-database.org/">nosql-database.org</a>
+          </p>
+        </section>
+
+        <section>
+          <h3>ObjectDB</h3>
+          <h4>Java Persistence API (JPA)</h4>
+          <p>¿Qué es JPA? y ¿Cómo usamos JPA/ObjectDB?</p>
+        </section>
+
+        <section>
+          <h3>Java Persistence API (JPA)</h3>
+          <h4>Estructura de una Transacción</h4>
+          <pre
+            class="fragment"
+          ><code class="java" code-trim data-noescape contenteditable style="font-size:18px">EntityManagerFactory emf =
+  Persistence.createEntityManagerFactory("jpa-objectdb");
+EntityManager em = emf.createEntityManager();
+EntityTransaction tx = em.getTransaction();
+try {
+ tx.begin();
+ //hacer algo con em
+ tx.commit();
+} catch (Exception e) {
+ tx.rollback();
+ throw new RuntimeException(e);
+} finally {
+ if (em != null && em.isOpen())
+  em.close();
+ if (emf != null)
+  emf.close();
+}</code></pre>
+          <p class="fragment">¿Cuál es el Contexto de Persistencia?</p>
+        </section>
+        <section>
+          <h3>Java Persistence API (JPA)</h3>
+          <h4>etc/META-INF/persistence.xml</h4>
+          <pre
+            class="fragment"
+          ><code class="java" code-trim contenteditable style="font-size:12px"><persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+<persistence-unit name="jpa-objectdb">
+ <description>My Persistence Unit</description>
+ <provider>com.objectdb.jpa.Provider</provider>
+ <properties>
+  <property name="javax.persistence.jdbc.url" value="/home/dbs/dboo.odb"/>
+  <property name="javax.persistence.jdbc.user" value="admin" />
+  <property name="javax.persistence.jdbc.password" value="admin" />
+ </properties>
+</persistence-unit></persistence></code></pre>
+        </section>
+        <section>
+          <h3>Java Persistence API (JPA)</h3>
+          <h4>Objetos Persistentes: <u>Entidades</u></h4>
+          <span
+            >Los objetos persistentes deben <b>anotarse</b> con
+            <i>javax.persistence.Entity</i></span
+          >
+          <pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">@Entity
+public class Persona {
+<span class="fragment">@Id
+@GeneratedValue(strategy = GenerationType.AUTO)
+private Long id;</span>
+private String nombre;
+...
+<span class="fragment">//no-arg constructor requerido
+protected Persona() { }</span>
+...
+<span class="fragment">//get-set privados</span>
+}
+</code></pre>
+        </section>
+
+        <!-- 		<section>
+			<h3>Java Persistence API (JPA)</h3>
+			<h4>Objetos Persistentes: <u>Mapeos</u></h4>
+			<span><u>Uno a Muchos</u> (Una <i>Persona</i> muchos <i>Telefono</i>s)</span>
+			<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">@Entity
+public class Persona {
+@Id
+@GeneratedValue(strategy = GenerationType.AUTO)
+private Long id;
+private String nombre;
+
+<span class="fragment">@OneToMany
+@JoinColumn(name = "id_persona")
+private Collection<Telefono> telefonos = new ArrayList<>();</span>
+...
+}
+</code></pre>
+		</section>
+		<section>
+			<h3>Java Persistence API (JPA)</h3>
+			<h4>Objetos Persistentes: <u>Mapeos</u></h4>
+			<span><u>Uno a Muchos</u> (Una <i>Persona</i> muchos <i>Telefono</i>s)</span>
+			<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">@Entity
+public class Telefono {
+@Id
+@GeneratedValue(strategy = GenerationType.AUTO)
+private Long id;
+private String numero;
+...
+}
+</code></pre>
+		</section> -->
+
+        <section>
+          <h3>Java Persistence API (JPA)</h3>
+          <h4>Objetos Persistentes: <u>Mapeos</u></h4>
+          <span
+            ><u>Componentes</u> (Una <i>Persona</i> una <i>Direccion</i>)</span
+          >
+          <pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">@Entity
+public class Person {
+@Id
+@GeneratedValue(strategy = GenerationType.AUTO)
+private Long id;
+private String nombre;
+<span class="fragment">@Embedded
+private Address address;</span>
+}
+</code></pre>
+        </section>
+        <section>
+          <h3>Java Persistence API (JPA)</h3>
+          <h4>Objetos Persistentes: <u>Mapeos</u></h4>
+          <span
+            ><u>Componentes</u> (Una <i>Persona</i> una <i>Direccion</i>)</span
+          >
+          <pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px"><span class="fragment">@Embeddable</span>
+public class Address {
+private String address;
+...
+}</code></pre>
+          <span class="fragment"
+            >Note que <u>no es una Entidad</u>... y por lo tanto
+            <u>no requiere ID</u></span
+          >
+        </section>
+        <section
+          data-transition="slide"
+          data-background="#b5533c"
+          data-background-transition="zoom"
+        >
+          <h3>Java Persistence API</h3>
+          <p>y... ¿cómo persistimos y recuperamos objetos de la BD?</p>
+        </section>
+        <section>
+          <h3>Java Persistence API (JPA)</h3>
+          <h4>Objetos Persistentes: <u>Guardar</u></h4>
+          <pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">EntityManager em = emf.createEntityManager();
+EntityTransaction tx = em.getTransaction();
+try {
+ tx.begin();
+<span class="fragment"> Persona p = new Persona("Ignacio");</span>
+<span class="fragment"> em.persist(p);</span>
+ tx.commit();
+} catch (Exception e) {
+ tx.rollback();
+ throw new RuntimeException(e);
+} finally {
+ if (em != null && em.isOpen())
+  em.close();
+}</code></pre>
+          <aside class="notes">
+            By specifying the @JoinColumn on both models you don't have a two
+            way relationship. You have two one way relationships, and a very
+            confusing mapping of it at that. You're telling both models that
+            they "own" the IDAIRLINE column. Really only one of them actually
+            should! The 'normal' thing is to take the @JoinColumn off of the
+            @OneToMany side entirely, and instead add mappedBy to the @OneToMany
+          </aside>
+        </section>
+        <section>
+          <h3>Java Persistence API (JPA)</h3>
+          <h4>Objetos Persistentes: <u>Guardar</u></h4>
+          <pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">EntityManager em = emf.createEntityManager();
+EntityTransaction tx = em.getTransaction();
+try {
+ tx.begin();
+<span class="fragment"> Persona p = new Persona("Ignacio", new Address("San Martin 346"));</span>
+<span class="fragment"> em.persist(p);</span>
+ tx.commit();
+} catch (Exception e) {
+ tx.rollback();
+ throw new RuntimeException(e);
+} finally {
+ if (em != null && em.isOpen())
+  em.close();
+}</code></pre>
+          <span class="fragment"
+            >¿Persiste la instancia de <i>Address</i> también?</span
+          >
+          <span class="fragment"><u>Solo si la mapeo con cascade</u>.</span>
+        </section>
+        <section>
+          <h3>Java Persistence API (JPA)</h3>
+          <h4>Objetos Persistentes: <u>Cascade</u></h4>
+          <pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">@Entity
+public class Persona {
+@Id
+@GeneratedValue(strategy = GenerationType.AUTO)
+private Long id;
+<span class="fragment" data-fragment-index="1"></span><span class="fragment" data-fragment-index="2">@ManyToOne(cascade = CascadeType.PERSIST)</span>
+<span class="fragment" data-fragment-index="1">private Address direccion;</span>
+...
+}
+</code></pre>
+          <span class="fragment"
+            >De esta forma, cuando persisto una <i>persona</i>, persiste su
+            <i>direccion</i> también</span
+          >
+        </section>
+        <!-- Agregar un cascade para @OneToMany-->
+
+        <section>
+          <h3>Java Persistence API (JPA)</h3>
+          <h4>Objetos Persistentes: <u>Guardar/Update</u></h4>
+          <pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">EntityManager em = emf.createEntityManager();
+  EntityTransaction tx = em.getTransaction();
+  try {
+   tx.begin();
+  <span class="fragment"> Persona p = new Persona("Ignacio");</span>
+  <span class="fragment"> p.addTelefono(new Telefono("5892145"))</span>
+   tx.commit();
+  } catch (Exception e) {
+   tx.rollback();
+   throw new RuntimeException(e);
+  } finally {
+   if (em != null && em.isOpen())
+	em.close();
+  }</code></pre>
+          <span class="fragment"
+            >¿Persiste la instancia de <i>Telefono</i> también?</span
+          >
+          <span class="fragment"><u>Solo si la mapeo con cascade</u>.</span>
+        </section>
+        <section>
+          <h3>Java Persistence API (JPA)</h3>
+          <h4>Objetos Persistentes: <u>Cascade</u></h4>
+          <pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">@Entity
+  public class Persona {
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
+  <span class="fragment" data-fragment-index="1"></span><span class="fragment" data-fragment-index="2">@OneToMany(cascade = CascadeType.PERSIST)</span>
+  <span class="fragment" data-fragment-index="1">private List&lt;Telefono&gt; telefonos;</span>
+  ...
+  }
+  </code></pre>
+          <span class="fragment"
+            >De esta forma, cuando persisto una <i>persona</i>, persiste el
+            <i>telefono</i> también</span
+          >
+        </section>
+
+        <section>
+          <h3>Java Persistence API (JPA)</h3>
+          <h4>Objetos Persistentes: <u>Recuperar</u></h4>
+          <span><i>find</i>() vs <i>getReference</i>()</span>
+          <pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">...
+try {
+tx.begin();
+<span class="fragment">Persona p = em.getReference(Persona.class, 1L);</span>
+<span class="fragment">Persona p = em.find(Persona.class, 1L);</span>
+<span class="fragment">System.out.println(p.nombre());</span>
+tx.commit();
+...
+}</code></pre>
+          <span class="fragment"
+            >La diferencia esta en cuándo se ejecuta la query para traer la
+            <i>persona</i> <b>1L</b> de la BD a memoria.</span
+          >
+        </section>
+        <section>
+          <h3>Java Persistence API (JPA)</h3>
+          <h4>Objetos Persistentes: <u>Recuperar</u> / <u>Update</u></h4>
+          <span class="fragment"><i>getReference</i>(): </span
+          ><span class="fragment">¿Para que se usa?</span>
+          <pre
+            class="fragment"
+          ><code class="java" code-trim data-noescape contenteditable style="font-size:18px">...
+try {
+ tx.begin();
+<span class="fragment"> Persona p = em.getReference(Persona.class, 2L);</span>
+<span class="fragment"> p.direccion(new Address("San Martin 356"))</span>
+ tx.commit();
+...
+}</code></pre>
+          <span class="fragment"
+            >Si lo hiciera con <i>find</i>(), además del <i>insert</i> de
+            <i>address</i> y el <i>update</i> en <i>persona</i>, se haría una
+            <i>lectura</i> para traer la persona 1L de la BD.</span
+          >
+        </section>
+        <section>
+          <h3>Java Persistence API (JPA)</h3>
+          <h4>Objetos Persistentes: <u>Update</u></h4>
+          <pre
+            class="fragment"
+          ><code class="java" code-trim data-noescape contenteditable style="font-size:18px">...
+try {
+ tx.begin();
+ <span class="fragment">Persona p = em.getReference(Persona.class, 2L);</span>
+ <span class="fragment">p.nombre("Jorge")</span>
+ tx.commit();
+ ...
+}</code></pre>
+          <span class="fragment"
+            >Observen que no hay un <i>update</i> explicíto, sino que la
+            persistencia por alcance los resuleve solo. Igual al anterior.</span
+          >
+        </section>
+        <section>
+          <h3>Java Persistence API (JPA)</h3>
+          <h4>Objetos Persistentes: <u>Remove</u></h4>
+          <pre
+            class="fragment"
+          ><code class="java" code-trim data-noescape contenteditable style="font-size:18px">...
+  try {
+   tx.begin();
+   <span class="fragment">Persona p = em.find(Persona.class, 2L);</span>
+   <span class="fragment">em.remove(p)</span>
+   tx.commit();
+   ...
+  }</code></pre>
+        </section>
+        <!-- 				<section>
 					<h3>¿Por qué vamos a usar una BDOO en esta Materia?</h3>
 						<ul>
 							<li class="fragment">Es un curso de alternativas a la persistencia relacional... :)</li>
@@ -264,42 +629,58 @@ try {
 </code></pre>
 <aside class="notes"><p>De modo de poder obtener los beneficios del Cascade y los Proxies, los objetos persistentes en sus métodos de lectura y escritura deben utilizar <i>zooActivateRead</i>() y <i>zooActivateWrite</i>()</p>
 </aside>
-				</section>
-			</div>
-		</div>
+				</section> -->
+      </div>
+    </div>
 
-		<script src="lib/js/head.min.js"></script>
-		<script src="js/reveal.js"></script>
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
 
-		<script>
-			Reveal.initialize({
-				controls: true,
-				progress: true,
-				history: true,
-				center: true,
-				transition: 'slide', // none/fade/slide/convex/concave/zoom
-				dependencies: [
-					{ src: 'js/d3.v3.min.js'},
-					{ src: 'plugin/chalkboard/chalkboard.js' },
-					{ src: 'node_modules/reveal.js-d3js/d3js.js' },
-					{ src: 'plugin/markdown/marked.js' },
-					{ src: 'plugin/markdown/markdown.js' },
-					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/zoom-js/zoom.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
-				],
-				chalkboard: {
-					toggleChalkboardButton: { left: "80px" },
-					toggleNotesButton: { left: "130px" },
-				},
-				keyboard: {
-			    67: function() { RevealChalkboard.toggleNotesCanvas() },	// toggle notes canvas when 'c' is pressed
-			    66: function() { RevealChalkboard.toggleChalkboard() },	// toggle chalkboard when 'b' is pressed
-			    46: function() { RevealChalkboard.clear() },	// clear chalkboard when 'DEL' is pressed
-			     8: function() { RevealChalkboard.reset() },	// reset chalkboard data on current slide when 'BACKSPACE' is pressed
-			    68: function() { RevealChalkboard.download() },	// downlad recorded chalkboard drawing when 'd' is pressed
-				},
-			});
-		</script>
-	</body>
+    <script>
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: "slide", // none/fade/slide/convex/concave/zoom
+        dependencies: [
+          { src: "js/d3.v3.min.js" },
+          { src: "plugin/chalkboard/chalkboard.js" },
+          { src: "node_modules/reveal.js-d3js/d3js.js" },
+          { src: "plugin/markdown/marked.js" },
+          { src: "plugin/markdown/markdown.js" },
+          { src: "plugin/notes/notes.js", async: true },
+          { src: "plugin/zoom-js/zoom.js", async: true },
+          {
+            src: "plugin/highlight/highlight.js",
+            async: true,
+            callback: function () {
+              hljs.initHighlightingOnLoad();
+            },
+          },
+        ],
+        chalkboard: {
+          toggleChalkboardButton: { left: "80px" },
+          toggleNotesButton: { left: "130px" },
+        },
+        keyboard: {
+          67: function () {
+            RevealChalkboard.toggleNotesCanvas();
+          }, // toggle notes canvas when 'c' is pressed
+          66: function () {
+            RevealChalkboard.toggleChalkboard();
+          }, // toggle chalkboard when 'b' is pressed
+          46: function () {
+            RevealChalkboard.clear();
+          }, // clear chalkboard when 'DEL' is pressed
+          8: function () {
+            RevealChalkboard.reset();
+          }, // reset chalkboard data on current slide when 'BACKSPACE' is pressed
+          68: function () {
+            RevealChalkboard.download();
+          }, // downlad recorded chalkboard drawing when 'd' is pressed
+        },
+      });
+    </script>
+  </body>
 </html>
