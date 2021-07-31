@@ -585,11 +585,127 @@ for (Persona persona : personas) {
         </section>
 
         <section>
-          <!--           JPAQL es parecido a SQL... pero...
-          1. herencia
-          2. in collections
-          3. path.expressions           -->
+          <h3>Java Persistence API (JPA)</h3>
+          <p style="font-size: 48px">JPQL es demasiado parecido a SQL ¿no?</p>
         </section>
+
+        <section>
+          <h3>Java Persistence API (JPA)</h3>
+          <p style="font-size: 48px">JPQL: Polimórfico</p>
+          <pre
+            class="fragment"
+          ><code class="java" code-trim data-noescape contenteditable style="font-size:18px">@Entity
+public class Persona {            
+ private String nombre;
+ ...
+}
+@Entity
+public class Empleado extends Persona {            
+ private float salario;
+ ...
+}</code></pre><p class="fragment">Si tuviera persistidas instancias de Empleado y de Persona con esta relación de herencia...</p>
+         </section>
+
+         <section>
+          <h3>Java Persistence API (JPA)</h3>
+          <p style="font-size: 48px">JPQL: Polimórfico</p>
+          <p class="fragment">Al ejecutar la siguiente consulta:</p>
+          <pre
+            class="fragment"
+          ><code class="java" code-trim data-noescape contenteditable style="font-size:18px">TypedQuery&lt;Persona&gt; q = 
+            em.createQuery("select p from Persona p", Persona.class);
+List&lt;Persona&gt; personas = q.getResultList();
+for (Persona persona : personas) {
+ System.out.println(persona.nombre());
+}</code></pre><p class="fragment">Me devolvería instancias de Empleados, ademas de Personas.</p>
+        </section>
+
+        <section>
+          <h3>Java Persistence API (JPA)</h3>
+          <p style="font-size: 48px">JPQL: Polimórfico</p>
+          <p class="fragment">¿Y la siguiente consulta que devuelve?</p>
+          <pre
+            class="fragment"
+          ><code class="java" code-trim data-noescape contenteditable style="font-size:18px">TypedQuery&lt;Object&gt; q = 
+            em.createQuery("select o from java.lang.Object o", Object.class);
+List&lt;Object&gt; objects = q.getResultList();
+for (Object object : objects) {
+ System.out.println(object.toString());
+}</code></pre><p class="fragment">Todos los objetos persistidos</p>
+        </section>
+
+        <section>
+          <h3>Java Persistence API (JPA)</h3>
+          <p style="font-size: 48px">JPQL: path expressions</p>
+          <p class="fragment">Teniendo composiciones de esta forma: </p>
+          <pre
+            class="fragment"
+          ><code class="java" code-trim data-noescape contenteditable style="font-size:18px">@Entity
+public class Persona {            
+ private String nombre;
+ private Address direccion;
+}
+@Entity
+public class Address {            
+ private String calle;
+ private int nro;
+ ...
+}</code></pre>
+        </section>
+
+        <section>
+          <h3>Java Persistence API (JPA)</h3>
+          <p style="font-size: 48px">JPQL: path expressions</p>
+          <pre class="fragment">
+          <code class="java" code-trim data-noescape contenteditable style="font-size:18px">TypedQuery&lt;Persona&gt; q = 
+            em.createQuery("select p from Persona p 
+                        where p.direccion.calle = :calle
+                        and p.direccion.nro = :nro", Persona.class);
+q.setParameter("calle", "San Martin");
+q.setParameter("nro", "158");
+</code></pre><p class="fragment">Navego el grafo de objetos en lugar del "join"</p>
+        </section>
+
+        <section>
+          <h3>Java Persistence API (JPA)</h3>
+          <p style="font-size: 48px">JPQL: Collections</p>
+          <p class="fragment">Teniendo composiciones de esta forma: </p>
+          <pre
+            class="fragment"
+          ><code class="java" code-trim data-noescape contenteditable style="font-size:18px">@Entity
+public class Persona {            
+ private String nombre;
+ private List&lt;Telefono&gt; telefonos;
+}
+@Entity
+public class Telefono {            
+ private String nro;
+ ...
+}</code></pre>
+        </section>
+
+        <section>
+          <h3>Java Persistence API (JPA)</h3>
+          <p style="font-size: 48px">JPQL: Collections</p>
+          <pre
+            class="fragment"
+          ><code class="java" code-trim data-noescape contenteditable style="font-size:18px">TypedQuery&lt;Persona&gt; q = 
+            em.createQuery("select p from Persona p 
+                        where size(p.telefonos) > 0, Persona.class);
+</code></pre><p class="fragment">Reconoce la collection</p>
+        </section>       
+
+        <section>
+          <h3>Java Persistence API (JPA)</h3>
+          <p style="font-size: 48px">JPQL: Collections</p>
+          <p style="font-size: 48px">Pero para filtrar...</p>
+          <pre
+            class="fragment"
+          ><code class="java" code-trim data-noescape contenteditable style="font-size:18px">TypedQuery&lt;Persona&lt; q = em.createQuery(
+                  "select p from Persona p 
+                  join p.telefonos t where t.nro = :telefono", Persona.class);
+q.setParameter("telefono", "8888");</code></pre><p class="fragment">Hay que usar join... :(</p>
+        </section>      
 
         <!-- 				<section>
 					<h3>¿Por qué vamos a usar una BDOO en esta Materia?</h3>
