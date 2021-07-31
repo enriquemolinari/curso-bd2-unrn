@@ -146,6 +146,14 @@
 
         <section>
           <h3>ObjectDB</h3>
+          <h4>Object Oriented Database</h4>
+
+          <p>https://www.objectdb.com/</p>
+          <p>Free hasta 10 objetos persistentes</p>
+        </section>
+
+        <section>
+          <h3>ObjectDB</h3>
           <h4>Java Persistence API (JPA)</h4>
           <p>¿Qué es JPA? y ¿Cómo usamos JPA/ObjectDB?</p>
         </section>
@@ -176,7 +184,7 @@ try {
         </section>
         <section>
           <h3>Java Persistence API (JPA)</h3>
-          <h4>etc/META-INF/persistence.xml</h4>
+          <p>etc/META-INF/persistence.xml</p>
           <pre
             class="fragment"
           ><code class="java" code-trim contenteditable style="font-size:12px"><persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
@@ -189,6 +197,8 @@ try {
   <property name="javax.persistence.jdbc.password" value="admin" />
  </properties>
 </persistence-unit></persistence></code></pre>
+          <p class="fragment">etc: source folder</p>
+          <p class="fragment">META-INFO: folder común (mayúsculas)</p>
         </section>
         <section>
           <h3>Java Persistence API (JPA)</h3>
@@ -200,7 +210,7 @@ try {
           <pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">@Entity
 public class Persona {
 <span class="fragment">@Id
-@GeneratedValue(strategy = GenerationType.AUTO)
+@GeneratedValue
 private Long id;</span>
 private String nombre;
 ...
@@ -212,66 +222,66 @@ protected Persona() { }</span>
 </code></pre>
         </section>
 
-        <!-- 		<section>
-			<h3>Java Persistence API (JPA)</h3>
-			<h4>Objetos Persistentes: <u>Mapeos</u></h4>
-			<span><u>Uno a Muchos</u> (Una <i>Persona</i> muchos <i>Telefono</i>s)</span>
-			<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">@Entity
-public class Persona {
-@Id
-@GeneratedValue(strategy = GenerationType.AUTO)
-private Long id;
-private String nombre;
-
-<span class="fragment">@OneToMany
-@JoinColumn(name = "id_persona")
-private Collection<Telefono> telefonos = new ArrayList<>();</span>
-...
-}
-</code></pre>
-		</section>
-		<section>
-			<h3>Java Persistence API (JPA)</h3>
-			<h4>Objetos Persistentes: <u>Mapeos</u></h4>
-			<span><u>Uno a Muchos</u> (Una <i>Persona</i> muchos <i>Telefono</i>s)</span>
-			<pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">@Entity
-public class Telefono {
-@Id
-@GeneratedValue(strategy = GenerationType.AUTO)
-private Long id;
-private String numero;
-...
-}
-</code></pre>
-		</section> -->
-
         <section>
           <h3>Java Persistence API (JPA)</h3>
-          <h4>Objetos Persistentes: <u>Mapeos</u></h4>
-          <span
-            ><u>Componentes</u> (Una <i>Persona</i> una <i>Direccion</i>)</span
-          >
+          <h4>Objetos Persistentes: <u>Entidades</u></h4>
           <pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">@Entity
 public class Person {
 @Id
-@GeneratedValue(strategy = GenerationType.AUTO)
+@GeneratedValue
 private Long id;
 private String nombre;
-<span class="fragment">@Embedded
-private Address address;</span>
+
+private Address address;
+private List&lt;Telefono&gt; telefonos;
+}
+</code></pre>
+        </section>
+
+        <section>
+          <h3>Java Persistence API (JPA)</h3>
+          <h4>Objetos Persistentes: <u>Entidades</u></h4>
+          <pre><code class="java" code-trim data-noescape contenteditable style="max-height: 450px; font-size:18px">@Entity
+public class Address {
+  @Id
+  @GeneratedValue
+  private Long id;
+  private String address;
+ ...
+}
+@Entity
+public class Telefono {
+  @Id
+  @GeneratedValue
+  private Long id;
+  private String number;
+ ...
+}</code></pre>
+        </section>
+
+        <section>
+          <h3>Java Persistence API (JPA)</h3>
+          <h4>Objetos Persistentes: <u>Componentes</u></h4>
+          <span>(Parte de quien lo contiene)</span>
+          <pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">@Entity
+public class Person {
+ @Id
+ @GeneratedValue
+ private Long id;
+ private String nombre;
+<span class="fragment" data-fragment-index="2"> @Embedded</span>
+ private Address address;
 }
 </code></pre>
         </section>
         <section>
           <h3>Java Persistence API (JPA)</h3>
-          <h4>Objetos Persistentes: <u>Mapeos</u></h4>
-          <span
-            ><u>Componentes</u> (Una <i>Persona</i> una <i>Direccion</i>)</span
-          >
+          <h4>Objetos Persistentes: <u>Componentes</u></h4>
+          <span>(Parte de quien lo contiene)</span>
           <pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px"><span class="fragment">@Embeddable</span>
 public class Address {
-private String address;
-...
+ private String address;
+ ...
 }</code></pre>
           <span class="fragment"
             >Note que <u>no es una Entidad</u>... y por lo tanto
@@ -340,7 +350,7 @@ try {
           <pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">@Entity
 public class Persona {
 @Id
-@GeneratedValue(strategy = GenerationType.AUTO)
+@GeneratedValue
 private Long id;
 <span class="fragment" data-fragment-index="1"></span><span class="fragment" data-fragment-index="2">@ManyToOne(cascade = CascadeType.PERSIST)</span>
 <span class="fragment" data-fragment-index="1">private Address direccion;</span>
@@ -382,7 +392,7 @@ private Long id;
           <pre><code class="java" code-trim data-noescape contenteditable style="font-size:18px">@Entity
   public class Persona {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue
   private Long id;
   <span class="fragment" data-fragment-index="1"></span><span class="fragment" data-fragment-index="2">@OneToMany(cascade = CascadeType.PERSIST)</span>
   <span class="fragment" data-fragment-index="1">private List&lt;Telefono&gt; telefonos;</span>
@@ -454,18 +464,133 @@ try {
         </section>
         <section>
           <h3>Java Persistence API (JPA)</h3>
+          <h4>Objetos Persistentes: <u>Update</u></h4>
+          <pre
+            class="fragment"
+          ><code class="java" code-trim data-noescape contenteditable style="font-size:18px">...
+  try {
+   tx.begin();
+   <span class="fragment">Persona p = em.getReference(Persona.class, 2L);</span>
+   <span class="fragment">p.addTelefono(new Telefono("5555898"))</span>
+   tx.commit();
+   ...
+  }</code></pre>
+          <span class="fragment"
+            >Observen que no hay un <i>update</i> explicíto, sino que la
+            persistencia por alcance los resuleve solo. Igual al anterior.</span
+          >
+        </section>
+        <section>
+          <h3>Java Persistence API (JPA)</h3>
           <h4>Objetos Persistentes: <u>Remove</u></h4>
           <pre
             class="fragment"
           ><code class="java" code-trim data-noescape contenteditable style="font-size:18px">...
   try {
    tx.begin();
-   <span class="fragment">Persona p = em.find(Persona.class, 2L);</span>
+   <span class="fragment">Persona p = em.getReference(Persona.class, 2L);</span>
    <span class="fragment">em.remove(p)</span>
    tx.commit();
    ...
   }</code></pre>
         </section>
+
+        <section
+          data-transition="slide"
+          data-background="#b5533c"
+          data-background-transition="zoom"
+        >
+          <h3>Java Persistence API (JPA)</h3>
+          <h4>Persistent <u>Types</u> (Soportados)</h4>
+        </section>
+
+        <section>
+          <h3>Java Persistence API (JPA)</h3>
+          <h4>Persistent <u>Types</u> (Soportados)</h4>
+          <ul>
+            <li class="fragment">
+              Entidades y Componentes definidos por el usuario
+            </li>
+            <li class="fragment">Java Primitivos: int, float, etc</li>
+            <li class="fragment">Java Wrappers: Integer, Float, etc</li>
+            <li class="fragment">String, BigInteger, BigDecimal</li>
+            <li class="fragment">
+              Date (ojo! java.util.Date y java.sql.Date. No LocalDate ni
+              LocalDateTime, solo en JPA 2.2)
+            </li>
+          </ul>
+          <p class="fragment">
+            <u>Importante</u>: Vamos a usar LocalDate en la API de nuestros
+            objetos, pero internamente como variable de instancia sera un
+            java.sql.Date
+          </p>
+        </section>
+
+        <section
+          data-transition="slide"
+          data-background="#b5533c"
+          data-background-transition="zoom"
+        >
+          <h3>Java Persistence API (JPA)</h3>
+          <h4>Queries: <u>JPQL</u></h4>
+        </section>
+
+        <section>
+          <h3>Java Persistence API (JPA)</h3>
+          <h4>Queries: <u>JPQL</u></h4>
+          <p><b>SELECT</b> p <b>FROM</b> Persona p</p>
+          <ul>
+            <li><b>FROM</b> declara entidades y el alias</li>
+            <li><b>SELECT</b> declara que va como resultado</li>
+            <li><b>SELECT</b> y <b>FROM</b> son <u>requeridos</u></li>
+            <li>WHERE, GROUP BY, HAVING and ORDER BY son opcionales</li>
+            <li>
+              Nombre de las entidades y las variables de instancia son
+              <u>case-sensitive</u>
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Java Persistence API (JPA)</h3>
+          <p style="font-size: 48px">JPQL: TypedQuery API</p>
+          <pre
+            class="fragment"
+          ><code class="java" code-trim data-noescape contenteditable style="font-size:18px">TypedQuery&lt;Persona&gt; q = 
+            em.createQuery("select p from Persona p", Persona.class);
+List&lt;Persona&gt; personas = q.getResultList();
+for (Persona persona : personas) {
+ System.out.println(persona.nombre());
+}</code></pre>
+        </section>
+
+        <section>
+          <h3>Java Persistence API (JPA)</h3>
+          <p style="font-size: 48px">JPQL: TypedQuery API</p>
+          <pre
+            class="fragment"
+          ><code class="java" code-trim data-noescape contenteditable style="font-size:18px">TypedQuery&lt;Persona&gt; q = 
+            em.createQuery("select p from Persona p 
+                        where p.fechaNac > :fecha", Persona.class);
+q.setParameter("fecha", java.sql.Date.valueOf(LocalDate.of(1980, 01, 01)));
+List&lt;Persona&gt; personas = q.getResultList();
+for (Persona persona : personas) {
+ System.out.println(persona.nombre());
+}</code></pre>
+          <ul>
+            <li class="fragment">Observen que utilizo parametros por nombre</li>
+            <li class="fragment">Creo una instancia usando LocalDate, que es mas simple de usar</li>
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <!--           JPAQL es parecido a SQL... pero...
+          1. herencia
+          2. in collections
+          3. path.expressions           -->
+        </section>
+
         <!-- 				<section>
 					<h3>¿Por qué vamos a usar una BDOO en esta Materia?</h3>
 						<ul>
