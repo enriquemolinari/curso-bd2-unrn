@@ -89,7 +89,6 @@
 				<section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
 					<h3>Java Persistence API</h3>
 					<p class="fragment">Estándar creado en 2006 por la Java Community Process (JCP)</p>
-					<p class="fragment">¿JDO y JPA?</p>
 					<p class="fragment">Veamos su API, o sea las interfaces y clases ubicadas en: <i>javax.persistence</i></p>
 				</section>
 				<section>
@@ -405,7 +404,7 @@ public class CajaDeAhorro extends CuentaBancaria { ... }</span></code></pre>
 						<pre class="fragment"><code code-trim data-noescape>cuentabancaria("CA", 1L, 10.000, null);
 cuentabancaria("CC", 2L, 5000, 600);</code></pre>
 				</section>
-				<section data-transition="slide" data-background="#b5533c" data-background-transition="zoom">
+	<!--			<section data-transition="slide" data-background="#b5533c" data-background-transition="zoom">
 					<h3>Java Persistence API</h3>
 					<p>y... ¿cómo persistimos y recuperamos objetos de la BD?</p>
 				</section>
@@ -491,9 +490,9 @@ try {
 ...
 }</code></pre>
 					<span class="fragment">Si lo hiciera con <i>find</i>(), además del <i>insert</i> de <i>address</i> y el <i>update</i> en <i>persona</i>, se haría un <i>select</i>.</span>
-				</section>
+				</section> -->
 				<!-- early vs lazy -->
-				<section>
+		<!--		<section>
 					<h3>Java Persistence API (JPA)</h3>
 					<h4>Objetos Persistentes: <u>Early</u> vs <u>Lazy</u></h4>
 					<p class="fragment">Las relaciones <u>ManyToOne</u> son <u>Early</u> por defecto</p>
@@ -528,7 +527,7 @@ public class Persona {
 					<p class="fragment">Las relaciones <u>OneToMany</u> son <u>Lazy</u> por defecto</p>
 					<p class="fragment">O sea que si traigo una <i>persona</i>, <u>no</u> traigo sus <i>telefonos</i> a menos que los pida.</p>
 					<p class="fragment">Existe además <b>extra-lazy</b>, ¿qué es?</p>
-				</section>
+				</section> -->
 			</div>
 		</div>
 
