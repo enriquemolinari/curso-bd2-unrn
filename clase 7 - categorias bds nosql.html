@@ -1,139 +1,212 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
 
-		<title>Clase - Categorías Bases de Datos NoSQL</title>
+    <title>Clase - Categorías Bases de Datos NoSQL</title>
 
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+    <link rel="stylesheet" href="css/reveal.css" />
+    <link rel="stylesheet" href="css/theme/black.css" />
 
-		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/agate.css">
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/agate.css" />
 
-		<link rel="stylesheet" href="css/font-4.5.0-awesome.min.css">
+    <link rel="stylesheet" href="css/font-4.5.0-awesome.min.css" />
 
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
-		<style>
-			.column-container{
-				display: flex;
-			}
-			.col{
-				flex: 1;
-			}
-			u.dotted {
-				border-bottom: 1px dashed #999;
-				text-decoration: none;
-			}
-			.reveal pre code {
-				max-height: 1000px;
-			}
-			.reveal h1, .reveal h2 , .reveal h3 {
-				color: #369FFB;
-			}
-			.titulocolor {
-				color: #369FFB;
-			}
-			.reveal h2.tituloblanco, .reveal h1.tituloblanco, .reveal h3.tituloblanco {
-				color: #FFFFFF;
-			}
-		</style>
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>
-					<p style="font-size:124px" class="titulocolor"><b>NoSQL</b></p>
-					<p style="font-size:84px"><b>Diferentes Categorías</b></p>
-				</section>
-				<section>
-					<h3>Diferentes Categorías</h3>
-					<p class="fragment">Existen 4 grandes categorías de Bases de Datos NoSQL</p>
-					<p class="fragment">Ésta distinción es en base a como se persisten los datos físicamente</p>
-					<ol>
-						<li class="fragment">Key-Value</li>
-						<li class="fragment">Column-Family</li>
-						<li class="fragment">Document</li>
-						<li class="fragment">Graph</li>
-					</ol>
-					<p class="fragment">¿Que vemos de cada una?</p>
-					<p class="fragment"><b>Estructura</b>, <b>Usos adecuados</b> y <a href="http://nosql-database.org/">Vendors</a></p>
-				</section>
-				<section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
-					<h2 class="tituloblanco">Key-Value Stores</h2>
-				</section>
-				<section>
-					<h3>Key-Value Stores</h3>
-					<ul>
-						<li class="fragment">Las más simples y comunes. <i>Column-family</i> y <i>Document</i> estan basadas en esta.</li>
-						<li class="fragment">Amazon DynamoDB, una de las primeras. Usada actualmente por Amazon (propietaria).</li>
-					</ul>
-				</section>
-				<section>
-					<h3>Key-Value Stores</h3>
-					<div class="column-container">
-						<div class="col">
-								<img style="background:none; border:none; box-shadow:none;" class="fragment"  src="imgs/key-value.png" alt="key-value">
-						</div>
-						<div class="col">
-							<ul>
-								<li class="fragment">Cada fila tiene una <u>key</u>, clave primaría única.</li>
-								<li class="fragment">Y el <u>value</u> es un objeto/estructura de cualquier tipo.</li>
-								<!--<li class="fragment">Cada fila es una session de usuario, junto a su perfil y carrito de compras.</li>-->
-							</ul>
-						</div>
-					</div>
-				</section>
-				<section>
-					<h3>Key-Value Stores</h3>
-					<h5>Usos Adecuados</h5>
-					<ul>
-						<li class="fragment">Almacenar <b>sesiones http</b>, <b>Carritos de Compras</b> y <b>Perfiles de Usuario</b>: Cada sesión, perfil o carrito es identificado por una clave. Siempre se trabaja con ellos guardando todo y obteniendo todo a la vez vía la clave.</li>
- 						<li class="fragment"><b>Caching</b>: Las soluciones de cache son muy utilizadas para escalar y también para mejorar la performance de cierta funcionalidad (Ej: type-ahead). <u>Redis</u> muy utilizado con este fin.</li>
-					</ul>
-				</section>
-				<section>
-					<h3>Key-Value Stores</h3>
-					<h5>Vendors</h5>
-					<ul>
-						<li class="fragment">DynamoDB (Amazon)</li>
-						<li class="fragment">Redis (<a href="https://github.com/xetorthio/jedis">Redis Java Client</a>)</li>
-						<li class="fragment">BerkeleyDB</li>
-						<li class="fragment">MemcacheDB</li>
-					</ul>
-				</section>
-				<section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
-					<h2 class="tituloblanco">Column Family</h2>
-				</section>
-				<section>
-					<h3>Column Family</h3>
-					<div class="column-container">
-						<div class="col">
-								<img style="background:none; border:none; box-shadow:none;" class="fragment"  src="imgs/wide-column.png" alt="wide-column">
-						</div>
-						<div class="col">
-							<ul>
-								<li class="fragment">La imagen representa una tabla en una <i>Wide Column Family Store</i>.</li>
-								<li class="fragment">Las lineas punteadas de cada column family indican que todos sus datos de toda la tabla son almacenados juntos para mejorar el acceso a ellos.</li>
-							</ul>
-						</div>
-					</div>
-				</section>
-				<section>
-					<h3>Column Family</h3>
-					<img style="background:none; border:none; box-shadow:none;" class="fragment" src="imgs/columnar-storage.png" alt="key-value">
-					<p class="fragment">¿Qué forma de persistir facilita este tipo de queries? select sum(salary) from table</p>
-				</section>
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.type = "text/css";
+      link.href = window.location.search.match(/print-pdf/gi)
+        ? "css/print/pdf.css"
+        : "css/print/paper.css";
+      document.getElementsByTagName("head")[0].appendChild(link);
+    </script>
+    <style>
+      .column-container {
+        display: flex;
+      }
+      .col {
+        flex: 1;
+      }
+      u.dotted {
+        border-bottom: 1px dashed #999;
+        text-decoration: none;
+      }
+      .reveal pre code {
+        max-height: 1000px;
+      }
+      .reveal h1,
+      .reveal h2,
+      .reveal h3 {
+        color: #369ffb;
+      }
+      .titulocolor {
+        color: #369ffb;
+      }
+      .reveal h2.tituloblanco,
+      .reveal h1.tituloblanco,
+      .reveal h3.tituloblanco {
+        color: #ffffff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <p style="font-size: 124px" class="titulocolor"><b>NoSQL</b></p>
+          <p style="font-size: 84px"><b>Diferentes Categorías</b></p>
+        </section>
+        <section>
+          <h3>Diferentes Categorías</h3>
+          <p class="fragment">
+            Existen 4 grandes categorías de Bases de Datos NoSQL
+          </p>
+          <p class="fragment">
+            Ésta distinción es en base a como se persisten los datos físicamente
+          </p>
+          <ol>
+            <li class="fragment">Key-Value</li>
+            <li class="fragment">Column-Family</li>
+            <li class="fragment">Document</li>
+            <li class="fragment">Graph</li>
+          </ol>
+          <p class="fragment">¿Que vemos de cada una?</p>
+          <p class="fragment">
+            <b>Estructura</b>, <b>Usos adecuados</b> y
+            <a href="http://nosql-database.org/">Vendors</a>
+          </p>
+        </section>
+        <section
+          data-transition="slide"
+          data-background="#4d7e65"
+          data-background-transition="zoom"
+        >
+          <h2 class="tituloblanco">Key-Value Stores</h2>
+        </section>
+        <section>
+          <h3>Key-Value Stores</h3>
+          <ul>
+            <li class="fragment">
+              Las más simples y comunes. <i>Column-family</i> y
+              <i>Document</i> estan basadas en esta.
+            </li>
+            <li class="fragment">
+              Amazon DynamoDB, una de las primeras. Usada actualmente por Amazon
+              (propietaria).
+            </li>
+          </ul>
+        </section>
+        <section>
+          <h3>Key-Value Stores</h3>
+          <div class="column-container">
+            <div class="col">
+              <img
+                style="background: none; border: none; box-shadow: none"
+                class="fragment"
+                src="imgs/key-value.png"
+                alt="key-value"
+              />
+            </div>
+            <div class="col">
+              <ul>
+                <li class="fragment">
+                  Cada fila tiene una <u>key</u>, clave primaría única.
+                </li>
+                <li class="fragment">
+                  Y el <u>value</u> es un objeto/estructura de cualquier tipo.
+                </li>
+                <!--<li class="fragment">Cada fila es una session de usuario, junto a su perfil y carrito de compras.</li>-->
+              </ul>
+            </div>
+          </div>
+        </section>
+        <section>
+          <h3>Key-Value Stores</h3>
+          <h5>Usos Adecuados</h5>
+          <ul>
+            <li class="fragment">
+              Almacenar <b>sesiones http</b>, <b>Carritos de Compras</b> y
+              <b>Perfiles de Usuario</b>: Cada sesión, perfil o carrito es
+              identificado por una clave. Siempre se trabaja con ellos guardando
+              todo y obteniendo todo a la vez vía la clave.
+            </li>
+            <li class="fragment">
+              <b>Caching</b>: Las soluciones de cache son muy utilizadas para
+              escalar y también para mejorar la performance de cierta
+              funcionalidad (Ej: type-ahead). <u>Redis</u> muy utilizado con
+              este fin.
+            </li>
+          </ul>
+        </section>
+        <section>
+          <h3>Key-Value Stores</h3>
+          <h5>Vendors</h5>
+          <ul>
+            <li class="fragment">DynamoDB (Amazon)</li>
+            <li class="fragment">
+              Redis (<a href="https://github.com/xetorthio/jedis"
+                >Redis Java Client</a
+              >)
+            </li>
+            <li class="fragment">BerkeleyDB</li>
+            <li class="fragment">MemcacheDB</li>
+          </ul>
+        </section>
+        <section
+          data-transition="slide"
+          data-background="#4d7e65"
+          data-background-transition="zoom"
+        >
+          <h2 class="tituloblanco">Column Family</h2>
+        </section>
+        <section>
+          <h3>Column Family</h3>
+          <div class="column-container">
+            <div class="col">
+              <img
+                style="background: none; border: none; box-shadow: none"
+                class="fragment"
+                src="imgs/wide-column.png"
+                alt="wide-column"
+              />
+            </div>
+            <div class="col">
+              <ul>
+                <li class="fragment">
+                  La imagen representa una tabla en una
+                  <i>Wide Column Family Store</i>.
+                </li>
+                <li class="fragment">
+                  Las lineas punteadas de cada column family indican que todos
+                  sus datos de toda la tabla son almacenados juntos para mejorar
+                  el acceso a ellos.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+        <section>
+          <h3>Column Family</h3>
+          <img
+            style="background: none; border: none; box-shadow: none"
+            class="fragment"
+            src="imgs/columnar-storage.png"
+            alt="key-value"
+          />
+          <p class="fragment">
+            ¿Qué forma de persistir facilita este tipo de queries? select
+            sum(salary) from table
+          </p>
+        </section>
 
-<!--				<section>
+        <!--				<section>
 					<h3>Column Family</h3>
 					<ul>
 						<li class="fragment">Columnar Database (VerticaDB)</li>
@@ -141,26 +214,33 @@
 					</ul>
 				</section>
 			-->
-				<section>
-					<h3>Column Family</h3>
-					<h5>Usos Adecuados</h5>
-					<ul>
-						<li class="fragment">Big Data / Hadoop</li>
-						<li class="fragment">Google's BigTable fue diseñado especialmente para almacenar grandes volúmenes de datos y procesarlos en forma distribuida.</li>
-					</ul>
-				</section>
-				<section>
-					<h3>Column Family</h3>
-					<h5>Vendors</h5>
-					<ul>
-						<li class="fragment">HBase (Hadoop)</li>
-						<li class="fragment">Cassandra</li>
-					</ul>
-				</section>
-				<section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
-					<h2 class="tituloblanco">Document Based</h2>
-				</section>
-			<!--	<section>
+        <section>
+          <h3>Column Family</h3>
+          <h5>Usos Adecuados</h5>
+          <ul>
+            <li class="fragment">Big Data / Hadoop</li>
+            <li class="fragment">
+              Google's BigTable fue diseñado especialmente para almacenar
+              grandes volúmenes de datos y procesarlos en forma distribuida.
+            </li>
+          </ul>
+        </section>
+        <section>
+          <h3>Column Family</h3>
+          <h5>Vendors</h5>
+          <ul>
+            <li class="fragment">HBase (Hadoop)</li>
+            <li class="fragment">Cassandra</li>
+          </ul>
+        </section>
+        <section
+          data-transition="slide"
+          data-background="#4d7e65"
+          data-background-transition="zoom"
+        >
+          <h2 class="tituloblanco">Document Based</h2>
+        </section>
+        <!--	<section>
 					<h3>Document DataBases</h3>
 					<ul>
 						<li class="fragment">La unidad básica de datos es el <u><b>Documento</b></u>. Comparable con un registro del modelo relacional, aunque con esquema flexible.</li>
@@ -168,11 +248,13 @@
 						<li class="fragment">Un conjunto de Collections es una Base de Datos de Documentos.</li>
 					</ul>
 				</section>-->
-				<section>
-					<h3>¿Qué es un Documento?</h3>
-					<div class="column-container">
-						<div class="col">
-							<pre class="fragment"><code class="json" code-trim data-noescape style="font-size:18px">{
+        <section>
+          <h3>¿Qué es un Documento?</h3>
+          <div class="column-container">
+            <div class="col">
+              <pre
+                class="fragment"
+              ><code class="json" code-trim data-noescape style="font-size:18px">{
  "_id" : "586fdc38fad477126124ba1b",
  "nombre": "José Garramuño",
  "direccion" : {
@@ -192,55 +274,105 @@
    }
  ]
 }</code></pre>
-						</div>
-						<div class="col">
-							<ul>
-								<li style="font-size:32px" class="fragment">El equivalente a un <u>registro</u> en una Base de Datos Relacional, es un <u>documento</u> en una Base de Datos basada en Documentos.</li>
-								<li style="font-size:32px" class="fragment">Un <u>documento</u> es una estructura de datos compuesta por pares <i>atributo:valor</i>.</li>
-								<li style="font-size:32px" class="fragment">Los documentos pueden contener otros documentos, arreglos y arreglos de documentos.</li>
-								<li style="font-size:32px" class="fragment">En <i>MongoDB</i> un documento es un objeto JSON. Otras soportan XML.</li>
-							</ul>
-						</div>
-					</div>
-				</section>
-			<section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
-					<h2 class="tituloblanco">Graph Databases</h2>
-				</section>
-				<section>
-					<h3>Graph DataBases</h3>
-					<ul>
-						<li class="fragment">Categoría que NO fue diseñada para soportar demanda.</li>
-						<li class="fragment">Las bases de datos de tipo relacional, documentos, columnas, key-value, se centran en almacenar “cosas” representadas por diferentes estructuras: json, tablas, valores binarios.</li>
-						<li class="fragment">Pero a veces, la relaciones entre éstas "cosas" son las que nos importan, por sobre las "cosas".</li>
-						<li class="fragment"><u>Facebook</u>: ¿Quién es amigo de quién?</li>
-						<li class="fragment"><u>Twitter</u>: ¿Quién sigue a quién?</li>
-					</ul>
-				</section>
-				<section>
-					<h3>Graph DataBases</h3>
-					<ul>
-						<li class="fragment">Las BDs relacionales permiten modelar relaciones a través de claves forañas y joins. Pero no escalan con gran volumen de datos y SQL carece de poder expresivo para las consultas de éste tipo.</li>
-						<li class="fragment">Las BDs NoSQL vistas hasta ahora (Document, Column y Key-Value) hacen un peor trabajo que las relacionales en éste sentido.</li>
-						<li class="fragment">Por éste motivo surgieron las Graph DBs. <b>Brillan</b> cuando lo que importa es la relación! </li>
-					</ul>
-				</section>
-				<section>
-					<h3>Graph DataBases</h3>
-					<h5>¿Qué es una Graph DB?</h5>
-					<div class="column-container">
-						<div class="col">
-								<img style="background:none; border:none; box-shadow:none;" class="fragment"  src="imgs/grafo-1.png" alt="grafo">
-						</div>
-						<div class="col">
-							<ul>
-								<li style="font-size:32px" class="fragment">Una colección de Vértices (o nodos) y Relaciones entre vértices.</li>
-								<li style="font-size:32px" class="fragment">Tanto vértices como las relaciones pueden poseer propiedades.</li>
-								<li style="font-size:32px" class="fragment">Una query característica de estas estructuras sería encontrar todos los actores que trabajaron en las películas donde trabajó Keanu Reeves.</li>
-							</ul>
-						</div>
-					</div>
-				</section>
-				<section>
+            </div>
+            <div class="col">
+              <ul>
+                <li style="font-size: 32px" class="fragment">
+                  El equivalente a un <u>registro</u> en una Base de Datos
+                  Relacional, es un <u>documento</u> en una Base de Datos basada
+                  en Documentos.
+                </li>
+                <li style="font-size: 32px" class="fragment">
+                  Un <u>documento</u> es una estructura de datos compuesta por
+                  pares <i>atributo:valor</i>.
+                </li>
+                <li style="font-size: 32px" class="fragment">
+                  Los documentos pueden contener otros documentos, arreglos y
+                  arreglos de documentos.
+                </li>
+                <li style="font-size: 32px" class="fragment">
+                  En <i>MongoDB</i> un documento es un objeto JSON. Otras
+                  soportan XML.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+        <section
+          data-transition="slide"
+          data-background="#4d7e65"
+          data-background-transition="zoom"
+        >
+          <h2 class="tituloblanco">Graph Databases</h2>
+        </section>
+        <section>
+          <h3>Graph DataBases</h3>
+          <ul>
+            <li class="fragment">
+              Categoría que NO fue diseñada para soportar demanda.
+            </li>
+            <li class="fragment">
+              Las bases de datos de tipo relacional, documentos, columnas,
+              key-value, se centran en almacenar “cosas” representadas por
+              diferentes estructuras: json, tablas, valores binarios.
+            </li>
+            <li class="fragment">
+              Pero a veces, la relaciones entre éstas "cosas" son las que nos
+              importan, por sobre las "cosas".
+            </li>
+            <li class="fragment"><u>Facebook</u>: ¿Quién es amigo de quién?</li>
+            <li class="fragment"><u>Twitter</u>: ¿Quién sigue a quién?</li>
+          </ul>
+        </section>
+        <section>
+          <h3>Graph DataBases</h3>
+          <ul>
+            <li class="fragment">
+              Las BDs relacionales permiten modelar relaciones a través de
+              claves forañas y joins. Pero no escalan con gran volumen de datos
+              y SQL carece de poder expresivo para las consultas de éste tipo.
+            </li>
+            <li class="fragment">
+              Las BDs NoSQL vistas hasta ahora (Document, Column y Key-Value)
+              hacen un peor trabajo que las relacionales en éste sentido.
+            </li>
+            <li class="fragment">
+              Por éste motivo surgieron las Graph DBs. <b>Brillan</b> cuando lo
+              que importa es la relación!
+            </li>
+          </ul>
+        </section>
+        <section>
+          <h3>Graph DataBases</h3>
+          <h5>¿Qué es una Graph DB?</h5>
+          <div class="column-container">
+            <div class="col">
+              <img
+                style="background: none; border: none; box-shadow: none"
+                class="fragment"
+                src="imgs/grafo-1.png"
+                alt="grafo"
+              />
+            </div>
+            <div class="col">
+              <ul>
+                <li style="font-size: 32px" class="fragment">
+                  Una colección de Vértices (o nodos) y Relaciones entre
+                  vértices.
+                </li>
+                <li style="font-size: 32px" class="fragment">
+                  Tanto vértices como las relaciones pueden poseer propiedades.
+                </li>
+                <li style="font-size: 32px" class="fragment">
+                  Una query característica de estas estructuras sería encontrar
+                  todos los actores que trabajaron en las películas donde
+                  trabajó Keanu Reeves.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+        <!--				<section>
 					<h3>Graph DataBases</h3>
 					<h5>¿Y en relacional no es simple resolver esto?</h5>
 					<img style="background:none; border:none; box-shadow:none;" class="fragment"  src="imgs/bd-rel.png" alt="bd-rel">
@@ -257,22 +389,30 @@
     join personas p2 on (p2.id_persona = a1.id_persona)
   where p1.nombre = 'Keanu Reeves'</code></pre>
 					<p class="fragment">¿Y los que trabajaron con los que trabajaron con Keanu?<span class="fragment"> Tres Join mas...</span></p>
-				</section>
-				<!--<section>
+				</section>-->
+        <!--<section>
 					<h3>Graph DataBases</h3>
 					<h5>¿Y en relacional no es simple resolver esto?</h5>
 					<p class="fragment">No podemos escribir una query con profundida arbitraria.</p>
 					<p class="fragment"><u>Problemas de performance</u>: Suponiendo que hacemos las cosas bien y ponemos los indices correctamente en cada pk y fk, cada join debería recorrer el índice por cada actor y película, eso agrega overhead que se incrementa a medida que incrementamos la profundidad.</p>
 				</section>-->
-				<section>
-					<h3>Graph DataBases</h3>
-					<p>En una Graph DB, <u>cada nodo conoce la ubicación física de los nodos a los que llega</u>, no se necesitan índices.</p>
-				</section>
+        <section>
+          <h3>Graph DataBases</h3>
+          <p>
+            En una Graph DB,
+            <u
+              >cada nodo conoce la ubicación física de los nodos a los que
+              llega</u
+            >, no se necesitan índices.
+          </p>
+        </section>
 
-				<section>
-					<h3>Graph DataBases</h3>
-					<p>Ok, todo lindo ! ¿y? ¿Cómo recorro el grafo?</p>
-						<pre class="fragment"><code code-trim data-noescape class="Java" style="font-size:18px"><span class="fragment">//recupero todos los vértices
+        <section>
+          <h3>Graph DataBases</h3>
+          <p>Ok, todo lindo ! ¿y? ¿Cómo recorro el grafo?</p>
+          <pre
+            class="fragment"
+          ><code code-trim data-noescape class="Java" style="font-size:18px"><span class="fragment">//recupero todos los vértices
 g.V()</span>
 <span class="fragment">  //con nombre = ‘Keanu’
   .has('nombre',eq('Keanu'))</span>
@@ -283,57 +423,79 @@ g.V()</span>
 <span class="fragment">  //y de éstos vértices, dame el nombre
   .values('nombre')</span>
 </code></pre>
-				</section>
-				<section>
-					<h3>Graph DataBases</h3>
-					<h5>Vendors</h5>
-					<ul>
-						<li class="fragment">Neo4J</li>
-						<li class="fragment">Infinity Graph</li>
-						<li class="fragment">TinkerPop - Lenguaje Gremlin</li>
-					</ul>
-				</section>
+        </section>
+        <section>
+          <h3>Graph DataBases</h3>
+          <h5>Vendors</h5>
+          <ul>
+            <li class="fragment">Neo4J</li>
+            <li class="fragment">Infinity Graph</li>
+            <li class="fragment">TinkerPop - Lenguaje Gremlin</li>
+          </ul>
+        </section>
 
-				<section>
-					<h3>Polyglot Persistence</h3>
-					<p><img style="background:none; border:none; box-shadow:none;" class="fragment"  src="imgs/polyglot.png" alt="Polyglot"></p>
-				</section>
+        <section>
+          <h3>Polyglot Persistence</h3>
+          <p>
+            <img
+              style="background: none; border: none; box-shadow: none"
+              class="fragment"
+              src="imgs/polyglot.png"
+              alt="Polyglot"
+            />
+          </p>
+        </section>
+      </div>
+    </div>
 
-			</div>
-		</div>
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
 
-		<script src="lib/js/head.min.js"></script>
-		<script src="js/reveal.js"></script>
-
-		<script>
-			Reveal.initialize({
-				controls: true,
-				progress: true,
-				history: true,
-				center: true,
-				transition: 'slide', // none/fade/slide/convex/concave/zoom
-				dependencies: [
-					{ src: 'js/d3.v3.min.js'},
-					{ src: 'plugin/chalkboard/chalkboard.js' },
-					{ src: 'node_modules/reveal.js-d3js/d3js.js' },
-					{ src: 'plugin/markdown/marked.js' },
-					{ src: 'plugin/markdown/markdown.js' },
-					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/zoom-js/zoom.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
-				],
-				chalkboard: {
-					toggleChalkboardButton: { left: "80px" },
-					toggleNotesButton: { left: "130px" },
-				},
-				keyboard: {
-			    67: function() { RevealChalkboard.toggleNotesCanvas() },	// toggle notes canvas when 'c' is pressed
-			    66: function() { RevealChalkboard.toggleChalkboard() },	// toggle chalkboard when 'b' is pressed
-			    46: function() { RevealChalkboard.clear() },	// clear chalkboard when 'DEL' is pressed
-			     8: function() { RevealChalkboard.reset() },	// reset chalkboard data on current slide when 'BACKSPACE' is pressed
-			    68: function() { RevealChalkboard.download() },	// downlad recorded chalkboard drawing when 'd' is pressed
-				},
-			});
-		</script>
-	</body>
+    <script>
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: "slide", // none/fade/slide/convex/concave/zoom
+        dependencies: [
+          { src: "js/d3.v3.min.js" },
+          { src: "plugin/chalkboard/chalkboard.js" },
+          { src: "node_modules/reveal.js-d3js/d3js.js" },
+          { src: "plugin/markdown/marked.js" },
+          { src: "plugin/markdown/markdown.js" },
+          { src: "plugin/notes/notes.js", async: true },
+          { src: "plugin/zoom-js/zoom.js", async: true },
+          {
+            src: "plugin/highlight/highlight.js",
+            async: true,
+            callback: function () {
+              hljs.initHighlightingOnLoad();
+            },
+          },
+        ],
+        chalkboard: {
+          toggleChalkboardButton: { left: "80px" },
+          toggleNotesButton: { left: "130px" },
+        },
+        keyboard: {
+          67: function () {
+            RevealChalkboard.toggleNotesCanvas();
+          }, // toggle notes canvas when 'c' is pressed
+          66: function () {
+            RevealChalkboard.toggleChalkboard();
+          }, // toggle chalkboard when 'b' is pressed
+          46: function () {
+            RevealChalkboard.clear();
+          }, // clear chalkboard when 'DEL' is pressed
+          8: function () {
+            RevealChalkboard.reset();
+          }, // reset chalkboard data on current slide when 'BACKSPACE' is pressed
+          68: function () {
+            RevealChalkboard.download();
+          }, // downlad recorded chalkboard drawing when 'd' is pressed
+        },
+      });
+    </script>
+  </body>
 </html>
