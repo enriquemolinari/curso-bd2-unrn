@@ -247,7 +247,7 @@ public class Universidad {
  <span class="fragment"  data-fragment-index="2">Categoria <span class="fragment highlight-blue" data-fragment-index="5">elec</span> = new Categoria("electrodoméstico");</span>
  <span class="fragment"  data-fragment-index="2">Producto <span class="fragment highlight-blue" data-fragment-index="5">tv</span> = new Producto("TV", elec);</span>
  <span class="fragment" data-fragment-index="3"><span class="fragment strike" data-fragment-index="7">contexto.persistir(elec);</span></span>
- <span class="fragment" data-fragment-index="4">manager.persistir(tv);</span>
+ <span class="fragment" data-fragment-index="4">contexto.persistir(tv);</span>
  <span><i>contexto.close();</i></span>
 }</code></pre>
 				<p class="fragment" data-fragment-index="5">¿Podría solamente persistir <span class="fragment highlight-blue" data-fragment-index="4">tv</span> y que se persista su categoria <span class="fragment highlight-blue" data-fragment-index="4">elec</span> directamente?</p>

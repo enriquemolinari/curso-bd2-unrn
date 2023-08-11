@@ -184,7 +184,7 @@ try {
         </section>
         <section>
           <h3>Java Persistence API (JPA)</h3>
-          <p>etc/META-INF/persistence.xml</p>
+          <p>src/main/resources/META-INF/persistence.xml</p>
           <pre
             class="fragment"
           ><code class="java" code-trim contenteditable style="font-size:12px"><persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
@@ -197,8 +197,8 @@ try {
   <property name="javax.persistence.jdbc.password" value="admin" />
  </properties>
 </persistence-unit></persistence></code></pre>
-          <p class="fragment">etc: source folder</p>
-          <p class="fragment">META-INFO: folder común (mayúsculas)</p>
+          <p class="fragment">src/main/resources: source folder</p>
+          <p class="fragment">META-INF: folder común (mayúsculas)</p>
         </section>
         <section>
           <h3>Java Persistence API (JPA)</h3>
@@ -513,17 +513,8 @@ try {
             </li>
             <li class="fragment">Java Primitivos: int, float, etc</li>
             <li class="fragment">Java Wrappers: Integer, Float, etc</li>
-            <li class="fragment">String, BigInteger, BigDecimal</li>
-            <li class="fragment">
-              Date (ojo! java.util.Date y java.sql.Date. No LocalDate ni
-              LocalDateTime, solo en JPA 2.2)
-            </li>
+            <li class="fragment">String, BigInteger, BigDecimal, LocalDate y LocalDateTime</li>
           </ul>
-          <p class="fragment">
-            <u>Importante</u>: Vamos a usar LocalDate en la API de nuestros
-            objetos, pero internamente como variable de instancia sera un
-            java.sql.Date
-          </p>
         </section>
 
         <section
@@ -709,7 +700,7 @@ q.setParameter("telefono", "8888");</code></pre><p class="fragment">Hay que usar
 
         <section>
           <h3>¿ Preguntas ?</h3>
-          <p>https://github.com/enriquemolinari/jpa-objectdb-hibernate</p>
+          <p>https://github.com/enriquemolinari/bd2-jpaobjectdb</p>
           <p>Para correr el ObjectDB Explorer: java -jar explorer.jar</p>
         </section>
 
