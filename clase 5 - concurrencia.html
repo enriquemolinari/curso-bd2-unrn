@@ -54,13 +54,69 @@
 						Aprendamos a manejar <u>sistemas multi-usuario</u> de forma <u>correcta</u>!
 					</p>
 				</section>
-				<section>
+
+				<section data-transition="fade-out">
 					<h3>Concurrencia</h3>
 					<p class="fragment">
-						¿Cuál o cuales de las propiedades <strong>ACID</strong> estan relacionadas con la concurrencia?
+						¿Quien se encarga de garantizar que la concurencia no afecte la correctitud de mi applicación?
 					</p>
 					<p class="fragment">
-						I: Isolation. <span class="fragment"><u>Aislamiento</u> de las transacciones</span>
+						Es decir, quien garantiza que la aplicación se comporta de la misma forma si es utilizada de forma mono-usuario vs multi-usuario?</p>
+				</section>
+
+				<section data-transition="fade-in">
+					<h3>Concurrencia</h3>
+						<p class="fragment">¿La Base de Datos? o ¿la Aplicación?</p>
+						<p class="fragment">¿Puede como desarrollador desentenderme completamente total la BD se encarga de todo? ¿Tengo que escribir código de cierta forma para garantizar correctud o simplemente delego en la BD y me desentiendo?</p>
+				</section>
+
+				<section data-transition="fade-in">
+					<h3>Concurrencia</h3>
+						<p class="fragment"><b>Nunca</b> puedo desentenderme!</p>
+						<p class="fragment">Es una combinación entre la BD y la Aplicación que puede variar segun el caso de uso que quiero implementar.</p>
+				</section>
+
+				<section data-transition="fade-in">
+					<h3>Concurrencia</h3>
+						<p class="fragment">Las <b>base de datos</b> gestionan la concurrencia dentro del contexto de una <b>Transacción</b>.</p>
+						<p class="fragment">
+							¿Cuál o cuales de las propiedades <strong>ACID</strong> estan relacionadas con la concurrencia?
+						</p>
+						<p class="fragment">
+							I: Isolation. <span class="fragment"><u>Aislamiento</u> de las transacciones.</span> <span class="fragment">Supone que cada Tx se ejecuta en serie.</span>
+						</p>
+						<p class="fragment">
+							Niveles de Aislamiento: <b>Trade-off</b> entre correctitud de los datos vs alta concurrencia.
+						</p>
+					</section>
+
+					<section>
+						<h3>Concurrencia</h3>
+						<h4>Niveles de Aislamiento (ANSI SQL)</h4>
+						<ol>
+							<li class="fragment" data-fragment-index="1">
+								Read Uncommited
+							</li>
+							<li class="fragment" data-fragment-index="1">
+								Read Commited
+							</li>
+							<li class="fragment" data-fragment-index="1">
+								Repeatable Read
+							</li>
+							<li class="fragment" data-fragment-index="1">
+								Serializable
+							</li>
+						</ol>
+						<p class="fragment" data-fragment-index="2">
+							¿Que Base de Datos estan usando? ¿Saben en que nivel de aislamiento esta ejecutándose?
+						</p>
+					</section>
+
+				<section>
+					<h3>Concurrencia</h3>
+					<h4>Isolation Levels (ANSI SQL)</h4>
+					<p class="fragment" data-fragment-index="3">
+						PostgreSQL, Oracle y MS SQL Server por defecto usan Read Committed. MySQL y MariaDB en Repeatable Read.
 					</p>
 					<p class="fragment">
 						Por defecto, las BDs relacionales estan configuradas <u>relajando</u> el aislamiento completo, <u>para</u> <u>aumentar</u> la performance y escalar mejor.
@@ -69,39 +125,69 @@
 						El aislamiento completo no permite ejecutar transacciones en forma concurrente.
 					</p>
 				</section>
+
 				<section>
 					<h3>Concurrencia</h3>
 					<p class="fragment">
 							¿Cuáles son los problemas que podemos encontrarnos al no configurar la BD con aislamiento completo?
 					</p>
 				</section>
-				<section>
+
+<!-- 				<section>
 					<h3>Concurrencia</h3>
 								<p><u>Lost</u> <u>Update</u>: Sucede si dos transacciones modifican el mismo dato y la segunda transacción aborta.</p>
 								<p class="fragment"><img src="imgs/lost-updates.png"></p>
 								<p class="fragment">TxA cambia D0 por D1, y TxB cambia D1 por D2, pero "rollbackea", volviendo a D0.</p>
-				</section>
+				</section> -->
 				<section>
 					<h3>Concurrencia</h3>
-								<p><u>Dirty</u> <u>Read</u>: Sucede si una transacción lee datos modificados por otra transacción que aún no comiteo. Esto es peligroso porque podría darse que la transacción termine abortado, con lo cual se leyeron datos espurios/sucios.</p>
+								<p><u>Dirty</u> <u>Read</u>: Sucede si una transacción lee datos modificados por otra transacción que aún no comiteo.</p>
 								<p class="fragment"><img src="imgs/dirty-read.png"></p>
+								<p class="fragment"><b>2. Read Committed</b> no permite esto. Bloqueando lectura/escritura sobre datos modificados. Los bloqueos siempre se liberan al terminar la Tx.</p>
 				</section>
+
 				<section>
 					<h3>Concurrencia</h3>
 								<p><u>Unrepeatable</u> <u>Read</u>: Sucede si una transacción lee un dato dos veces y la segunda vez es diferente a la primera.</p>
 								<p class="fragment"><img src="imgs/unrepeatable-read.png"></p>
+								<p class="fragment"><b>3. Repetable Read</b> no permite esto. Bloqueando la escritura sobre datos leidos.</p>
 				</section>
-				<section>
-					<h3>Concurrencia</h3>
-								<p><u>Last</u> <u>Commit</u> <u>Wins</u>: Dos transacciones leen el mismo dato, la primera lo modifica y comitea y la segunda hace lo mismo después.</p>
-								<p class="fragment"><img src="imgs/last-commit-wins.png"></p>
-								<p class="fragment">Esto es <u>muy</u> frustrante para los usuarios, ya que el primero pierde los cambios que hizo.</p>
-				</section>
+
 				<section>
 					<h3>Concurrencia</h3>
 								<p><u>Phanton</u> <u>Read</u>: Ocurre cuando una transacción ejecuta una query dos veces, y la segunda vez obtiene mas datos (o menos si se borraron) que la primera.</p>
 								<p class="fragment"><img src="imgs/phanton-read.png"></p>
+								<p class="fragment"><b>4. Serialiable</b> no permite esto. Bloqueando la lectura y escritura sobre datos leidos.</p>
 				</section>
+
+				<section>
+					<h3>Concurrencia</h3>
+								<p><u>Lost Updates</u> o <u>Last</u> <u>Commit</u> <u>Wins</u>: Dos transacciones leen el mismo dato, la primera lo modifica y comitea y la segunda hace lo mismo después.</p>
+								<p class="fragment"><img src="imgs/last-commit-wins.png"></p>
+<!-- 								<p class="fragment">Esto es <u>muy</u> frustrante para los usuarios, ya que el primero pierde los cambios que hizo.</p>
+ -->								<p class="fragment"><b>4. Serialiable</b> no permite esto.  
+				</section>
+				
+
+				<section>
+					<h3>Concurrencia</h3>
+					<p class="fragment">
+						<b>Problema 1</b>: Compra de asientos de colectivo para el mismo viaje desde dos sucursales distintas.
+					</p>
+					<p class="fragment">
+						El empleado le muestra la pantalla al comprador con los asientos disponibles. Supongamos se elije el asiento 10 y confirma:
+					</p>
+					<pre class="fragment"><code class="java" code-trim data-noescape contenteditable style="font-size:18px">Tx begin
+  ocupado = select 1 from asientos
+			where id_asiendo = 10 and ocupado = 1 and viaje = 2
+  if (ocupado)
+    throw new Exception("Lo siento, el asiento fue vendido");
+  update asientos set ocupado = 1
+		  where id_asiendo = 10 and ocupado = 0 and viaje = 2
+  insert into asiento_vendido (10 (asiento), 2 (viaje),  comprador_x)
+Tx commit</code></pre>
+				</section>
+
 				<section>
 					<h3>ANSI SQL Isolation Levels</h4>
 					<p>
@@ -154,30 +240,6 @@
 					<h3>ANSI SQL Isolation Levels</h4>
 					<p class="fragment">
 						4. <u>Serializable</u>: No permite phanton reads. Una transacción se ejecuta despues de otra (en serie). No hay concurrencia alguna.
-					</p>
-				</section>
-				<section>
-					<h3>Concurrencia</h3>
-					<h4>Isolation Levels (repaso)</h4>
-					<ol>
-						<li class="fragment" data-fragment-index="1">
-							Read Uncommited
-						</li>
-						<li class="fragment" data-fragment-index="1">
-							Read Commited
-						</li>
-						<li class="fragment" data-fragment-index="1">
-							Repeatable Read
-						</li>
-						<li class="fragment" data-fragment-index="1">
-							Serializable
-						</li>
-					</ol>
-					<p class="fragment" data-fragment-index="2">
-						¿Que Base de Datos estan usando? ¿Saben en que nivel de aislamiento esta ejecutándose?
-					</p>
-					<p class="fragment" data-fragment-index="3">
-						PostgreSQL, Oracle y MS SQL Server por defecto usan Read Committed. MySQL y MariaDB en Repeatable Read.
 					</p>
 				</section>
 
@@ -252,6 +314,11 @@ public class Persona {
  ...
 }</code></pre>
 					<p class="fragment">Definir la versión y luego manejar la excepción <i>javax.persistence.OptimisticLockException</i></p>
+				</section>
+				<section>
+					<h3>Referencias</h3>
+					<p><img src="imgs/hpjp-book.png" bord></p>
+					<p>High Performance Java Persistence (<a href="https://vladmihalcea.com/books/high-performance-java-persistence/">Vlad Mihalcea</a>)</p>
 				</section>
 			</div>
 		</div>
