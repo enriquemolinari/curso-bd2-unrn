@@ -132,15 +132,14 @@
 					<h3>Modelo Normalizado</h3>
 					<img style="background:none; border:none; box-shadow:none;" data-fragment-index="1" class="fragment" src="imgs/documentdb_normalized.png" alt="normalized">
 					<ul>
-						<li style="font-size:32px" class="fragment" data-fragment-index="2">Cuando se embebe se duplica información. Si no se obtienen ventajas de performance, entonces utilizamos referencias.</li>
-						<li style="font-size:32px" class="fragment" data-fragment-index="3">Tiene mas flexibilidad, pero la aplicación debe realizar mas idas a la BD para traer las relaciones (si es que el caso de uso lo requiere).</li>
+						<li style="font-size:32px" class="fragment" data-fragment-index="2">Cuando se embebe se duplica información. En el modelo embebido, si el nombre del rol un día cambia de "admin" a "administrador", debo cambiar todos los documentos de usuarios con ese rol.</li>
 						<li style="font-size:32px" class="fragment" data-fragment-index="4"><u>Si vas a necesitar utilizar muchas relaciones, utiliza mejor una BD relacional</u>.</li>
 					</ul>
 				</section>
 				<section>
 					<h3>¿Transaciones?</h3>
 					<ul>
-						<li style="font-size:32px" class="fragment">MongoDB es una Base de Datos NoSQL, distribuída, por lo que se rige por el teorema CAP y PACELC.</li>
+						<li style="font-size:32px" class="fragment">MongoDB es una Base de Datos NoSQL, distribuída, por lo que se rige por el teorema CAP.</li>
 						<li style="font-size:32px" class="fragment">Las modificaciones son atómicas a nivel de Documento (incluyendo sub-documentos embebidos). O sea, si deseo modificar dos o mas propiedades de un documento, se modifican todas o ninguna.</li>
 						<li style="font-size:32px" class="fragment">A partir de la versión 4, incorporó soporte para transacciones multi-document.</li>
 					</ul>
@@ -262,8 +261,8 @@
 					<ul>
 						<li><a href="https://docs.mongodb.com/manual/installation/">Instalación de MongoDB</a></li>
 						<li><a href="https://docs.mongodb.com/manual/mongo/">Shell Docs</a></li>
-						<li><a href="http://mongodb.github.io/mongo-java-driver/3.4/driver/getting-started/quick-start/">Java Driver</a></li>
-						<li><a href="http://mongodb.github.io/mongo-java-driver/3.4/driver/tutorials/">Java Driver Tutorial</a></li>
+						<li><a href="https://mongodb.github.io/mongo-java-driver/4.2/driver/getting-started/quick-start/">Java Driver</a></li>
+						<li><a href="https://mongodb.github.io/mongo-java-driver/4.2/driver/tutorials/">Java Driver Tutorial</a></li>
 					</ul>
 			</section>
 

@@ -66,14 +66,14 @@
         <section>
           <h3>Diferentes Categorías</h3>
           <p class="fragment">
-            Existen 4 grandes categorías de Bases de Datos NoSQL
+            Vamos a ver 3 categorías de Bases de Datos NoSQL
           </p>
           <p class="fragment">
             Ésta distinción es en base a como se persisten los datos físicamente
           </p>
           <ol>
             <li class="fragment">Key-Value</li>
-            <li class="fragment">Column-Family</li>
+            <!--             <li class="fragment">Column-Family</li> -->
             <li class="fragment">Document</li>
             <li class="fragment">Graph</li>
           </ol>
@@ -93,10 +93,7 @@
         <section>
           <h3>Key-Value Stores</h3>
           <ul>
-            <li class="fragment">
-              Las más simples y comunes. <i>Column-family</i> y
-              <i>Document</i> estan basadas en esta.
-            </li>
+            <li class="fragment">Las más simples y comunes.</li>
             <li class="fragment">
               Amazon DynamoDB, una de las primeras. Usada actualmente por Amazon
               (propietaria).
@@ -159,7 +156,7 @@
             <li class="fragment">MemcacheDB</li>
           </ul>
         </section>
-        <section
+        <!--         <section
           data-transition="slide"
           data-background="#4d7e65"
           data-background-transition="zoom"
@@ -204,17 +201,9 @@
             ¿Qué forma de persistir facilita este tipo de queries? select
             sum(salary) from table
           </p>
-        </section>
+        </section> -->
 
-        <!--				<section>
-					<h3>Column Family</h3>
-					<ul>
-						<li class="fragment">Columnar Database (VerticaDB)</li>
-						<li class="fragment">No confundir Wide Column Family con Columar DB. Existen Bases de Datos Relacionales que permiten el almacenamiento en columnas (VerticaDB). Wide Column Family, aprovecha esto pero no se destacan por resolver en forma performante las queries analíticas. Sino que sigue siendo el acceso vía key lo mejor que hacen (además de soportar <u>miles de Terabytes</u> sin problemas). Acceso directo: @joe/friends/zet</li>
-					</ul>
-				</section>
-			-->
-        <section>
+        <!--         <section>
           <h3>Column Family</h3>
           <h5>Usos Adecuados</h5>
           <ul>
@@ -232,7 +221,7 @@
             <li class="fragment">HBase (Hadoop)</li>
             <li class="fragment">Cassandra</li>
           </ul>
-        </section>
+        </section> -->
         <section
           data-transition="slide"
           data-background="#4d7e65"
@@ -312,9 +301,9 @@
               Categoría que NO fue diseñada para soportar demanda.
             </li>
             <li class="fragment">
-              Las bases de datos de tipo relacional, documentos, columnas,
-              key-value, se centran en almacenar “cosas” representadas por
-              diferentes estructuras: json, tablas, valores binarios.
+              Las bases de datos de tipo relacional, documentos, key-value, se
+              centran en almacenar “cosas” representadas por diferentes
+              estructuras: json, tablas, valores binarios.
             </li>
             <li class="fragment">
               Pero a veces, la relaciones entre éstas "cosas" son las que nos
@@ -333,8 +322,8 @@
               y SQL carece de poder expresivo para las consultas de éste tipo.
             </li>
             <li class="fragment">
-              Las BDs NoSQL vistas hasta ahora (Document, Column y Key-Value)
-              hacen un peor trabajo que las relacionales en éste sentido.
+              Las BDs NoSQL vistas hasta ahora (Document y Key-Value) hacen un
+              peor trabajo que las relacionales en éste sentido.
             </li>
             <li class="fragment">
               Por éste motivo surgieron las Graph DBs. <b>Brillan</b> cuando lo

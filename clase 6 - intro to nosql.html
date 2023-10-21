@@ -181,7 +181,7 @@
 					<b style="font-size:48px" class="titulocolor">NoSQL</b>
 					<p>¿Qué generó su aparición?</p>
 					<ul>
-						<li class="fragment"><b>Amazon</b> necesitaba procesar 35 ordenes de compra por segundo.</li>
+						<li class="fragment"><b>Amazon</b> necesitaba procesar cientos de ordenes de compra por segundo.</li>
 						<li class="fragment"><b>Facebook</b> tiene 2.449 millones usuarios (enero 2020).</li>
 						<li class="fragment"><b>Twitter</b> en 2013 recibía 150.000 tweets por segundo.</li>
 					</ul>
@@ -191,7 +191,7 @@
 					<ul>
 						<li class="fragment"><b>Google</b>, <b>Amazon</b>, <b>Facebook</b>, <b>Twitter</b>, etc. recibieron el nombre de aplicaciones "Planet Size". O también se las denomina "Web Scale".</li>
 					</ul>
-					<blockquote class="fragment">Su demanda es Tan alta... pero <b>TAN ALTA</b>... que <u>no funcionaban</u> en un <u>único servidor</u> de base de datos, por mas grande que éste fuera.</li>
+					<blockquote class="fragment">Su demanda es Tan alta... pero <b>TAN ALTA</b>... que <u>no funcionaban</u> en un <u>servidor</u> de base de datos no alcanzaba, por mas grande que éste fuera.</li>
 				</section>
 
 				<section>
@@ -290,7 +290,7 @@
 							</ul>
 				</section>
 
-								<section>
+								<!--<section>
 									<h3>Teorema de PACELC</h3> (2010)
 									<blockquote class="fragment">CAP aplica solamente cuando hay corte de red... entonces:</blockquote>
 											<ul>
@@ -308,7 +308,7 @@
 												</ul>
 											</ul>
 								</section>
-
+							-->
 				<section>
 					<b style="font-size:48px" class="titulocolor">Consistencia vs Disponibilidad</b>
 					<ul>
@@ -321,6 +321,7 @@
 					<h3>Distribuir una BD Relacional</h3>
 					<p class="fragment">¿Queremos soportar aplicaciones Planet Size?<blockquote class="fragment">Entonces no tenemos opción, tenemos que relajar estas cuestiones (sobre todo la consistencia) para poder distribuír.</blockquote></p>
 				</section>-->
+				<!--
 				<section>
 					<b style="font-size:48px" class="titulocolor">NoSQL BASE vs Relacional ACID</b>
 					<ul>
@@ -328,8 +329,7 @@
 						<li class="fragment"><b style="font-size:68px">S</b>oft-State: Los datos pueden cambiar a raiz de cambios en otros nodos (eventual consistency)</li>
 						<li class="fragment"><b style="font-size:68px">E</b>ventual Consistency: La cosistencia será eventual, o sea, cuando sea posible replicar un cambio en todos los nodos del cluster.</li>
 					</ul>
-<!--					<p class="fragment">Esto para competirle al ACID del mundo relacional... :)</p>-->
-				</section>
+				</section>-->
 
 				<section>
 					<b style="font-size:48px" class="titulocolor">NoSQL</b>
@@ -346,19 +346,20 @@
 					<p class="fragment"><a href="http://nosql-database.org">nosql-database.org</a>: Next Generation Databases mostly addressing some of the points: being non-relational, distributed, open-source and horizontally scalable.</p>
 					<p class="fragment">Noten que quienes las inventaron son Google y Amazon, simplemente porque sino su negocio no prosperaba.</p>
 				</section>
+				<!--
 				<section>
 					<p class="fragment">Esto no es todo...</p>
 					<p class="fragment">En la competencia entre <span class="titulocolor">SQL/Relacional</span> vs <span class="titulocolor">NoSQL</span>...</p>
 					<img class="fragment" src="imgs/sql-vs-nosql.gif"/>
-				</section>
+				</section>-->
 				<section>
 					<p class="fragment">Tambien tenemos:</p>
 					<p  class="fragment titulocolor" style="font-size:130px"><strong>NewSQL</strong></p>
 				</section>
 				<section data-background="imgs/surprise-face/s2.jpeg">
 				</section>
-				<section data-background="imgs/surprise-face/deadpool.jpg">
-				</section>
+<!-- 				<section data-background="imgs/surprise-face/deadpool.jpg">
+				</section> -->
 				<section>
 					<b style="font-size:68px" class="titulocolor">NewSQL</b>
 					<ul>

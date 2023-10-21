@@ -84,7 +84,7 @@
           <p class="fragment">
             ¿Puede como desarrollador desentenderme completamente total la BD se
             encarga de todo? ¿Tengo que escribir código de cierta forma para
-            garantizar correctud o simplemente delego en la BD y me desentiendo?
+            garantizar correctitud o simplemente delego en la BD y me desentiendo?
           </p>
         </section>
 
@@ -211,30 +211,7 @@
 
         <section>
           <h3>Concurrencia</h3>
-          <p class="fragment">
-            <b>Problema 1</b>: Compra de asientos de colectivo para el mismo
-            viaje desde dos sucursales distintas.
-          </p>
-          <p class="fragment">
-            El empleado le muestra la pantalla al comprador con los asientos
-            disponibles. Supongamos se elije el asiento 10 y confirma:
-          </p>
-          <pre
-            class="fragment"
-          ><code class="java" code-trim data-noescape contenteditable style="font-size:18px">Tx begin
-  ocupado = select 1 from asientos
-			where id_asiendo = 10 and ocupado = 1 and viaje = 2
-  if (ocupado)
-    throw new Exception("Lo siento, el asiento fue vendido");
-  update asientos set ocupado = 1
-		  where id_asiendo = 10 and ocupado = 0 and viaje = 2
-  insert into asiento_vendido (10 (asiento), 2 (viaje),  comprador_x)
-Tx commit</code></pre>
-        </section>
-
-        <section>
-          <h3>Concurrencia</h3>
-          <h4>Problema 2</h4>
+          <h4>Problema 1</h4>
           <p class="fragment" data-fragment-index="1">
             Ejemplo: Generar un <b>número único</b> para numerar por ejemplo una
             Factura o Expediente que se resetea cada nuevo año.
@@ -250,31 +227,10 @@ Tx commit</code></pre>
 Tx commit</code></pre>
         </section>
 
-        <!--         <section>
+        <section>
           <h3>Concurrencia</h3>
-          <h4>Algunas Reflexiones</h4>
-          <p class="fragment">
-            <u>Read Uncommitted</u> es muy peligroso, por eso por defecto debe
-            descartarse.
-          </p>
-          <p class="fragment">
-            <u>Serializable</u> es muy costoso en términos de escalabilidad del
-            sistema y las lecturas fantasmas no suelen ser un problema en la
-            mayoría de los casos. Sí es probable que necesitemos serializar
-            ciertas acciones (casos de uso) de una aplicación.
-          </p>
-        </section> -->
-
-        <!--        <section>
-          <h3>Concurrencia</h3>
-          <h4>Algunas Reflexiones</h4>
-          <blockquote class="fragment">
-            No hay una única forma de prevenir todos los casos particulares que
-            pueden darse en una aplicación. Debemos manejarlos desde la
-            aplicación, segun casos de uso.
-          </blockquote>
+          <p>Probemos esto en Java contra una base de datos PostgreSQL</p>
         </section>
--->
 
         <section>
           <h3>Concurrencia</h3>
@@ -296,7 +252,7 @@ Tx commit</code></pre>
         <section>
 			<h3>Concurrencia</h3>
 			<p class="fragment">
-				Supongamos el <b>problema 2</b> si estamos en una BD en READ COMMITED. ¿Cómo lo manejo en Objetos con JPA?
+				Supongamos el <b>problema</b> de NextNumber si estamos en una BD en READ COMMITED. ¿Cómo lo manejo en Objetos con JPA?
 			</p>
 		  </section>
 
@@ -375,7 +331,32 @@ public class NextNumber {
 			<h3>Concurrencia</h3>
 			<h4>Application Level Transaction</h4>
 			<p class="fragment">Tengo que garantizar que ese caso de uso se ejecute sin que ocurra un <u>last update wins</u>.</p>
+			<p class="fragment">¿Algun nivel de Aislamiento lo previene?</p>
+			<p class="fragment"><u>Ninguno</u>! Application-Level Tx require de control de concurrencia a nivel aplicación.</p>
+      <p class="fragment">Para la base de datos, son transacciones separadas, no concurrentes!</p>
 		</section>
+
+         <section>
+          <h3>Concurrencia</h3>
+          <p class="fragment">
+            <b>Problema Compra Pasajes</b>:
+          </p>
+          <p class="fragment">
+            Se presentan los asientos del colectivo disponibles para un viaje 2 y el cliente elije el asiento 10.
+          </p>
+          <pre
+            class="fragment"
+          ><code class="java" code-trim data-noescape contenteditable style="font-size:18px">Tx begin
+  ocupado = select 1 from asientos
+			where id_asiendo = 10 and ocupado = 1 and viaje = 2
+  if (ocupado)
+    throw new Exception("Lo siento, el asiento fue vendido");
+  update asientos set ocupado = 1
+		  where id_asiendo = 10 and ocupado = 0 and viaje = 2
+  insert into asiento_vendido (10 (asiento), 2 (viaje),  comprador_x)
+Tx commit</code></pre>
+<p class="fragment chico">No necesito version, puedo usar el flag ocupado.</p>
+        </section> 
 
         <section>
           <h3>Referencias</h3>
