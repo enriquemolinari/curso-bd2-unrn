@@ -373,8 +373,9 @@ private Long id;
    tx.begin();
   <span class="fragment"> Persona p = new Persona("Ignacio");</span>
   <span class="fragment"> p.addTelefono(new Telefono("5892145"))</span>
+   em.persist(p);
    tx.commit();
-  } catch (Exception e) {
+} catch (Exception e) {
    tx.rollback();
    throw new RuntimeException(e);
   } finally {

@@ -82,7 +82,7 @@
           <h3>Concurrencia</h3>
           <p class="fragment">¿La Base de Datos? o ¿la Aplicación?</p>
           <p class="fragment">
-            ¿Puede como desarrollador desentenderme completamente total la BD se
+            ¿Puedo como desarrollador desentenderme completamente total la BD se
             encarga de todo? ¿Tengo que escribir código de cierta forma para
             garantizar correctitud o simplemente delego en la BD y me desentiendo?
           </p>
@@ -171,9 +171,8 @@
           </p>
           <p class="fragment"><img src="imgs/dirty-read.png" /></p>
           <p class="fragment">
-            <b>2. Read Committed</b> no permite esto. Bloqueando
-            lectura/escritura sobre datos modificados. Los bloqueos siempre se
-            liberan al terminar la Tx.
+            <b>2. Read Committed</b> no permite esto. Bloqueando (o Snapshot Isolation)
+            lectura/escritura sobre datos modificados.
           </p>
         </section>
 
@@ -321,9 +320,9 @@ public class NextNumber {
 			<p class="fragment">Se da cuando un caso de uso se realiza utilizando 2 o mas transacciones de base de datos</p>
 			<p class="fragment">También conocido como read-modify-write pattern. Ejemplos de un CMS:</p>
 			<ul>
-				<li class="fragment">Leo un blogpost de la BD, lo llevo a la UI. </li>
-				<li class="fragment">El usuario lee, revisa, modifica (think time), y finalmente presiona la acción para Guardar. </li>
-				<li class="fragment">Llega la petición al server, que dentro de una transacción persiste la modificación.</li>
+				<li class="fragment">Tx 1: Leo un blogpost de la BD, lo llevo a la UI. </li>
+				<li class="fragment">Think Time: El usuario lee, revisa, modifica, y finalmente presiona la acción para Guardar. </li>
+				<li class="fragment">Tx 2: Submitea post, update en BD.</li>
 			</ul>				
 		</section>
 
@@ -336,6 +335,26 @@ public class NextNumber {
       <p class="fragment">Para la base de datos, son transacciones separadas, no concurrentes!</p>
 		</section>
 
+		<section>
+			<h3>Concurrencia</h3>
+			<h4>Application Level Transaction</h4>
+			<p class="fragment">¿Cómo lo resuelvo?</p>
+			<p class="fragment">No alcanza el Repeatable Read.</p>
+			<p class="fragment">Implemento lockeo Optimista o Pesismista a nivel Aplicación</p>
+		</section>
+
+		<section>
+			<h3>Concurrencia</h3>
+			<h4>Application Level Transaction</h4>
+			<p class="fragment">Read-modify-write pattern: Ejemplo Optimista</p>
+			<ul>
+				<li class="fragment">Tx 1: Leo un blogpost de la BD, junto con su <u>versión</u>. Llevo el post para edición a la UI, incluyendo la <u>versión</u>.  </li>
+				<li class="fragment">Think Time: El usuario lee, revisa, modifica, y finalmente presiona la acción para Guardar. </li>
+				<li class="fragment">Tx 2: Submitea post modifica (junto con la <u>versión</u>), comparo versiones y si son iguales ejecuto el update, sino exception.</li>
+			</ul>				
+		</section>
+
+
          <section>
           <h3>Concurrencia</h3>
           <p class="fragment">
@@ -344,7 +363,8 @@ public class NextNumber {
           <p class="fragment">
             Se presentan los asientos del colectivo disponibles para un viaje 2 y el cliente elije el asiento 10.
           </p>
-          <pre
+          <p  class="fragment">Debo proceder de la misma forma que el ejemplo anterior.</p>
+<!--           <pre
             class="fragment"
           ><code class="java" code-trim data-noescape contenteditable style="font-size:18px">Tx begin
   ocupado = select 1 from asientos
@@ -354,8 +374,7 @@ public class NextNumber {
   update asientos set ocupado = 1
 		  where id_asiendo = 10 and ocupado = 0 and viaje = 2
   insert into asiento_vendido (10 (asiento), 2 (viaje),  comprador_x)
-Tx commit</code></pre>
-<p class="fragment chico">No necesito version, puedo usar el flag ocupado.</p>
+Tx commit</code></pre> -->
         </section> 
 
         <section>
