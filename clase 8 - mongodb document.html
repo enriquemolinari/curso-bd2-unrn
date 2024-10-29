@@ -179,7 +179,7 @@
 				<section>
 					<h3>MongoDB - Java Driver</h3>
 					<h4>Session Skeleton</h4>
-				<pre class="fragment"><code code-trim data-noescape class="Java" style="font-size:18px"><span class="fragment">try (MongoClient mongoClient = new MongoClient()) {
+				<pre class="fragment"><code code-trim data-noescape class="Java" style="font-size:18px"><span class="fragment">try (MongoClient mongoClient = MongoClients.create()) {
   //Obtengo la instancia de Base de Datos
   MongoDatabase database = mongoClient.getDatabase("unaBD");
 
@@ -194,7 +194,7 @@
 				<section>
 					<h3>MongoDB - Java Driver</h3>
 					<h4>Insertar un Documento</h4>
-				<pre class="fragment"><code code-trim data-noescape class="Java" style="font-size:18px"><span class="fragment">try (MongoClient mongoClient = new MongoClient()) {
+				<pre class="fragment"><code code-trim data-noescape class="Java" style="font-size:18px"><span class="fragment">try (MongoClient mongoClient = MongoClients.create()) {
   //Obtengo la BD y la Colección
   MongoDatabase database = mongoClient.getDatabase(“unaBD”);
   MongoCollection<Document> collection = database.getCollection(“unaColección”);
@@ -215,7 +215,7 @@
 				<section>
 					<h3>MongoDB - Java Driver</h3>
 					<h4>Buscar Documentos</h4>
-				<pre class="fragment"><code code-trim data-noescape class="Java" style="font-size:18px"><span class="fragment">try (MongoClient mongoClient = new MongoClient()) {
+				<pre class="fragment"><code code-trim data-noescape class="Java" style="font-size:18px"><span class="fragment">try (MongoClient mongoClient = MongoClients.create()) {
   //Obtengo la BD y la Colección
   MongoDatabase database = mongoClient.getDatabase(“unaBD”);
   MongoCollection<Document> collection = database.getCollection(“unaColección”);
@@ -235,7 +235,7 @@
 				<section>
 					<h3>MongoDB - Java Driver</h3>
 					<h4>Buscar Documentos</h4>
-				<pre class="fragment"><code code-trim data-noescape class="Java" style="font-size:18px"><span class="fragment">try (MongoClient mongoClient = new MongoClient()) {
+				<pre class="fragment"><code code-trim data-noescape class="Java" style="font-size:18px"><span class="fragment">try (MongoClient mongoClient = MongoClients.create()) {
   //Obtengo la BD y la Colección
   MongoDatabase database = mongoClient.getDatabase(“unaBD”);
   MongoCollection<Document> collection = database.getCollection(“unaColección”);
@@ -261,8 +261,7 @@
 					<ul>
 						<li><a href="https://docs.mongodb.com/manual/installation/">Instalación de MongoDB</a></li>
 						<li><a href="https://docs.mongodb.com/manual/mongo/">Shell Docs</a></li>
-						<li><a href="https://mongodb.github.io/mongo-java-driver/4.2/driver/getting-started/quick-start/">Java Driver</a></li>
-						<li><a href="https://mongodb.github.io/mongo-java-driver/4.2/driver/tutorials/">Java Driver Tutorial</a></li>
+						<li><a href="https://www.mongodb.com/docs/drivers/java/sync/current/">Java Driver</a></li>
 					</ul>
 			</section>
 

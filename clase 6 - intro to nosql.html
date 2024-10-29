@@ -57,6 +57,14 @@
 					<p style="font-size:64px">Introducción</p>
 				</section>
 				<section>
+					<p style="font-size:130px" class="titulocolor"><strong>NoSQL</strong></p>
+					<ol>
+					<li>Introducción</li>
+					<li>Categorías</li>
+					<li>Redis y TP con Redis</li>
+				</ol>
+				</section>
+				<section>
 					<h3>¿De donde partimos y cómo llegamos hasta NoSQL?</h3>
 					<p class="fragment">
 						Comencemos con algo de historia...
@@ -312,8 +320,8 @@
 				<section>
 					<b style="font-size:48px" class="titulocolor">Consistencia vs Disponibilidad</b>
 					<ul>
-						<li class="fragment">Las BDs relacionales <u>favorecen</u> la <u>consistencia</u> por sobre otro atributo.</li>
-						<li class="fragment">Las BDs NoSQL <u>favorecen</u> la <u>disponibilidad</u> y la <u>escalabilidad</u> por sobre la consistencia.</li>
+						<li class="fragment">Las BDs relacionales <u>favorecen</u> la <u>consistencia</u> por sobre otro atributo. Son <u>Fuertemente Consistentes</u>.</li>
+						<li class="fragment">Las BDs NoSQL <u>favorecen</u> la <u>disponibilidad</u> y la <u>escalabilidad</u> por sobre la consistencia. Son <u>Eventualmente Consistentes</u>.</li>
 					</ul>
 				</section>
 
@@ -365,7 +373,7 @@
 					<ul>
 						<li class="fragment">Extrañamos el Lenguaje SQL</li>
 						<li class="fragment">Extrañamos ser Consistentes, teniendo alta disponibilidad.</li>
-						<li class="fragment">Y queremos distribuir, escalar en forma horizontal</li>
+						<li class="fragment">Y queremos distribuir, escalar en forma horizontal, con sharding <u>built in</u>.</li>
 					</ul>
 					<p class="fragment">Google Spanner, VoltDB, YugaByte, MySQL Cluster</p>
 				</section>
